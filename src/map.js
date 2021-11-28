@@ -15,19 +15,16 @@ var map = new maplibregl.Map({
                     'https://c.tile.openstreetmap.org/{z}/{x}/{y}.png'
                 ],
                 'tileSize': 256,
-                'attribution':
-                'map © <a target="_top" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors.',
+                'attribution': 'map © <a target="_top" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors.',
             },
         },
-        'layers': [
-            {
-                'id': 'background',
-                'type': 'raster',
-                'source': 'raster-tiles',
-                'minzoom': 0,
-                'maxzoom': 22,
-            },
-        ]
+        'layers': [{
+            'id': 'background',
+            'type': 'raster',
+            'source': 'raster-tiles',
+            'minzoom': 0,
+            'maxzoom': 22,
+        }, ]
     },
 });
 
@@ -46,7 +43,7 @@ map.on('load', () => {
             'source': 'aed-locations',
             'layout': {
                 'icon-image': ['image', 'aed-icon'],
-                'icon-size': 0.2,
+                'icon-size': 0.1,
             },
             'filter': ['!', ['has', 'point_count']],
         });
@@ -55,8 +52,8 @@ map.on('load', () => {
             'type': 'circle',
             'source': 'aed-locations',
             'paint': {
-                'circle-color': '#09FF09',
-                'circle-radius': 40,
+                'circle-color': 'rgba(204, 255, 51, 0.72)',
+                'circle-radius': 30,
                 'circle-stroke-color': '#fff',
                 'circle-stroke-width': 3,
             },
