@@ -55,8 +55,8 @@ map.on('load', () => {
             'type': 'circle',
             'source': 'aed-locations',
             'paint': {
-                'circle-color': '#09FF09',
-                'circle-radius': 40,
+                'circle-color': 'rgba(204, 255, 51, 0.72)',
+                'circle-radius': 30,
                 'circle-stroke-color': '#fff',
                 'circle-stroke-width': 3,
             },
