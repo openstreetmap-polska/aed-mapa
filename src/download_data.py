@@ -40,6 +40,7 @@ tags_to_keep = {
     'phone',
     'note',
     'note:pl',
+    'opening_hours'
 }
 
 response = requests.post(url=overpass_api_url, data={'data': overpass_query})
@@ -62,5 +63,5 @@ for element in elements:
         geojson_point_feature(lat=latitude, lon=longitude, properties=tags)
     )
 
-with open(file='aed_poland.geojson', mode='w', encoding='utf-8') as f:
+with open(file='src/aed_poland.geojson', mode='w', encoding='utf-8') as f:
     json.dump(geojson, f, allow_nan=False)

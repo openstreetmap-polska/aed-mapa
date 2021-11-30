@@ -5,16 +5,87 @@
 
         <meta charset="utf-8" />
         <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-
+        <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+        <link rel="manifest" href="favicon/site.webmanifest">
+        <link rel="mask-icon" href="favicon/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="shortcut icon" href="favicon/favicon.ico">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="msapplication-config" content="favicon/browserconfig.xml">
+        <meta name="theme-color" content="#dbdbdb">
+        <link rel="preload" as="fetch" href="./aed_poland.geojson">
         <script src="https://unpkg.com/maplibre-gl@1.15.2/dist/maplibre-gl.js"></script>
         <link href="https://unpkg.com/maplibre-gl@1.15.2/dist/maplibre-gl.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
         <style>
             body { margin: 0; padding: 0; }
             #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+            .sidebar {
+                z-index: 1;
+                margin: 1rem !important;
+                width: 425px;
+                border-radius: 10px;
+                box-shadow: 0 .5em 1em -0.125em rgba(10,10,10,0.1),0 0 0 1px rgba(10,10,10,0.02);
+                max-height: 90vh;
+             }
+             .card
+             {
+               z-index: 1;
+             }
+             #sidebar-card-image {
+                height: 80%;
+                width: 100%; 
+                padding-left: 15px;
+                padding-top: 10px;
+                padding-bottom: 10px;
+                word-break: break-word;
+             }
+             .has-background-green
+             {
+                background-color: #008954;
+             }
+             .add-new
+             {
+               text-decoration: underline dotted red;
+             }
+             .card-content
+             {
+               border-left: 5px solid white;
+               border-right: 5px solid white;
+             }
         </style>
         </head>
         <body>
-            <div id="map"></div>
+          <div class="sidebar is-invisible">
+            <div id="poi-sidebar" class="card">
+              <div id="sidebar-header" style="border: 4px solid white;">
+                <button class="delete is-medium is-pulled-right close-button m-3" onclick="hideSidebar()" aria-label="Close button"></button>
+                <div class="columns is-vcentered">
+                  <div class="column is-one-third"><img src="card-image.png" alt="Placeholder image" id="sidebar-card-image" ></div>
+                  <div class="column"><p class="title has-text-white has-text-weight-light py-2" id="sidebar-caption"></p></div>
+              </div>
+            </div>
+              <div class="card-content has-background-danger-dark has-text-white-ter has-text-weight-light">      
+                <div class="columns">
+                  <div class="column is-half">Dostępny całodobowo</div>
+                  <div class="column is-half">Wewnątrz budynku: <b>tak</b></div>
+              </div>      
+              </div>
+              <div class="card-content">            
+                <div class="content">
+                  <p id="poi-title" class="title is-5 has-text-white-ter"></p>
+                  <p class="subtitle is-6 has-text-white-ter"></p>
+                </div>
+              </div>
+              <footer class="card-footer">
+                <a href="https://www.openstreetmap.org/node/9261868500" class="card-footer-item">Uzupełnij obiekt</a>
+              </footer>
+          </div>
+        </div>
+        
+        <div id="map"></div>
+
             <script src="./map.js"></script>
         </body>
 </html>
