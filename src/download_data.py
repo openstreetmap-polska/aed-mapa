@@ -40,7 +40,7 @@ tags_to_keep = {
     'phone',
     'note',
     'note:pl',
-    'opening_hours'
+    'opening_hours',
 }
 
 response = requests.post(url=overpass_api_url, data={'data': overpass_query})
