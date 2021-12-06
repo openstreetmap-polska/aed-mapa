@@ -129,3 +129,7 @@ dmypy.json
 .pyre/
 /requirements.txt
 /.jshintrc
+
+# IDE folders
+.idea
+.vscode
