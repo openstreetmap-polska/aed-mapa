@@ -4,6 +4,8 @@ var map = new maplibregl.Map({
     'maxZoom': 19, // max zoom to allow
     'zoom': 6, // starting zoom
     'hash': 'map',
+    'maxPitch': 0,
+    'dragRotate': false,
     'style': {
         'version': 8,
         "glyphs": "https://fonts.openmaptiles.org/{fontstack}/{range}.pbf",
@@ -16,7 +18,7 @@ var map = new maplibregl.Map({
                     'https://c.tile.openstreetmap.org/{z}/{x}/{y}.png'
                 ],
                 'tileSize': 256,
-                'attribution': 'map © <a target="_top" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors.',
+                'attribution': 'dane © <a target="_top" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors.',
             },
         },
         'layers': [{
@@ -27,9 +29,18 @@ var map = new maplibregl.Map({
         }, ]
     },
 });
+console.log('MapLibre library version: ' + map.version);
+
+map.scrollZoom.setWheelZoomRate(1/100);
 
 let control = new maplibregl.NavigationControl();
 map.addControl(control, 'bottom-right');
+let geolocate = new maplibregl.GeolocateControl({
+    positionOptions: {
+        enableHighAccuracy: true
+    }
+});
+map.addControl(geolocate, 'bottom-right');
 
 function defineColor(access) {
     accessValues = {
