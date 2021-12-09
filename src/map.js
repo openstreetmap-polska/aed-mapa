@@ -116,11 +116,11 @@ function createSidebar(properties) {
     sidebarCaption.innerHTML = `defibrylator AED ${defineAccessDescription(properties.access)}`;
     // PRESENTATION
     sidebarContent.innerHTML = ` 
-        <p class="has-text-weight-light">Wewnątrz budynku?: <span class="add-new has-text-weight-medium">${defineIndoor(properties.indoor) || `<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji - <a href="${getOsmEditLink(properties.osm_id)}">uzupełnij</a></span>`}</span></p>
-        <p class="has-text-weight-light">Dokładna lokalizacja: <span class="add-new has-text-weight-medium">${properties['defibrillator:location:pl'] || properties['defibrillator:location'] || `<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji - <a href="${getOsmEditLink(properties.osm_id)}">uzupełnij</a></span>`}</span></p>
-        <p class="has-text-weight-light">Dostępny w godzinach: <span class="add-new has-text-weight-medium">${defineOpeningHours(properties.opening_hours) || `<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji - <a href="${getOsmEditLink(properties.osm_id)}">uzupełnij</a></span>`}</span></p>
-        <p class="has-text-weight-light">Opis: <span class="add-new has-text-weight-medium">${properties['description:pl'] || properties.description || `<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji - <a href="${getOsmEditLink(properties.osm_id)}">uzupełnij</a></span>`}</span></p>
-        <p class="has-text-weight-light">Numer kontaktowy: <span class="add-new has-text-weight-medium">${properties.phone || `<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji - <a href="${getOsmEditLink(properties.osm_id)}">uzupełnij</a></span>`}</span></p>
+        <p class="has-text-weight-light">Wewnątrz budynku?: <span class="add-new has-text-weight-medium">${defineIndoor(properties.indoor) || `<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji</span>`}</span></p>
+        <p class="has-text-weight-light">Dokładna lokalizacja: <span class="add-new has-text-weight-medium">${properties['defibrillator:location:pl'] || properties['defibrillator:location'] || `<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji</span>`}</span></p>
+        <p class="has-text-weight-light">Dostępny w godzinach: <span class="add-new has-text-weight-medium">${defineOpeningHours(properties.opening_hours) || `<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji</span>`}</span></p>
+        <p class="has-text-weight-light">Opis: <span class="add-new has-text-weight-medium">${properties['description:pl'] || properties.description || `<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji</span>`}</span></p>
+        <p class="has-text-weight-light">Numer kontaktowy: <span class="add-new has-text-weight-medium">${properties.phone || `<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji</span>`}</span></p>
     `;
     
     if (properties.note || properties['note:pl'])
