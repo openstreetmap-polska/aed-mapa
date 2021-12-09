@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>AED - mapa defibrylatorów</title>
-
-        <meta charset="utf-8" />
+       <title>AED - mapa defibrylatorów</title>
+       <meta charset="utf-8" />
+       <meta name="title" content="AED - mapa defibrylatorów">
+       <meta name="description" content="Mapa defibrylatorów AED w Polsce oparta o dane OpenStreetMap"> 
         <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
         <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
@@ -14,21 +15,50 @@
         <meta name="msapplication-TileColor" content="#da532c">
         <meta name="msapplication-config" content="favicon/browserconfig.xml">
         <meta name="theme-color" content="#dbdbdb">
-        <link rel="preload" as="fetch" href="./aed_poland.geojson">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://aed.openstreetmap.org.pl">
+        <meta property="og:title" content="AED - mapa defibrylatorów">
+        <meta property="og:description" content="Mapa defibrylatorów AED w Polsce oparta o dane OpenStreetMap">
+        <meta property="og:image" content="meta-image.png">
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="https://aed.openstreetmap.org.pl">
+        <meta property="twitter:title" content="AED - mapa defibrylatorów">
+        <meta property="twitter:description" content="Mapa defibrylatorów AED w Polsce oparta o dane OpenStreetMap">
+        <meta property="twitter:image" content="meta-image">
         <script src="https://unpkg.com/maplibre-gl@1.15.2/dist/maplibre-gl.js"></script>
         <link href="https://unpkg.com/maplibre-gl@1.15.2/dist/maplibre-gl.css" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
         <style>
-            body { margin: 0; padding: 0; }
-            #map { position: absolute; top: 0; bottom: 0; width: 100%; }
-            .sidebar {
+          html {
+            overflow-y: scroll;
+            overflow-y: hidden;
+
+           }
+            body { margin: 0; padding: 0;}
+            #map { position: absolute; top: 0; bottom: 0; width: 100%;}
+            
+
+             @media (min-width: 500px) {
+              .sidebar  {
                 z-index: 1;
                 margin: 0.5rem !important;
-                width: 435px;
+                width: 408px;
                 border-radius: 10px;
                 box-shadow: 0 .5em 1em -0.125em rgba(10,10,10,0.1),0 0 0 1px rgba(10,10,10,0.02);
                 max-height: 90vh;
-             }
+              }
+            }
+             @media (max-width: 500px) {
+              .sidebar  {
+                  margin: 0 !important;
+                  width: 100vw;
+                  display: block !important;
+                  overflow: auto !important;
+                  overflow-wrap: break-word;
+                  max-height: 90vh;
+                  z-index: 1002 !important;
+              }
+            }
              .card
              {
                z-index: 1;
@@ -37,45 +67,65 @@
                 padding-left: 15px;
                 padding-top: 10px;
                 padding-bottom: 10px;
-                max-height: 92px;
+                max-height: 94px;
+             }
+             #sidebar-header
+             {
+              border: 4px solid hsl(0, 0%, 96%);
              }
              .has-background-green
              {
-                background-color: #008954;
+              background-color: #008954eb;
              }
              .card-content
              {
-               border-left: 5px solid white;
-               border-right: 5px solid white;
+               border-left: 5px solid hsl(0, 0%, 96%);
+               border-right: 5px solid hsl(0, 0%, 96%);
              }
+             .navbar
+             {
+              border-bottom: 1px solid hsl(0, 0%, 96%);
+             }
+
         </style>
         </head>
         <body>
+          <nav class="navbar has-background-green p-1 has-shadow" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+              <a class="has-text-weight-medium navbar-item has-text-white-ter is-size-4 is-size-5-mobile" href="#">
+                Mapa AED
+              </a>
+              
+              <span class="has-text-success-light has-text-weight-light navbar-item is-size-6 is-size-7-touch">
+                <span class="has-text-grey-light">|</span>&nbsp;&nbsp;tworzona z ❤️ przez&nbsp;
+                <span class="has-text-weight-medium"> OpenStreetMap Polska</span>
+              </span>
+              <a role="button" class="navbar-burger has-text-white-ter" aria-label="menu" aria-expanded="false">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+              </a>
+            </div>
+          </nav>
           <div class="sidebar is-invisible">
             <div id="poi-sidebar" class="card">
-              <div id="sidebar-header" style="border: 4px solid white;">
+              <div id="sidebar-header">
                 <button class="delete is-medium is-pulled-right close-button m-3" onclick="hideSidebar()" aria-label="Close button"></button>
                 <div class="columns is-vcentered is-flex p-1">
-                  <div class="column is-one-third is-one-quarter-touch"><img class="image" src="card-image.png" alt="Placeholder image" id="sidebar-card-image" ></div>
+                  <div class="column is-one-quarter is-one-fifth-mobile "><img class="image" src="card-image.png" alt="Placeholder image" id="sidebar-card-image" ></div>
                   <div class="column"><p class="title has-text-white has-text-weight-light py-2" id="sidebar-caption"></p></div>
               </div>
             </div>
-              <div class="card-content px-4 has-background-danger-dark has-text-white-ter">      
-                <div class="columns is-vcentered has-text-centered">
-                  <div class="column is-half p-0"></div>
-                  <div class="column is-half p-0"></div>
-              </div>      
-              </div>
               <div class="card-content">            
                 <div class="content">
                 </div>
               </div>
               <footer class="card-footer">
-                <a href="" class="card-footer-item">Dodaj brakujące informacje</a>
+                <a href="" class="card-footer-item ">Dodaj brakujące informacje</a>
               </footer>
           </div>
         </div>
-        
+
         <div id="map"></div>
 
             <script src="./map.js"></script>
