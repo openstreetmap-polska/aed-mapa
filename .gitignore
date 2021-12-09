@@ -127,6 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-/requirements.txt
-/.jshintrc
-/.vscode
+requirements.txt
+.jshintrc
+
+# IDE folders
+.idea
+.vscode

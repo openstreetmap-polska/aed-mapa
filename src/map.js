@@ -6,7 +6,7 @@ var map = new maplibregl.Map({
     'hash': 'map',
     'style': {
         'version': 8,
-        "glyphs": "http://fonts.openmaptiles.org/{fontstack}/{range}.pbf",
+        "glyphs": "https://fonts.openmaptiles.org/{fontstack}/{range}.pbf",
         'sources': {
             'raster-tiles': {
                 'type': 'raster',

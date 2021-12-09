@@ -1,5 +1,6 @@
 import requests
 import json
+import sys
 
 
 def geojson_point_feature(lat: float, lon: float, properties: dict) -> dict:
@@ -63,5 +64,7 @@ for element in elements:
         geojson_point_feature(lat=latitude, lon=longitude, properties=tags)
     )
 
-with open(file='src/aed_poland.geojson', mode='w', encoding='utf-8') as f:
+file_path = sys.argv[1] if len(sys.argv) == 2 else 'src/aed_poland.geojson'
+
+with open(file=file_path, mode='w', encoding='utf-8') as f:
     json.dump(geojson, f, allow_nan=False)
