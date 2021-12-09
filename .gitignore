@@ -127,8 +127,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-/requirements.txt
-/.jshintrc
+requirements.txt
+.jshintrc
 
 # IDE folders
 .idea
