@@ -4,6 +4,8 @@ var map = new maplibregl.Map({
     'maxZoom': 19, // max zoom to allow
     'zoom': 6, // starting zoom
     'hash': 'map',
+    'maxPitch': 0,
+    'dragRotate': false,
     'style': {
         'version': 8,
         "glyphs": "https://fonts.openmaptiles.org/{fontstack}/{range}.pbf",
@@ -16,7 +18,14 @@ var map = new maplibregl.Map({
                     'https://c.tile.openstreetmap.org/{z}/{x}/{y}.png'
                 ],
                 'tileSize': 256,
-                'attribution': 'map © <a target="_top" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors.',
+                'attribution': 'dane © <a target="_top" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors.',
+            },
+            'aed-locations': {
+                'type': 'geojson',
+                'data': './aed_poland.geojson',
+                'cluster': true,
+                'clusterRadius': 30,
+                'maxzoom': 14
             },
         },
         'layers': [{
@@ -27,9 +36,18 @@ var map = new maplibregl.Map({
         }, ]
     },
 });
+console.log('MapLibre library version: ' + map.version);
+
+map.scrollZoom.setWheelZoomRate(1/100);
 
 let control = new maplibregl.NavigationControl();
 map.addControl(control, 'bottom-right');
+let geolocate = new maplibregl.GeolocateControl({
+    positionOptions: {
+        enableHighAccuracy: true
+    }
+});
+map.addControl(geolocate, 'bottom-right');
 
 function defineColor(access) {
     accessValues = {
@@ -116,11 +134,11 @@ function createSidebar(properties) {
     sidebarCaption.innerHTML = `defibrylator AED ${defineAccessDescription(properties.access)}`;
     // PRESENTATION
     sidebarContent.innerHTML = ` 
-        <p class="has-text-weight-light">Wewnątrz budynku?: <span class="add-new has-text-weight-medium">${defineIndoor(properties.indoor) || `<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji - <a href="${getOsmEditLink(properties.osm_id)}">uzupełnij</a></span>`}</span></p>
-        <p class="has-text-weight-light">Dokładna lokalizacja: <span class="add-new has-text-weight-medium">${properties['defibrillator:location:pl'] || properties['defibrillator:location'] || `<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji - <a href="${getOsmEditLink(properties.osm_id)}">uzupełnij</a></span>`}</span></p>
-        <p class="has-text-weight-light">Dostępny w godzinach: <span class="add-new has-text-weight-medium">${defineOpeningHours(properties.opening_hours) || `<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji - <a href="${getOsmEditLink(properties.osm_id)}">uzupełnij</a></span>`}</span></p>
-        <p class="has-text-weight-light">Opis: <span class="add-new has-text-weight-medium">${properties['description:pl'] || properties.description || `<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji - <a href="${getOsmEditLink(properties.osm_id)}">uzupełnij</a></span>`}</span></p>
-        <p class="has-text-weight-light">Numer kontaktowy: <span class="add-new has-text-weight-medium">${properties.phone || `<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji - <a href="${getOsmEditLink(properties.osm_id)}">uzupełnij</a></span>`}</span></p>
+        <p class="has-text-weight-light">Wewnątrz budynku?: <span class="add-new has-text-weight-medium">${defineIndoor(properties.indoor) || `<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji</span>`}</span></p>
+        <p class="has-text-weight-light">Dokładna lokalizacja: <span class="add-new has-text-weight-medium">${properties['defibrillator:location:pl'] || properties['defibrillator:location'] || `<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji</span>`}</span></p>
+        <p class="has-text-weight-light">Dostępny w godzinach: <span class="add-new has-text-weight-medium">${defineOpeningHours(properties.opening_hours) || `<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji</span>`}</span></p>
+        <p class="has-text-weight-light">Opis: <span class="add-new has-text-weight-medium">${properties['description:pl'] || properties.description || `<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji</span>`}</span></p>
+        <p class="has-text-weight-light">Numer kontaktowy: <span class="add-new has-text-weight-medium">${properties.phone || `<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji</span>`}</span></p>
     `;
     
     if (properties.note || properties['note:pl'])
@@ -131,73 +149,92 @@ function createSidebar(properties) {
     sidebarLink.setAttribute("href", getOsmEditLink(properties.osm_id));
 }
 
-map.on('load', () => {
-    map.loadImage('./aed_240px.png', (error, image) => {
-        if (error) throw error;
-        map.addImage('aed-icon', image, {
-            'sdf': false
-        });
-        map.addSource('aed-locations', {
-            'type': 'geojson',
-            'data': './aed_poland.geojson',
-            'cluster': true,
-        });
-        map.addLayer({
-            'id': 'unclustered',
-            'type': 'symbol',
-            'source': 'aed-locations',
-            'layout': {
-                'icon-image': ['image', 'aed-icon'],
-                'icon-size': 0.1,
-            },
-            'filter': ['!', ['has', 'point_count']],
-        });
-        map.addLayer({
-            'id': 'clustered-circle',
-            'type': 'circle',
-            'source': 'aed-locations',
-            'paint': {
-                'circle-color': '#008954',//'rgba(204, 255, 51, 0.72)',
-                'circle-radius': 26,
-                'circle-stroke-color': '#f5f5f5',//'#fff',
-                'circle-stroke-width': 3,
-            },
-            'filter': ['has', 'point_count'],
-        });
-        map.addLayer({
-            'id': 'clustered-label',
-            'type': 'symbol',
-            'source': 'aed-locations',
-            'layout': {
-                'text-field': '{point_count_abbreviated}',
-                'text-font': ['Open Sans Bold'],
-                'text-size': 20,
-                'text-letter-spacing': 0.05,
-            },
-            'paint': {
-                'text-color': '#f5f5f5',
-            },
-            'filter': ['has', 'point_count'],
-        });
-        map.on('click', 'unclustered', function (e) {
-            if (e.features[0].properties !== undefined) {
-                showSidebar(e.features[0].properties);
-            }
-        });
-        map.on('click', function (e) {
-            let sidebar = document.getElementsByClassName('sidebar')[0];
-            
-            if (!sidebar.classList.contains('is-invisible')) {
-               //  sidebar.classList.add('is-invisible');
-            }
-        });
-        
-        map.on('mouseenter', 'unclustered', () => {
-            map.getCanvas().style.cursor = 'pointer';
+map.loadImage('./aed_240px.png', (error, image) => {
+    if (error) throw error;
+    map.addImage('aed-icon', image, {
+        'sdf': false
+    });
+    map.addLayer({
+        'id': 'unclustered',
+        'type': 'symbol',
+        'source': 'aed-locations',
+        'layout': {
+            'icon-image': ['image', 'aed-icon'],
+            'icon-size': 0.1,
+        },
+        'filter': ['!', ['has', 'point_count']],
+    });
+    map.addLayer({
+        'id': 'clustered-circle',
+        'type': 'circle',
+        'source': 'aed-locations',
+        'paint': {
+            'circle-color': '#008954',//'rgba(204, 255, 51, 0.72)',
+            'circle-radius': 26,
+            'circle-stroke-color': '#f5f5f5',//'#fff',
+            'circle-stroke-width': 3,
+        },
+        'filter': ['has', 'point_count'],
+    });
+    map.addLayer({
+        'id': 'clustered-label',
+        'type': 'symbol',
+        'source': 'aed-locations',
+        'layout': {
+            'text-field': '{point_count_abbreviated}',
+            'text-font': ['Open Sans Bold'],
+            'text-size': 20,
+            'text-letter-spacing': 0.05,
+        },
+        'paint': {
+            'text-color': '#f5f5f5',
+        },
+        'filter': ['has', 'point_count'],
+    });
+    map.on('click', 'unclustered', function (e) {
+        if (e.features[0].properties !== undefined) {
+            showSidebar(e.features[0].properties);
+        }
+    });
+    map.on('click', function (e) {
+        let sidebar = document.getElementsByClassName('sidebar')[0];
+
+        if (!sidebar.classList.contains('is-invisible')) {
+           //  sidebar.classList.add('is-invisible');
+        }
+    });
+
+    map.on('mouseenter', 'unclustered', () => {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+
+    map.on('mouseleave', 'unclustered', () => {
+        map.getCanvas().style.cursor = '';
         });
 
-        map.on('mouseleave', 'unclustered', () => {
-            map.getCanvas().style.cursor = '';
-            });
+    map.on('mouseenter', 'clustered-circle', () => {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+
+    map.on('mouseleave', 'clustered-circle', () => {
+        map.getCanvas().style.cursor = '';
+        });
+
+    // zoom to cluster on click
+    map.on('click', 'clustered-circle', function (e) {
+        var features = map.queryRenderedFeatures(e.point, {
+            layers: ['clustered-circle']
+        });
+        var clusterId = features[0].properties.cluster_id;
+        map.getSource('aed-locations').getClusterExpansionZoom(
+            clusterId,
+            function (err, zoom) {
+                if (err) return;
+                map.easeTo({
+                    center: features[0].geometry.coordinates,
+                    zoom: zoom
+                });
+            }
+        );
     });
 });
