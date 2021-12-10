@@ -38,7 +38,7 @@ var map = new maplibregl.Map({
 });
 console.log('MapLibre library version: ' + map.version);
 
-map.scrollZoom.setWheelZoomRate(1/100);
+map.scrollZoom.setWheelZoomRate(1 / 100);
 
 let control = new maplibregl.NavigationControl();
 map.addControl(control, 'bottom-right');
@@ -75,15 +75,48 @@ function defineAccessDescription(access) {
     return accessClass;
 }
 
-function defineOpeningHours(openingHours) {
+function parseOpeningHours(openingHours) {
+
     if (openingHours) {
         if (openingHours.includes('24/7')) {
             return 'całodobowo';
         } else {
-            return openingHours;
+            let hoursPrettified;
+
+            try {
+                let hours = openingHours.toString();
+                let oh = new opening_hours(hours, undefined, 2);
+                isOpen = oh.getState();
+                console.log(isOpen);
+                hoursPrettified = oh.prettifyValue({
+                    conf: {
+                        locale: 'pl'
+                    },
+                });
+
+            } catch (error) {
+                console.log('Error when parsing opening hours');
+                return undefined;
+            }
+
+            return hoursPrettified;
         }
-    } else {
+    }
+    else {
         return undefined;
+    }
+}
+
+function isCurrentlyOpen(openingHours) {
+    if (openingHours) {
+        if (openingHours.includes('24/7')) {
+            return true;
+        } else {
+            let hours = openingHours.toString();
+            let oh = new opening_hours(hours, undefined, 2);
+            isOpen = oh.getState();
+            return isOpen;
+        }
     }
 }
 
@@ -123,26 +156,34 @@ function getOsmEditLink(id) {
 }
 
 function createSidebar(properties) {
-    let sidebarCaption = document.getElementById('sidebar-caption');
-    let sidebarTitle = document.getElementById('poi-title');
-    let sidebarContent = document.getElementsByClassName('content')[0];
     let sidebarHeader = document.getElementById('sidebar-header');
-    sidebarContent.innerHTML = '';
-    sidebarHeader.classList = [];
+    let sidebarCaption = document.getElementById('sidebar-caption');
+    let sidebarContent = document.getElementsByClassName('content')[0];
     let sidebarLink = document.getElementsByClassName('card-footer-item')[0];
+    var isCurrOpen = '';
+
+    sidebarHeader.classList = [];
     sidebarHeader.classList.add(defineColor(properties.access));
     sidebarCaption.innerHTML = `defibrylator AED ${defineAccessDescription(properties.access)}`;
-    // PRESENTATION
+
+    if (isCurrentlyOpen(properties.opening_hours)) {
+        isCurrOpen = '<sup><span class="tag is-success is-light">Dostępny</span></sup>';
+    }
+    else if (isCurrentlyOpen(properties.opening_hours) == false) {
+        isCurrOpen = '<sup><span class="tag is-danger is-light">Niedostępny</span></sup>';
+    }
+
+
+    sidebarContent.innerHTML = '';
     sidebarContent.innerHTML = ` 
         <p class="has-text-weight-light">Wewnątrz budynku?: <span class="add-new has-text-weight-medium">${defineIndoor(properties.indoor) || `<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji</span>`}</span></p>
         <p class="has-text-weight-light">Dokładna lokalizacja: <span class="add-new has-text-weight-medium">${properties['defibrillator:location:pl'] || properties['defibrillator:location'] || `<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji</span>`}</span></p>
-        <p class="has-text-weight-light">Dostępny w godzinach: <span class="add-new has-text-weight-medium">${defineOpeningHours(properties.opening_hours) || `<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji</span>`}</span></p>
+        <p class="has-text-weight-light">Dostępny w godzinach: <span class="add-new has-text-weight-medium">${parseOpeningHours(properties.opening_hours) || `<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji</span>`} ${isCurrOpen || '' }</span></p>
         <p class="has-text-weight-light">Opis: <span class="add-new has-text-weight-medium">${properties['description:pl'] || properties.description || `<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji</span>`}</span></p>
         <p class="has-text-weight-light">Numer kontaktowy: <span class="add-new has-text-weight-medium">${properties.phone || `<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji</span>`}</span></p>
     `;
-    
-    if (properties.note || properties['note:pl'])
-    {
+
+    if (properties.note || properties['note:pl']) {
         sidebarContent.innerHTML += `<p class="has-text-weight-light">Uwagi: <span class="add-new has-text-weight-medium">${properties['note:pl'] || properties.note || 'brak uwag'}</span></p>`;
     }
 
@@ -172,9 +213,9 @@ map.on('load', () => {
             'type': 'circle',
             'source': 'aed-locations',
             'paint': {
-                'circle-color': '#008954',//'rgba(204, 255, 51, 0.72)',
+                'circle-color': '#008954', //'rgba(204, 255, 51, 0.72)',
                 'circle-radius': 26,
-                'circle-stroke-color': '#f5f5f5',//'#fff',
+                'circle-stroke-color': '#f5f5f5', //'#fff',
                 'circle-stroke-width': 3,
             },
             'filter': ['has', 'point_count'],
@@ -199,13 +240,6 @@ map.on('load', () => {
                 showSidebar(e.features[0].properties);
             }
         });
-        map.on('click', function (e) {
-            let sidebar = document.getElementsByClassName('sidebar')[0];
-
-            if (!sidebar.classList.contains('is-invisible')) {
-               //  sidebar.classList.add('is-invisible');
-            }
-        });
 
         map.on('mouseenter', 'unclustered', () => {
             map.getCanvas().style.cursor = 'pointer';
@@ -213,7 +247,7 @@ map.on('load', () => {
 
         map.on('mouseleave', 'unclustered', () => {
             map.getCanvas().style.cursor = '';
-            });
+        });
 
         map.on('mouseenter', 'clustered-circle', () => {
             map.getCanvas().style.cursor = 'pointer';
@@ -221,7 +255,7 @@ map.on('load', () => {
 
         map.on('mouseleave', 'clustered-circle', () => {
             map.getCanvas().style.cursor = '';
-            });
+        });
 
         // zoom to cluster on click
         map.on('click', 'clustered-circle', function (e) {
