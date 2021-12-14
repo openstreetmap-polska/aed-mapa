@@ -101,8 +101,7 @@ function parseOpeningHours(openingHours) {
 
             return hoursPrettified;
         }
-    }
-    else {
+    } else {
         return undefined;
     }
 }
@@ -168,8 +167,7 @@ function createSidebar(properties) {
 
     if (isCurrentlyOpen(properties.opening_hours)) {
         isCurrOpen = '<sup><span class="tag is-success is-light">Dostępny</span></sup>';
-    }
-    else if (isCurrentlyOpen(properties.opening_hours) == false) {
+    } else if (isCurrentlyOpen(properties.opening_hours) == false) {
         isCurrOpen = '<sup><span class="tag is-danger is-light">Niedostępny</span></sup>';
     }
 
@@ -192,7 +190,8 @@ function createSidebar(properties) {
 
 map.on('load', () => {
     console.log('Loading icon...');
-    map.loadImage('./aed_240px.png', (error, image) => {
+
+    map.loadImage('./src/aed_50px.png', (error, image) => {
         if (error) throw error;
         map.addImage('aed-icon', image, {
             'sdf': false
@@ -204,7 +203,7 @@ map.on('load', () => {
             'source': 'aed-locations',
             'layout': {
                 'icon-image': ['image', 'aed-icon'],
-                'icon-size': 0.1,
+                'icon-size': 1,
             },
             'filter': ['!', ['has', 'point_count']],
         });
