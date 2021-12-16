@@ -4,6 +4,9 @@ import csv
 import requests
 import json
 import sys
+from datetime import datetime, timezone
+from pathlib import Path
+from os import path
 
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -117,7 +120,7 @@ def process_data(
     return geojson_template, csv_columns_set, csv_row_list
 
 
-def save_geojson(file_path: str, data: dict) -> None:
+def save_json(file_path: str, data: dict) -> None:
     logger.info(f'Saving file: {file_path}...')
     with open(file=file_path, mode='w', encoding='utf-8') as f:
         json.dump(data, f, allow_nan=False)
@@ -137,10 +140,18 @@ if __name__ == '__main__':
 
     geojson_file_path = sys.argv[1] if len(sys.argv) > 1 else 'aed_poland.geojson'
     csv_file_path = sys.argv[2] if len(sys.argv) > 2 else 'aed_poland.csv'
+    json_metadata_file_path = Path(geojson_file_path).parent.joinpath('aed_poland_metadata.json').resolve().as_posix()
 
+    ts = datetime.now(tz=timezone.utc).replace(microsecond=0)
     elements = elements_from_overpass_api(api_url=overpass_api_url, query=overpass_query)
+    number_of_elements = len(elements)
     geojson_data, csv_columns, csv_data = process_data(data=elements, keep_tags=tags_to_keep, prefixes=prefix_to_add)
+    json_metadata = {
+        'data_download_ts_utc': ts.isoformat().__str__(),
+        'number_of_elements': number_of_elements,
+    }
 
-    save_geojson(file_path=geojson_file_path, data=geojson_data)
+    save_json(file_path=geojson_file_path, data=geojson_data)
+    save_json(file_path=json_metadata_file_path, data=json_metadata)
     sorted_csv_columns = list(sorted(list(csv_columns)))
     save_csv(file_path=csv_file_path, data=csv_data, columns=sorted_csv_columns)
