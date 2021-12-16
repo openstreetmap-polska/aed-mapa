@@ -6,29 +6,30 @@
        <meta name="title" content="AED - mapa defibrylatorów">
        <meta name="description" content="Mapa defibrylatorów AED w Polsce oparta o dane OpenStreetMap"> 
         <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-        <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
-        <link rel="manifest" href="favicon/site.webmanifest">
-        <link rel="mask-icon" href="favicon/safari-pinned-tab.svg" color="#5bbad5">
-        <link rel="shortcut icon" href="favicon/favicon.ico">
+        <link rel="apple-touch-icon" sizes="180x180" href="src/favicon/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="./src/favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="./src/favicon/favicon-16x16.png">
+        <link rel="manifest" href="./src/favicon/site.webmanifest">
+        <link rel="mask-icon" href="./src/favicon/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="shortcut icon" href="./src/favicon/favicon.ico">
         <meta name="msapplication-TileColor" content="#da532c">
-        <meta name="msapplication-config" content="favicon/browserconfig.xml">
+        <meta name="msapplication-config" content="./src/favicon/browserconfig.xml">
         <meta name="theme-color" content="#dbdbdb">
         <meta property="og:type" content="website">
         <meta property="og:url" content="https://aed.openstreetmap.org.pl">
         <meta property="og:title" content="AED - mapa defibrylatorów">
         <meta property="og:description" content="Mapa defibrylatorów AED w Polsce oparta o dane OpenStreetMap">
-        <meta property="og:image" content="https://aed.openstreetmap.org.pl/meta-image.png">
+        <meta property="og:image" content="https://aed.openstreetmap.org.pl/src/img/meta-image.png">
         <meta property="twitter:card" content="summary_large_image">
         <meta property="twitter:url" content="https://aed.openstreetmap.org.pl">
         <meta property="twitter:title" content="AED - mapa defibrylatorów">
         <meta property="twitter:description" content="Mapa defibrylatorów AED w Polsce oparta o dane OpenStreetMap">
-        <meta property="twitter:image" content="https://aed.openstreetmap.org.pl/meta-image.png">
+        <meta property="twitter:image" content="https://aed.openstreetmap.org.pl/src/img/meta-image.png">
         <script src="https://unpkg.com/maplibre-gl@1.15.2/dist/maplibre-gl.js"></script>
+        <script src="https://openingh.openstreetmap.de/opening_hours.js/opening_hours+deps.min.js" defer></script>
         <link href="https://unpkg.com/maplibre-gl@1.15.2/dist/maplibre-gl.css" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css" />
-        <link rel="stylesheet" href="./nasz.css" />
+        <link rel="stylesheet" href="./src/nasz.css" />
 
         </head>
         <body>
@@ -37,16 +38,28 @@
               <a class="has-text-weight-medium navbar-item has-text-white-ter is-size-4 is-size-5-mobile" href="#">
                 Mapa AED
               </a>
-              
               <span class="has-text-success-light has-text-weight-light navbar-item is-size-6 is-size-7-touch">
-                <span class="has-text-grey-light">|</span>&nbsp;&nbsp;tworzona z ❤️ przez&nbsp;
-                <span class="has-text-weight-medium"> <a href="https://openstreetmap.org.pl/" target="_blank" rel="noopener" style="color:#effaf5;">OpenStreetMap Polska</a></span>
+                <span class="has-text-grey-light mr-2">|</span>tworzona z ❤️ przez&nbsp;
+                <span class="has-text-weight-medium"> <a href="https://openstreetmap.org.pl/" target="_blank" title="Odwiedź stronę polskiej społeczności OSM" rel="noopener" style="color:#effaf5;">OpenStreetMap Polska</a></span>
               </span>
-              <a role="button" class="navbar-burger has-text-white-ter" aria-label="menu" aria-expanded="false">
+              <a role="button" class="navbar-burger has-text-white-ter is-transparent" data-target="navMenu" aria-label="menu" aria-expanded="false">
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
               </a>
+            </div>
+
+            <div id="navMenu" class="navbar-menu">
+            <div class="navbar-end">
+              <div class="navbar-item">
+                <span class="has-text-white has-text-weight-light mr-1">dodaliśmy do mapy już ⚡ </span>
+                <span class="has-text-white-ter is-size-5 has-text-weight-semibold" id="aed-number"></span>
+                <span class="has-text-white has-text-weight-light ml-1">AED</span>
+              </div>
+              <div class="navbar-item">
+                <a href="https://github.com/openstreetmap-polska/aed-mapa" target="_blank" rel="noopener">
+                  <img title="Odwiedź nasz Github" class="github" src="./src/img/github-image.png" alt="Github" width="24" height="24"></a>
+              </div>
             </div>
           </nav>
           <div class="sidebar is-invisible">
@@ -54,8 +67,8 @@
               <div id="sidebar-header">
                 <button class="delete is-medium is-pulled-right close-button m-3" onclick="hideSidebar()" aria-label="Close button"></button>
                 <div class="columns is-vcentered is-flex p-1">
-                  <div class="column is-one-quarter is-one-fifth-mobile "><img class="image" src="card-image.png" alt="Placeholder image" id="sidebar-card-image" ></div>
-                  <div class="column"><p class="title has-text-white has-text-weight-light py-2" id="sidebar-caption"></p></div>
+                  <div class="column is-one-quarter is-one-fifth-mobile "><img class="image" src="./src/img/card-image.png" alt="Placeholder image" id="sidebar-card-image" ></div>
+                  <div class="column"><p class="title has-text-white-ter has-text-weight-light py-2" id="sidebar-caption"></p></div>
               </div>
             </div>
               <div class="card-content">            
@@ -64,7 +77,7 @@
               </div>
                 <hr class="my-1" />
                 <div class="card-content py-1 has-text-right ">
-                    <span class="has-text-grey is-size-7 has-text-weight-light">Dane z OpenStreetMap - odświeżane co ok. godzinę</span>
+                    <span id="refresh-time" class="has-text-grey is-size-7 has-text-weight-light">Dane z OpenStreetMap - odświeżane co ok. godzinę</span>
                 </div>
               <footer class="card-footer">
                 <a href="" class="has-background-success-light card-footer-item has-text-centered is-size-7 has-text-weight-semibold" target="_blank" rel="noopener" >Dodaj brakujące informacje</a>
@@ -75,7 +88,8 @@
         </div>
 
         <div id="map"></div>
+        <script src="./src/map.js"></script>
 
-            <script src="./map.js"></script>
+        <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "117bf6ce871a40ac9bf5a7330f8538eb"}'></script><!-- End Cloudflare Web Analytics -->
         </body>
 </html>
