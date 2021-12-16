@@ -34,12 +34,13 @@ Deploy to /var/www/:
 ```bash
 cd /home/aeduser/aed-mapa/
 git pull
-rsync --update --recursive --delete --exclude '*.py' --exclude '*.geojson' --exclude '.git*'  --verbose /home/aeduser/aed-mapa/ /var/www/html/
+rsync --update --recursive --delete --exclude '*.py' --exclude '*.geojson' --exclude '*.json' --exclude '.git*'  --verbose /home/aeduser/aed-mapa/ /var/www/html/
 ```
 
 Download new data (set crontab to run it periodically):
 ```bash
 python3 /home/aeduser/aed-mapa/src/download_data.py /home/aeduser/aed_poland.geojson /home/aeduser/aed_poland.csv
 cp /home/aeduser/aed_poland.geojson /var/www/html/aed_poland.geojson
+cp /home/aeduser/aed_poland_metadata.json /var/www/html/aed_poland_metadata.json
 cp /home/aeduser/aed_poland.csv /var/www/html/aed_poland.csv
 ```
