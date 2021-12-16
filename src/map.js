@@ -1,3 +1,11 @@
+let aedSource = './aed_poland.geojson';
+let aedNumber = document.getElementById('aed-number');
+
+fetch(aedSource)
+  .then(response => response.json())
+  .then(data => aedNumber.innerHTML = Object.keys(data.features).length);
+
+
 var map = new maplibregl.Map({
     'container': 'map', // container id
     'center': [20, 52], // starting position [lng, lat]
@@ -22,7 +30,7 @@ var map = new maplibregl.Map({
             },
             'aed-locations': {
                 'type': 'geojson',
-                'data': './aed_poland.geojson',
+                'data': aedSource,
                 'cluster': true,
                 'clusterRadius': 30,
                 'maxzoom': 14
@@ -273,6 +281,7 @@ map.on('load', () => {
                 }
             );
         });
+
         console.log('Ready.');
     });
 });
