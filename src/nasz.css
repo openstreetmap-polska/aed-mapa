@@ -61,7 +61,7 @@
   }
 
   .has-background-green {
-    background-color: #008954eb;
+    background-color: #008954eb !important;
   }
 
   .card-content {
@@ -71,4 +71,9 @@
 
   .navbar {
     border-bottom: 1px solid hsl(0, 0%, 96%);
+  }
+
+  .navbar-menu.is-active
+  {
+    background-color: #008954eb !important;
   }

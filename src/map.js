@@ -1,3 +1,11 @@
+let aedSource = './aed_poland.geojson';
+let aedNumber = document.getElementById('aed-number');
+
+fetch(aedSource)
+  .then(response => response.json())
+  .then(data => aedNumber.innerHTML = Object.keys(data.features).length);
+
+
 var map = new maplibregl.Map({
     'container': 'map', // container id
     'center': [20, 52], // starting position [lng, lat]
@@ -22,7 +30,7 @@ var map = new maplibregl.Map({
             },
             'aed-locations': {
                 'type': 'geojson',
-                'data': './aed_poland.geojson',
+                'data': aedSource,
                 'cluster': true,
                 'clusterRadius': 30,
                 'maxzoom': 14
@@ -101,8 +109,7 @@ function parseOpeningHours(openingHours) {
 
             return hoursPrettified;
         }
-    }
-    else {
+    } else {
         return undefined;
     }
 }
@@ -168,8 +175,7 @@ function createSidebar(properties) {
 
     if (isCurrentlyOpen(properties.opening_hours)) {
         isCurrOpen = '<sup><span class="tag is-success is-light">Dostępny</span></sup>';
-    }
-    else if (isCurrentlyOpen(properties.opening_hours) == false) {
+    } else if (isCurrentlyOpen(properties.opening_hours) == false) {
         isCurrOpen = '<sup><span class="tag is-danger is-light">Niedostępny</span></sup>';
     }
 
@@ -192,7 +198,8 @@ function createSidebar(properties) {
 
 map.on('load', () => {
     console.log('Loading icon...');
-    map.loadImage('./aed_240px.png', (error, image) => {
+
+    map.loadImage('./src/img/marker-image_50.png', (error, image) => {
         if (error) throw error;
         map.addImage('aed-icon', image, {
             'sdf': false
@@ -204,7 +211,7 @@ map.on('load', () => {
             'source': 'aed-locations',
             'layout': {
                 'icon-image': ['image', 'aed-icon'],
-                'icon-size': 0.1,
+                'icon-size': 1,
             },
             'filter': ['!', ['has', 'point_count']],
         });
@@ -274,6 +281,34 @@ map.on('load', () => {
                 }
             );
         });
+
         console.log('Ready.');
     });
 });
+
+// Bulma controls
+document.addEventListener('DOMContentLoaded', () => {
+
+    // Get all "navbar-burger" elements
+    const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+  
+    // Check if there are any navbar burgers
+    if ($navbarBurgers.length > 0) {
+  
+      // Add a click event on each of them
+      $navbarBurgers.forEach( el => {
+        el.addEventListener('click', () => {
+  
+          // Get the target from the "data-target" attribute
+          const target = el.dataset.target;
+          const $target = document.getElementById(target);
+  
+          // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+          el.classList.toggle('is-active');
+          $target.classList.toggle('is-active');
+  
+        });
+      });
+    }
+  
+  });
