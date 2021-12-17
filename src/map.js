@@ -11,8 +11,8 @@ fetch(aedMetadata)
     let refreshTimeValueLocale = new Date(data.data_download_ts_utc).toLocaleString('pl-PL');
     let currentDate = new Date();
     let dateDiff = Math.abs(currentDate - refreshTimeValue);
-    let dateDiffMinutes = Math.round(((dateDiff % 86400000) % 3600000) / 60000); 
-    console.log(dateDiff);
+    let dateDiffMinutes = Math.round(dateDiff / 60000); 
+    console.log(dateDiffMinutes);
     refreshTime.innerHTML = `Ostatnia aktualizacja danych OSM: <span class="has-text-grey-dark" title="${refreshTimeValueLocale}">${dateDiffMinutes} minut temu</span>`;
     }
     );
