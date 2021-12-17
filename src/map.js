@@ -14,7 +14,7 @@ fetch(aedMetadata)
     let dateDiffMinutes = Math.round(dateDiff / 60000); 
     refreshTime.innerHTML = `Ostatnia aktualizacja danych OSM: <span class="has-text-grey-dark" title="${refreshTimeValueLocale}">${dateDiffMinutes} minut temu</span>`;
     }
-    );
+   );
 
 var map = new maplibregl.Map({
     'container': 'map', // container id
