@@ -1,12 +1,21 @@
 let aedSource = './aed_poland.geojson';
 let aedMetadata = './aed_poland_metadata.json';
 let aedNumber = document.getElementById('aed-number');
+let refreshTime = document.getElementById('refresh-time');
 
 fetch(aedMetadata)
   .then(response => response.json())
-  .then(data => aedNumber.innerHTML = data.number_of_elements);
-
-
+  .then(data => {
+    aedNumber.innerHTML = data.number_of_elements;
+    let refreshTimeValue = new Date(data.data_download_ts_utc);
+    let refreshTimeValueLocale = new Date(data.data_download_ts_utc).toLocaleString('pl-PL');
+    let currentDate = new Date();
+    let dateDiff = Math.abs(currentDate - refreshTimeValue);
+    let dateDiffMinutes = Math.round(((dateDiff % 86400000) % 3600000) / 60000); 
+    console.log(dateDiff);
+    refreshTime.innerHTML = `Ostatnia aktualizacja danych OSM: <span class="has-text-grey-dark" title="${refreshTimeValueLocale}">${dateDiffMinutes} minut temu</span>`;
+    }
+    );
 
 var map = new maplibregl.Map({
     'container': 'map', // container id
