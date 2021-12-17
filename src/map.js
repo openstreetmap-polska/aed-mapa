@@ -1,9 +1,11 @@
 let aedSource = './aed_poland.geojson';
+let aedMetadata = './aed_poland_metadata.json';
 let aedNumber = document.getElementById('aed-number');
 
-fetch(aedSource)
+fetch(aedMetadata)
   .then(response => response.json())
-  .then(data => aedNumber.innerHTML = Object.keys(data.features).length);
+  .then(data => aedNumber.innerHTML = data.number_of_elements);
+
 
 
 var map = new maplibregl.Map({
