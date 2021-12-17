@@ -12,7 +12,6 @@ fetch(aedMetadata)
     let currentDate = new Date();
     let dateDiff = Math.abs(currentDate - refreshTimeValue);
     let dateDiffMinutes = Math.round(dateDiff / 60000); 
-    console.log(dateDiffMinutes);
     refreshTime.innerHTML = `Ostatnia aktualizacja danych OSM: <span class="has-text-grey-dark" title="${refreshTimeValueLocale}">${dateDiffMinutes} minut temu</span>`;
     }
     );
@@ -106,7 +105,6 @@ function parseOpeningHours(openingHours) {
                 let hours = openingHours.toString();
                 let oh = new opening_hours(hours, undefined, 2);
                 isOpen = oh.getState();
-                console.log(isOpen);
                 hoursPrettified = oh.prettifyValue({
                     conf: {
                         locale: 'pl'
@@ -155,7 +153,7 @@ function showSidebar(properties) {
         sidebar.classList.remove('is-invisible');
         createSidebar(properties);
     } else {
-        console.log('sidebar not found');
+        console.log('Sidebar not found.');
     }
 
 }
@@ -165,7 +163,7 @@ function hideSidebar() {
     if (sidebar) {
         sidebar.classList.add('is-invisible');
     } else {
-        console.log('sidebar not found');
+        console.log('Sidebar not found.');
     }
 }
 
@@ -231,9 +229,9 @@ map.on('load', () => {
             'type': 'circle',
             'source': 'aed-locations',
             'paint': {
-                'circle-color': '#008954', //'rgba(204, 255, 51, 0.72)',
+                'circle-color': 'rgba(0, 137, 84, 0.88)',
                 'circle-radius': 26,
-                'circle-stroke-color': '#f5f5f5', //'#fff',
+                'circle-stroke-color': 'rgba(245, 245, 245, 0.88)',
                 'circle-stroke-width': 3,
             },
             'filter': ['has', 'point_count'],
