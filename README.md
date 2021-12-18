@@ -44,3 +44,7 @@ cp /home/aeduser/aed_poland.geojson /var/www/html/aed_poland.geojson
 cp /home/aeduser/aed_poland_metadata.json /var/www/html/aed_poland_metadata.json
 cp /home/aeduser/aed_poland.csv /var/www/html/aed_poland.csv
 ```
+
+### Alternatives / Inne podobne
+
+* https://github.com/chnuessli/defikarte.ch - https://defikarte.ch/
