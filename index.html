@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="pl">
     <head>
-       <title>AED - mapa defibrylatorów</title>
-       <meta charset="utf-8" />
-       <meta name="title" content="AED - mapa defibrylatorów">
-       <meta name="description" content="Mapa defibrylatorów AED w Polsce oparta o dane OpenStreetMap"> 
+        <title>AED - mapa defibrylatorów</title>
+        <meta charset="utf-8" />
+        <meta name="title" content="AED - mapa defibrylatorów">
+        <meta name="description" content="Mapa defibrylatorów AED w Polsce oparta o dane OpenStreetMap">
         <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
         <link rel="apple-touch-icon" sizes="180x180" href="src/favicon/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="./src/favicon/favicon-32x32.png">
@@ -25,14 +25,15 @@
         <meta property="twitter:title" content="AED - mapa defibrylatorów">
         <meta property="twitter:description" content="Mapa defibrylatorów AED w Polsce oparta o dane OpenStreetMap">
         <meta property="twitter:image" content="https://aed.openstreetmap.org.pl/src/img/meta-image.png">
+        <script src='https://github.com/osmlab/osm-auth/blob/main/osmauth.min.js'></script>
         <script src="https://unpkg.com/maplibre-gl@1.15.2/dist/maplibre-gl.js"></script>
         <script src="https://openingh.openstreetmap.de/opening_hours.js/opening_hours+deps.min.js" defer></script>
         <link href="https://unpkg.com/maplibre-gl@1.15.2/dist/maplibre-gl.css" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css" />
         <link rel="stylesheet" href="./src/nasz.css" />
+    </head>
 
-        </head>
-        <body>
+    <body>
           <nav class="navbar has-background-green p-1 has-shadow" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
               <a class="has-text-weight-light navbar-item has-text-white-ter is-size-4 is-size-5-mobile" href="#">
@@ -40,7 +41,10 @@
               </a>
               <span class="has-text-success-light has-text-weight-light navbar-item is-size-6 is-size-7-touch pl-0">
                 <span class="has-text-grey-light mr-2">|</span>tworzona z ❤️ przez&nbsp;
-                <span class="has-text-weight-medium"> <a href="https://openstreetmap.org.pl/" target="_blank" title="Odwiedź stronę polskiej społeczności OSM" rel="noopener" style="color:#effaf5;">OpenStreetMap Polska</a></span>
+                <span class="has-text-weight-medium"> <a href="https://openstreetmap.org.pl/" target="_blank"
+                                                         title="Odwiedź stronę polskiej społeczności OSM"
+                                                         rel="noopener" style="color:#effaf5;">OpenStreetMap Polska</a>
+                </span>
               </span>
               <a role="button" class="navbar-burger has-text-white-ter is-transparent" data-target="navMenu" aria-label="menu" aria-expanded="false">
                 <span aria-hidden="true"></span>
@@ -50,19 +54,20 @@
             </div>
 
             <div id="navMenu" class="navbar-menu">
-            <div class="navbar-end">
-              <div class="navbar-item">
-                <span class="has-text-white has-text-weight-light mr-1">dodaliśmy do mapy już ⚡</span>
-                <span class="has-text-white-ter is-size-5 has-text-weight-semibold" id="aed-number"></span>
-                <span class="has-text-white has-text-weight-light ml-1">AED</span>
-              </div>
-              <div class="navbar-item pb-0">
-                <a href="https://github.com/openstreetmap-polska/aed-mapa" target="_blank" rel="noopener">
-                  <img title="Odwiedź nasz Github" class="github" src="./src/img/github-image.png" alt="Github" width="24" height="24"></a>
+              <div class="navbar-end">
+                <div class="navbar-item">
+                  <span class="has-text-white has-text-weight-light mr-1">dodaliśmy do mapy już ⚡</span>
+                  <span class="has-text-white-ter is-size-5 has-text-weight-semibold" id="aed-number"></span>
+                  <span class="has-text-white has-text-weight-light ml-1">AED</span>
+                </div>
+                <div class="navbar-item pb-0">
+                  <a href="https://github.com/openstreetmap-polska/aed-mapa" target="_blank" rel="noopener">
+                    <img title="Odwiedź nasz Github" class="github" src="./src/img/github-image.png" alt="Github" width="24" height="24"></a>
+                </div>
               </div>
             </div>
-          </div>
           </nav>
+
           <div class="sidebar is-invisible">
             <div id="poi-sidebar" class="card">
               <div id="sidebar-header">
@@ -70,20 +75,21 @@
                 <div class="columns is-vcentered is-flex p-1">
                   <div class="column is-one-quarter is-one-fifth-mobile "><img class="image" src="./src/img/card-image.png" alt="Placeholder image" id="sidebar-card-image" ></div>
                   <div class="column"><p class="title has-text-white-ter has-text-weight-light py-2" id="sidebar-caption"></p></div>
-              </div>
-            </div>
-              <div class="card-content">            
-                <div class="content">
                 </div>
+              </div>
+              <div class="card-content">
+                <div class="content"></div>
               </div>
                 <hr class="my-1" />
                 <div class="card-content py-1 has-text-right ">
-                    <span id="refresh-time" class="has-text-grey is-size-7 has-text-weight-light">Dane z OpenStreetMap - odświeżane co ok. godzinę</span>
+                    <span id="refresh-time" class="has-text-grey is-size-7 has-text-weight-light">Dane z OpenStreetMap</span>
                 </div>
               <footer class="card-footer">
-                <a href="" class="has-background-success-light card-footer-item has-text-centered is-size-7 has-text-weight-semibold" target="_blank" rel="noopener" >Dodaj brakujące informacje</a>
+                <a href="" class="has-background-success-light card-footer-item has-text-centered is-size-7 has-text-weight-semibold"
+                   target="_blank" rel="noopener" >Dodaj brakujące informacje</a>
                 <a href="https://wiki.openstreetmap.org/wiki/Pl:Przewodnik_dla_pocz%C4%85tkuj%C4%85cych"
-                   class="has-background-success-light card-footer-item has-text-centered is-size-7 has-text-weight-semibold" target="_blank" rel="noopener" >Przewodnik OSM</a>
+                   class="has-background-success-light card-footer-item has-text-centered is-size-7 has-text-weight-semibold"
+                   target="_blank" rel="noopener" >Przewodnik OSM</a>
               </footer>
           </div>
         </div>
@@ -91,6 +97,9 @@
         <div id="map"></div>
         <script src="./src/map.js"></script>
 
-        <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "117bf6ce871a40ac9bf5a7330f8538eb"}'></script><!-- End Cloudflare Web Analytics -->
-        </body>
+        <!-- Cloudflare Web Analytics -->
+        <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
+                data-cf-beacon='{"token": "117bf6ce871a40ac9bf5a7330f8538eb"}'></script>
+        <!-- End Cloudflare Web Analytics -->
+    </body>
 </html>
