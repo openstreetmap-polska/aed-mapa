@@ -133,3 +133,4 @@ requirements.txt
 # IDE folders
 .idea
 .vscode
+/aed_poland_metadata.json
