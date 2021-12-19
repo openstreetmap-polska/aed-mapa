@@ -25,7 +25,7 @@
         <meta property="twitter:title" content="AED - mapa defibrylatorów">
         <meta property="twitter:description" content="Mapa defibrylatorów AED w Polsce oparta o dane OpenStreetMap">
         <meta property="twitter:image" content="https://aed.openstreetmap.org.pl/src/img/meta-image.png">
-        <script src='https://github.com/osmlab/osm-auth/blob/main/osmauth.min.js'></script>
+        <script src='./src/osmauth.min.js'></script>
         <script src="https://unpkg.com/maplibre-gl@1.15.2/dist/maplibre-gl.js"></script>
         <script src="https://openingh.openstreetmap.de/opening_hours.js/opening_hours+deps.min.js" defer></script>
         <link href="https://unpkg.com/maplibre-gl@1.15.2/dist/maplibre-gl.css" rel="stylesheet" />
@@ -46,6 +46,14 @@
                                                          rel="noopener" style="color:#effaf5;">OpenStreetMap Polska</a>
                 </span>
               </span>
+        <button id='addNode'>Add node to map</button>
+        <button id='authenticate'>login</button>
+        <button id='logout'>logout</button>
+        <div id='user'>
+            <h1 id='display_name'></h1>
+            <h2 id='id'></h2>
+            Changesets: <span id='count'></span>
+        </div>
               <a role="button" class="navbar-burger has-text-white-ter is-transparent" data-target="navMenu" aria-label="menu" aria-expanded="false">
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
@@ -96,6 +104,7 @@
 
         <div id="map"></div>
         <script src="./src/map.js"></script>
+        <script src="./src/osm-integration.js"></script>
 
         <!-- Cloudflare Web Analytics -->
         <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
