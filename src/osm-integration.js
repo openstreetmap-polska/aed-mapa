@@ -13,18 +13,22 @@ function getOpenChangesetId() {
         if (openChangesetId !== null) {
             resolve(openChangesetId);
         } else {
-            let data = '<osm><changeset><tag k="comment" v="#aed Defibrillator added via https://aed.openstreetmap.org.pl"/></changeset></osm>';
+            let data = '<osm><changeset><tag k="comment" v="#AED_Defibrillator added via https://aed.openstreetmap.org.pl"/></changeset></osm>';
             auth.xhr({
                 method: 'PUT',
                 path: '/api/0.6/changeset/create',
                 content: data,
-                options: {header: {"Content-Type": "text/xml"}},
+                options: {
+                    header: {
+                        "Content-Type": "text/xml"
+                    }
+                },
             }, (err, res) => {
                 if (err) {
                     reject(err);
                 } else {
                     openChangesetId = res;
-                    console.log('api returned changeset id: ' + res);
+                    console.log('Api returned changeset id: ' + res);
                     resolve(res);
                 }
             })
@@ -51,9 +55,9 @@ function done(err, res) {
     document.getElementById('user').style.display = 'block';
 }
 
-document.getElementById('authenticate').onclick = function() {
+document.getElementById('authenticate').onclick = function () {
     if (!auth.bringPopupWindowToFront()) {
-        auth.authenticate(function() {
+        auth.authenticate(function () {
             update();
         });
     }
@@ -73,26 +77,32 @@ function log_xhr(err, res) {
 
 function addDefibrillatorToOSM(changesetId) {
     console.log('sending request to create node in changeset: ' + changesetId);
-    let data = `<osm><node changeset="${changesetId}" lat="52.20741" lon="20.87756"><tag k="emergency" v="defibrillator"/></node></osm>`;
-//    console.log(data);
+    let data = `<osm>
+    <node changeset="${changesetId}" lat="52.20741" lon="20.87756">
+    <tag k="emergency" v="defibrillator"/></node></osm>`;
+    //    console.log(data);
     auth.xhr({
         method: 'PUT',
         path: '/api/0.6/node/create',
         content: data,
-        options: {header: {"Content-Type": "text/xml"}},
+        options: {
+            header: {
+                "Content-Type": "text/xml"
+            }
+        },
     }, log_xhr);
 }
 
-document.getElementById('addNode').onclick = function() {
+document.getElementById('addNode').onclick = function () {
     getOpenChangesetId()
-      .then(changesetId => addDefibrillatorToOSM(changesetId));
+        .then(changesetId => addDefibrillatorToOSM(changesetId));
 };
 
 function hideDetails() {
     document.getElementById('user').style.display = 'none';
 }
 
-document.getElementById('logout').onclick = function() {
+document.getElementById('logout').onclick = function () {
     auth.logout();
     update();
 };
