@@ -87,6 +87,7 @@ function defineAccessDescription(access) {
         'no': 'prywatny',
         'private': 'prywatny',
         'permissive': 'o ograniczonym dostępie',
+        'permit': 'o ograniczonym dostępie',
         'default': ''
     };
 
