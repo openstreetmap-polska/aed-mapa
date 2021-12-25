@@ -33,7 +33,7 @@
 
         </head>
         <body>
-          <nav class="navbar has-background-green p-1 has-shadow" role="navigation" aria-label="main navigation">
+          <nav class="navbar has-background-green p-1" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
               <a class="has-text-weight-light navbar-item has-text-white-ter is-size-4 is-size-5-mobile" href="#">
                 Mapa <span class="has-text-weight-semibold pl-1 r-1">AED</span>
@@ -66,20 +66,17 @@
           <div class="sidebar is-invisible">
             <div id="poi-sidebar" class="card">
               <div id="sidebar-header">
-                <button class="delete is-medium is-pulled-right close-button m-3" onclick="hideSidebar()" aria-label="Close button"></button>
-                <div class="columns is-vcentered is-flex p-1">
+                <div class="columns is-vcentered is-flex p-1 mr-0">
                   <div class="column is-one-quarter is-one-fifth-mobile "><img class="image" src="./src/img/card-image.png" alt="Placeholder image" id="sidebar-card-image" ></div>
                   <div class="column"><p class="title has-text-white-ter has-text-weight-light py-2" id="sidebar-caption"></p></div>
-              </div>
+                  <button class="delete is-medium is-hidden-touch is-pulled-right close-button mr-2 mt-4" onclick="hideSidebar()" aria-label="Close button"></button>
+                  <button class="delete is-large is-hidden-desktop is-pulled-right close-button mr-2 mt-4" onclick="hideSidebar()" aria-label="Close button"></button>
+                </div>
             </div>
               <div class="card-content">            
                 <div class="content">
                 </div>
               </div>
-                <hr class="my-1" />
-                <div class="card-content py-1 has-text-right ">
-                    <span id="refresh-time" class="has-text-grey is-size-7 has-text-weight-light">Dane z OpenStreetMap - odświeżane co ok. godzinę</span>
-                </div>
               <footer class="card-footer">
                 <a href="" class="has-background-success-light card-footer-item has-text-centered is-size-7 has-text-weight-semibold" target="_blank" rel="noopener" >Dodaj brakujące informacje</a>
                 <a href="https://wiki.openstreetmap.org/wiki/Pl:Przewodnik_dla_pocz%C4%85tkuj%C4%85cych"
