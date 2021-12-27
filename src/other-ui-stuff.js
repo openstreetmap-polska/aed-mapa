@@ -168,9 +168,7 @@ function renderEditButton(osm_id) {
 }
 
 function renderSaveButton() {
-    let data = marker.getLngLat();
-
-    return `<button onclick="addDefibrillatorToOSM(-1, prepareNodeData())">Zapisz</button>`
+    return `<button onclick="saveNode(prepareNodeData())">Zapisz</button>`
 }
 
 // --------------------------------------------------------------

@@ -84,10 +84,16 @@ function addDefibrillatorToOSM(changesetId, data) {
 //        content: data,
 //        options: {header: {"Content-Type": "text/xml"}},
 //    }, log_xhr);
+    // maybe instead of log_xhr create some function to show modal/popup or something informing of added node?
+}
+
+function saveNode(data) {
+    // maybe add some animation to button while sending xhr request is going on?
+    addDefibrillatorToOSM(-1, data)
+//    getOpenChangesetId().then(changesetId => addDefibrillatorToOSM(changesetId, data));
 }
 
 document.getElementById('addNode').onclick = function() {
-//    getOpenChangesetId().then(changesetId => addDefibrillatorToOSM(changesetId));
     // add marker
     const mapCenter = map.getCenter();
     const initialCoordinates = [mapCenter.lng, mapCenter.lat];
@@ -97,6 +103,7 @@ document.getElementById('addNode').onclick = function() {
     })
     .setLngLat(initialCoordinates);
     marker.addTo(map);
+    // show sidebar
     let properties = {
         action: "addNode",
         data: {},
