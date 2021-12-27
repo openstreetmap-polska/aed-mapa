@@ -7,6 +7,7 @@ var auth = osmAuth({
 
 });
 var openChangesetId = null;
+var marker = null;
 
 function getOpenChangesetId() {
     return new Promise((resolve, reject) => {
@@ -71,21 +72,36 @@ function log_xhr(err, res) {
     console.log(res);
 }
 
-function addDefibrillatorToOSM(changesetId) {
+function addDefibrillatorToOSM(changesetId, data) {
     console.log('sending request to create node in changeset: ' + changesetId);
-    let data = `<osm><node changeset="${changesetId}" lat="52.20741" lon="20.87756"><tag k="emergency" v="defibrillator"/></node></osm>`;
-//    console.log(data);
-    auth.xhr({
-        method: 'PUT',
-        path: '/api/0.6/node/create',
-        content: data,
-        options: {header: {"Content-Type": "text/xml"}},
-    }, log_xhr);
+    var data = `<osm><node changeset="${changesetId}" lat="${data.lat}" lon="${data.lng}"><tag k="emergency" v="defibrillator"/>`;
+    // todo: add tags data
+    data += `</node></osm>`;
+    console.log(data);
+//    auth.xhr({
+//        method: 'PUT',
+//        path: '/api/0.6/node/create',
+//        content: data,
+//        options: {header: {"Content-Type": "text/xml"}},
+//    }, log_xhr);
 }
 
 document.getElementById('addNode').onclick = function() {
-    getOpenChangesetId()
-      .then(changesetId => addDefibrillatorToOSM(changesetId));
+//    getOpenChangesetId().then(changesetId => addDefibrillatorToOSM(changesetId));
+    // add marker
+    const mapCenter = map.getCenter();
+    const initialCoordinates = [mapCenter.lng, mapCenter.lat];
+    if (marker !== null) marker.remove();
+    marker = new maplibregl.Marker({
+        draggable: true
+    })
+    .setLngLat(initialCoordinates);
+    marker.addTo(map);
+    let properties = {
+        action: "addNode",
+        data: {},
+    };
+    showSidebar(properties);
 };
 
 function hideDetails() {
