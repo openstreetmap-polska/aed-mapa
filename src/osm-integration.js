@@ -14,7 +14,12 @@ function getOpenChangesetId() {
         if (openChangesetId !== null) {
             resolve(openChangesetId);
         } else {
-            let data = '<osm><changeset><tag k="comment" v="#aed Defibrillator added via https://aed.openstreetmap.org.pl"/></changeset></osm>';
+            let data = '<osm><changeset>' +
+                '<tag k="comment" v="Defibrillator added via https://aed.openstreetmap.org.pl #aed"/>' +
+                '<tag k="created_by" v="https://aed.openstreetmap.org.pl"/>' +
+                '<tag k="locale" v="pl"/>' +
+                '<tag k="hashtags" v="#aed"/>' +
+                '</changeset></osm>';
             auth.xhr({
                 method: 'PUT',
                 path: '/api/0.6/changeset/create',
@@ -67,13 +72,40 @@ function showDetails() {
     }, done);
 }
 
-function log_xhr(err, res) {
-    if (err) console.log(err);
-    console.log(res);
+function getNodeUrl(nodeId) {
+    return `${auth.options().url}/node/${nodeId}`
 }
 
-function getNodeUrl(id) {
-    return `${auth.options().url}/node/${id}`
+function renderModalMessage(newNodeUrl) {
+    return `<p>Dodano element: <a target="_blank" rel="noopener" href="${newNodeUrl}">${newNodeUrl}</a></p>`
+}
+
+function renderModalErrorMessage(message) {
+    return `<p>Wystąpił błąd: ${message}</p>`
+}
+
+function showSuccessModal(newNodeId) {
+    let modalContent = document.getElementById('modal-content');
+    modalContent.innerHTML = renderModalMessage(getNodeUrl(newNodeId));
+    openModal()
+}
+
+function showFailureModal(message) {
+    let modalContent = document.getElementById('modal-content');
+    modalContent.innerHTML = renderModalErrorMessage(message);
+    openModal()
+}
+
+function openModal() {
+    let modal = document.getElementById('modal-div');
+    modal.classList.add('is-clipped');
+    modal.classList.add('is-active');
+}
+
+function closeModal() {
+    let modal = document.getElementById('modal-div');
+    modal.classList.remove('is-clipped');
+    modal.classList.remove('is-active');
 }
 
 function addDefibrillatorToOSM(changesetId, data) {
@@ -84,34 +116,45 @@ function addDefibrillatorToOSM(changesetId, data) {
         xml += Object.entries(data.tags).map(arr => `<tag k="${arr[0]}" v="${arr[1]}"/>`).join('');
         xml += `</node></osm>`;
         console.log('payload: ' + xml);
-        //    auth.xhr({
-        //        method: 'PUT',
-        //        path: '/api/0.6/node/create',
-        //        content: data,
-        //        options: {header: {"Content-Type": "text/xml"}},
-        //    }, log_xhr);
-            // maybe instead of log_xhr create some function to show modal/popup or something informing of added node?
-            // getNodeUrl(id) to get url
+        auth.xhr({
+            method: 'PUT',
+            path: '/api/0.6/node/create',
+            content: xml,
+            options: {header: {"Content-Type": "text/xml"}},
+        }, (err, res) => {
+            if (err) reject(err);
+            else {resolve(res); console.log(`response: ${res}`)}
+        });
     })
 }
 
-// for testing
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-function saveNode(data) {
-    // maybe add some animation to button while sending xhr request is going on?
+function startSaveButtonAnimation() {
     let saveButton = document.getElementById('sidebar-save-button');
     saveButton.classList.add('is-loading');
     saveButton.disabled = true;
-    addDefibrillatorToOSM(-1, data);
-    sleep(5000).then(() => {
-        saveButton.classList.remove('is-loading');
-        saveButton.disabled = false;
-    });
+}
 
-//    getOpenChangesetId().then(changesetId => addDefibrillatorToOSM(changesetId, data));
+function stopSaveButtonAnimation() {
+    let saveButton = document.getElementById('sidebar-save-button');
+    saveButton.classList.remove('is-loading');
+    saveButton.disabled = false;
+}
+
+function saveNode(data) {
+    startSaveButtonAnimation();
+    getOpenChangesetId()
+    .then(changesetId => {
+        return addDefibrillatorToOSM(changesetId, data)
+    })
+    .then(newNodeId => {
+        stopSaveButtonAnimation();
+        showSuccessModal(newNodeId);
+    })
+    .catch(err => {
+        stopSaveButtonAnimation();
+        console.log(err);
+        showFailureModal(err);
+    });
 }
 
 document.getElementById('addNode').onclick = function() {

@@ -110,6 +110,24 @@
             </div>
           </div>
 
+        <div id="modal-div" class="modal">
+          <div class="modal-background"></div>
+              <div class="modal-card">
+                <header class="modal-card-head">
+<!--                  <p class="modal-card-title">Modal title</p>-->
+                  <button class="delete" aria-label="close" onclick="closeModal()"></button>
+                </header>
+                <section id="modal-content" class="modal-card-body">
+                  <!-- Content ... -->
+                </section>
+<!--                <footer class="modal-card-foot">-->
+<!--                  <button class="button is-success">Save changes</button>-->
+<!--                  <button class="button">Cancel</button>-->
+<!--                </footer>-->
+              </div>
+          <button class="modal-close is-large" aria-label="close" onclick="closeModal()"></button>
+        </div>
+
         <div id="map"></div>
         <script src="./src/other-ui-stuff.js"></script>
         <script src="./src/map.js"></script>
