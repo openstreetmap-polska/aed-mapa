@@ -42,47 +42,13 @@ function getOpenChangesetId() {
     })
 }
 
-function done(err, res) {
-    if (err) {
-        document.getElementById('user').innerHTML = 'error! try clearing your browser cache';
-        document.getElementById('user').style.display = 'block';
-        return;
-    }
-    var u = res.getElementsByTagName('user')[0];
-    var changesets = res.getElementsByTagName('changesets')[0];
-    var o = {
-        display_name: u.getAttribute('display_name'),
-        id: u.getAttribute('id'),
-        count: changesets.getAttribute('count')
-    };
-    for (var k in o) {
-        document.getElementById(k).innerHTML = o[k];
-    }
-    document.getElementById('user').style.display = 'block';
-}
-
-document.getElementById('authenticate').onclick = function () {
-    if (!auth.bringPopupWindowToFront()) {
-        auth.authenticate(function () {
-            update();
-        });
-    }
-};
-
-function showDetails() {
-    auth.xhr({
-        method: 'GET',
-        path: '/api/0.6/user/details'
-    }, done);
-}
-
 function getNodeUrl(nodeId) {
     return `${auth.options().url}/node/${nodeId}`;
 }
 
 function renderModalMessage(newNodeUrl) {
     return `
-    <p>AED dodany z powodzeniem: 
+    <p>AED dodany z powodzeniem:
             <a target="_blank" rel="noopener" href="${newNodeUrl}">${newNodeUrl}</a>
             </p>`;
 }
@@ -201,24 +167,63 @@ document.getElementById('addNode').onclick = function () {
     showSidebar(properties);
 };
 
-function hideDetails() {
-    document.getElementById('user').style.display = 'none';
+function authenticateAction() {
+    if (!auth.bringPopupWindowToFront()) {
+        auth.authenticate(function() {
+            update();
+        });
+    }
+};
+
+function renderLoginButton() {
+    return '<button id="authenticate" onclick="authenticateAction()">Zaloguj kontem OSM</button>'
 }
 
-document.getElementById('logout').onclick = function () {
-    auth.logout();
-    update();
-};
+function renderUserLoggedIn(username) {
+    return `<span>Zalogowano jako: ${username}</span>`
+}
+
+function renderErrorLoggingIn() {
+    return '<p>Problem podczas logowania. Spróbuj wyczyścić cache (ctrl+f5).</p>'
+}
+
+function updateAddNodeButtonState() {
+    let addNodeButton = document.getElementById('addNode');
+    addNodeButton.disabled = false;
+    addNodeButton.title = "";
+    if (!auth.authenticated()) {
+        addNodeButton.disabled = true;
+        addNodeButton.title = "Zaloguj się aby móc dodawać obiekty";
+    }
+    if (map.getZoom() < 15) {
+        addNodeButton.disabled = true;
+        addNodeButton.title = "Zbyt duże oddalenie mapy";
+    }
+}
+
+map.on('zoomend', updateAddNodeButtonState);
 
 function update() {
     if (auth.authenticated()) {
-        document.getElementById('authenticate').className = 'done';
-        document.getElementById('logout').className = '';
-        showDetails();
+        auth.xhr({
+            method: 'GET',
+            path: '/api/0.6/user/details'
+        }, (err, res) => {
+            if (err) {
+                document.getElementById('span-login').innerHTML = 'error! try clearing your browser cache';
+                updateAddNodeButtonState();
+            } else {
+                const u = res.getElementsByTagName('user')[0];
+                const user_name = u.getAttribute('display_name');
+                const user_id = u.getAttribute('id');
+                const user_with_id = `${user_name} (${user_id})`;
+                document.getElementById('span-login').innerHTML = renderUserLoggedIn(user_with_id);
+                updateAddNodeButtonState();
+            }
+        });
     } else {
-        document.getElementById('authenticate').className = '';
-        document.getElementById('logout').className = 'done';
-        hideDetails();
+        document.getElementById('span-login').innerHTML = renderLoginButton();
+        updateAddNodeButtonState();
     }
 }
 

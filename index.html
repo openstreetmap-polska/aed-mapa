@@ -39,6 +39,7 @@
               <a class="has-text-weight-light navbar-item has-text-white-ter is-size-4 is-size-5-mobile" href="#">
                 Mapa <span class="has-text-weight-semibold pl-1 r-1">AED</span>
               </a>
+
               <span class="has-text-success-light has-text-weight-light navbar-item is-size-6 is-size-7-touch pl-0">
                 <span class="has-text-grey-light mr-2">|</span>tworzona z ❤️ przez&nbsp;
                 <span class="has-text-weight-medium"> <a href="https://openstreetmap.org.pl/" target="_blank"
@@ -46,14 +47,7 @@
                                                          rel="noopener" style="color:#effaf5;">OpenStreetMap Polska</a>
                 </span>
               </span>
-        <button id='addNode'>Dodaj testowy AED</button>
-        <button id='authenticate'>Zaloguj</button>
-        <button id='logout'>Wyloguj</button>
-        <div id='user'>
-            <h1 id='display_name'></h1>
-            <h2 id='id'></h2>
-            Changesets: <span id='count'></span>
-        </div>
+
               <a role="button" class="navbar-burger has-text-white-ter is-transparent" data-target="navMenu" aria-label="menu" aria-expanded="false">
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
@@ -63,6 +57,14 @@
 
             <div id="navMenu" class="navbar-menu">
               <div class="navbar-end">
+                <div class="navbar-item">
+                  <button id='addNode' class="button is-rounded" aria-label="Wymaga zalogowania" disabled>Dodaj AED</button>
+                </div>
+                <div class="navbar-item">
+                  <span id="span-login" class="has-text-success-light has-text-weight-light navbar-item is-size-6 is-size-7-touch pl-0">
+                    <!-- Placeholder -->
+                  </span>
+                </div>
                 <div class="navbar-item">
                   <span class="has-text-white has-text-weight-light mr-1">dodaliśmy do mapy już ⚡</span>
                   <span class="has-text-white-ter is-size-5 has-text-weight-semibold" id="aed-number"></span>
