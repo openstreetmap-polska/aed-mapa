@@ -7,6 +7,9 @@ const sidebarButtonCloseIds = ['sidebar-button-close-touch', 'sidebar-button-clo
 const formPhoneFieldId = 'form-phone';
 const formAccessFieldId = 'form-access';
 const formLocationFieldId = 'form-location';
+const formLocationEnFieldId = 'form-location-en';
+//const formIndoorFieldId = 'form-indoor';
+const formEmergencyPhoneFieldId = 'form-emergency-phone';
 
 let sidebarHeader = document.getElementById(sidebarHeaderId);
 let sidebarCaption = document.getElementById(sidebarCaptionId);
@@ -181,6 +184,17 @@ function renderSidebarForm() {
       </div>
     </div>
 
+<!--
+    <div class="field">
+      <label class="label has-text-weight-semibold">Czy wewnątrz budynku?</label>
+      <div class="control">
+        <label class="checkbox">
+          <input id="${formIndoorFieldId}" tag="indoor" val="yes" type="checkbox">
+          Tak
+        </label>
+      </div>
+    </div>
+-->
     <div class="field">
       <label class="label has-text-weight-semibold">Opis lokalizacji defibrylatora</label>
       <div class="control">
@@ -189,12 +203,29 @@ function renderSidebarForm() {
     </div>
 
     <div class="field">
-    <label class="label has-text-weight-semibold">Telefon kontaktowy operatora</label>
-    <div class="control">
-      <input id="${formPhoneFieldId}" tag="phone" class="input is-success" type="text" placeholder="+48 123 456 789">
+      <label class="label has-text-weight-semibold">Telefon kontaktowy operatora</label>
+      <div class="control">
+        <input id="${formPhoneFieldId}" tag="phone" class="input is-success" type="text" placeholder="+48 123 456 789"
+          pattern="^[+][0-9]{2}[ ]?((?:[0-9]{9})|(?:[0-9]{3} [0-9]{3} [0-9]{3})|(?:[0-9]{2} [0-9]{3} [0-9]{2} [0-9]{2}))$">
+      </div>
+      <p class="help has-text-weight-light">Pole opcjonalne</p>
     </div>
-    <p class="help has-text-weight-light">Pole opcjonalne</p>
-  </div>
+
+    <div class="field">
+      <label class="label has-text-weight-semibold">Numer ratunkowy danego obszaru</label>
+      <div class="control">
+        <input id="${formEmergencyPhoneFieldId}" tag="emergency:phone" class="input is-success" type="text" placeholder="+48 123 456 789"
+          pattern="^[+][0-9]{2}[ ]?((?:[0-9]{9})|(?:[0-9]{3} [0-9]{3} [0-9]{3})|(?:[0-9]{2} [0-9]{3} [0-9]{2} [0-9]{2}))$">
+      </div>
+      <p class="help has-text-weight-light">Pole opcjonalne. Wypełnij tylko jak inny niż 112/999.</p>
+    </div>
+
+    <div class="field">
+      <label class="label has-text-weight-semibold">Opis lokalizacji po angielsku</label>
+      <div class="control">
+        <textarea id="${formLocationEnFieldId}" tag="defibrillator:location:en" class="textarea is-success" placeholder="For example: On the wall near entrance"></textarea>
+      </div>
+    </div>
 
     <form>
     `;
@@ -222,9 +253,15 @@ function prepareNodeData() {
     data.tags = {};
     let formPhoneField = document.getElementById(formPhoneFieldId);
     let formLocationField = document.getElementById(formLocationFieldId);
+    let formEmergencyPhoneField = document.getElementById(formEmergencyPhoneFieldId);
+    let formLocationEnField = document.getElementById(formLocationEnFieldId);
     let formAccessField = document.getElementById(formAccessFieldId);
-    if (formPhoneFieldId.value) data.tags[formPhoneField.getAttribute('tag')] = formPhoneFieldId.value;
+//    let formIndoorField = document.getElementById(formIndoorFieldId);
+//    if (formIndoorField.value) data.tags[formIndoorField.getAttribute('tag')] = formIndoorField.getAttribute('val');
+    if (formPhoneField.value) data.tags[formPhoneField.getAttribute('tag')] = formPhoneField.value;
     if (formLocationField.value) data.tags[formLocationField.getAttribute('tag')] = formLocationField.value;
+    if (formEmergencyPhoneField.value) data.tags[formEmergencyPhoneField.getAttribute('tag')] = formEmergencyPhoneField.value;
+    if (formLocationEnField.value) data.tags[formLocationEnField.getAttribute('tag')] = formLocationEnField.value;
     if (formAccessField.selectedOptions[0].getAttribute('val'))
         data.tags[formAccessField.getAttribute('tag')] = formAccessField.selectedOptions[0].getAttribute('val');
 
