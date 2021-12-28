@@ -77,15 +77,18 @@ function showDetails() {
 }
 
 function getNodeUrl(nodeId) {
-    return `${auth.options().url}/node/${nodeId}`
+    return `${auth.options().url}/node/${nodeId}`;
 }
 
 function renderModalMessage(newNodeUrl) {
-    return `<p>Dodano element: <a target="_blank" rel="noopener" href="${newNodeUrl}">${newNodeUrl}</a></p>`
+    return `
+    <p>AED dodany z powodzeniem: 
+            <a target="_blank" rel="noopener" href="${newNodeUrl}">${newNodeUrl}</a>
+            </p>`;
 }
 
 function renderModalErrorMessage(message) {
-    return `<p>Wystąpił błąd: ${message}</p>`
+    return `<p>Wystąpił błąd: ${message}</p>`;
 }
 
 function showSuccessModal(newNodeId) {
@@ -124,10 +127,17 @@ function addDefibrillatorToOSM(changesetId, data) {
             method: 'PUT',
             path: '/api/0.6/node/create',
             content: xml,
-            options: {header: {"Content-Type": "text/xml"}},
+            options: {
+                header: {
+                    "Content-Type": "text/xml"
+                }
+            },
         }, (err, res) => {
             if (err) reject(err);
-            else {resolve(res); console.log(`response: ${res}`)}
+            else {
+                resolve(res);
+                console.log(`response: ${res}`);
+            }
         });
     })
 }
@@ -147,29 +157,29 @@ function stopSaveButtonAnimation() {
 function saveNode(data) {
     startSaveButtonAnimation();
     getOpenChangesetId()
-    .then(changesetId => {
-        return addDefibrillatorToOSM(changesetId, data)
-    })
-    .then(newNodeId => {
-        stopSaveButtonAnimation();
-        showSuccessModal(newNodeId);
-    })
-    .catch(err => {
-        stopSaveButtonAnimation();
-        console.log(err);
-        showFailureModal(err);
-    });
+        .then(changesetId => {
+            return addDefibrillatorToOSM(changesetId, data);
+        })
+        .then(newNodeId => {
+            stopSaveButtonAnimation();
+            showSuccessModal(newNodeId);
+        })
+        .catch(err => {
+            stopSaveButtonAnimation();
+            console.log(err);
+            showFailureModal(err);
+        });
 }
 
-document.getElementById('addNode').onclick = function() {
+document.getElementById('addNode').onclick = function () {
     // add marker
     const mapCenter = map.getCenter();
     const initialCoordinates = [mapCenter.lng, mapCenter.lat];
     if (marker !== null) marker.remove();
     marker = new maplibregl.Marker({
-        draggable: true
-    })
-    .setLngLat(initialCoordinates);
+            draggable: true
+        })
+        .setLngLat(initialCoordinates);
     marker.addTo(map);
     // show sidebar
     let properties = {

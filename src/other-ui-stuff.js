@@ -37,19 +37,19 @@ const indoorMapping = {
 
 // --------------------------------------------------------------------------------------
 function defineColor(access) {
-    return accessToColourMapping[access] || accessToColourMapping['default']
+    return accessToColourMapping[access] || accessToColourMapping['default'];
 }
 
 function defineAccessDescription(access) {
-    return accessToDescriptionMapping[access] || accessToDescriptionMapping['default']
+    return accessToDescriptionMapping[access] || accessToDescriptionMapping['default'];
 }
 
 function defineIndoor(indoor) {
-    return indoorMapping[indoor] || indoorMapping['default']
+    return indoorMapping[indoor] || indoorMapping['default'];
 }
 
 function getOsmEditLink(id) {
-    return `https://www.openstreetmap.org/edit?editor=id&node=${id}`
+    return `https://www.openstreetmap.org/edit?editor=id&node=${id}`;
 }
 
 function parseOpeningHours(openingHours) {
@@ -107,14 +107,14 @@ function renderIfIndoor(indoor) {
     let beginning = '<p class="has-text-weight-light">Wewnątrz budynku?: <span class="add-new has-text-weight-medium">';
     let middle = defineIndoor(indoor) || '<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji</span>';
     let end = '</span></p>';
-    return beginning + middle + end
+    return beginning + middle + end;
 }
 
 function renderLocation(properties) {
     let beginning = '<p class="has-text-weight-light">Dokładna lokalizacja: <span class="add-new has-text-weight-medium">';
     let middle = properties['defibrillator:location:pl'] || properties['defibrillator:location'] || '<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji</span>';
     let end = '</span></p>';
-    return beginning + middle + end
+    return beginning + middle + end;
 }
 
 function renderDescription(properties) {
@@ -128,17 +128,17 @@ function renderContactNumber(phone) {
     let beginning = '<p class="has-text-weight-light">Numer kontaktowy: <span class="add-new has-text-weight-medium">';
     let middle = phone || '<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji</span>';
     let end = '</span></p>';
-    return beginning + middle + end
+    return beginning + middle + end;
 }
 
 function renderAccessibleTime(openingHours) {
     if (openingHours) {
         let beginning = '<p class="has-text-weight-light">Dostępny w godzinach: <span class="add-new has-text-weight-medium">';
         let middle = parseOpeningHours(openingHours) || '<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji </span>';
-        let end = (renderCurrentlyOpenStatus(openingHours) || '')  + '</span></p>';
-        return beginning + middle + end
+        let end = (renderCurrentlyOpenStatus(openingHours) || '') + '</span></p>';
+        return beginning + middle + end;
     } else {
-        return ''
+        return '';
     }
 }
 
@@ -147,7 +147,7 @@ function renderNotes(properties) {
         let beginning = '<p class="has-text-weight-light">Uwagi: <span class="add-new has-text-weight-medium">';
         let middle = properties['note:pl'] || properties.note || 'brak uwag';
         let end = '</span></p>';
-        return beginning + middle + end
+        return beginning + middle + end;
     } else {
         return ''
     }
@@ -167,49 +167,48 @@ function renderSidebarContent(properties) {
 function renderSidebarForm() {
     let content = `
     <form>
-
     <div class="field">
-      <label class="label">Telefon kontaktowy operatora</label>
+      <label class="label has-text-weight-semibold">Rodzaj dostępu</label>
       <div class="control">
-        <input id="${formPhoneFieldId}" tag="phone" class="input" type="tel" placeholder="+48 123 456 789">
-      </div>
-      <p class="help">Jeżeli znany</p>
-    </div>
-
-    <div class="field">
-      <label class="label">Rodzaj dostępu</label>
-      <div class="control">
-        <div class="select">
+        <div class="select is-success">
           <select id="${formAccessFieldId}" tag="access">
             <option val="">Wybierz z listy</option>
             <option val="yes">Publicznie dostępny</option>
             <option val="private">Dostępny za zgodą właściciela</option>
-            <option val="customers">Tylko w godzinach pracy</option>
+            <option val="customers">Dostępny tylko w godzinach pracy</option>
           </select>
         </div>
       </div>
     </div>
 
     <div class="field">
-      <label class="label">Opis lokalizacji</label>
+      <label class="label has-text-weight-semibold">Opis lokalizacji defibrylatora</label>
       <div class="control">
-        <textarea id="${formLocationFieldId}" tag="defibrillator:location" class="textarea" placeholder="Na przykład: Na ścianie przy wejściu"></textarea>
+        <textarea id="${formLocationFieldId}" tag="defibrillator:location" class="textarea is-success" placeholder="Na przykład: Na ścianie przy wejściu"></textarea>
       </div>
     </div>
 
+    <div class="field">
+    <label class="label has-text-weight-semibold">Telefon kontaktowy operatora</label>
+    <div class="control">
+      <input id="${formPhoneFieldId}" tag="phone" class="input is-success" type="tel" placeholder="+48 123 456 789">
+    </div>
+    <p class="help has-text-weight-light">Pole opcjonalne</p>
+  </div>
+
     <form>
     `;
-    return content
+    return content;
 }
 
 function renderEditButton(osm_id) {
     return `<a href="${getOsmEditLink(osm_id)}" target="_blank" rel="noopener"
       class="has-background-success-light card-footer-item has-text-centered is-size-7 has-text-weight-semibold"
-      >Dodaje brakujące informacje w OSM</a>`
+      >Dodaje brakujące informacje w OSM</a>`;
 }
 
 function renderSaveButton() {
-    return `<button id="sidebar-save-button" class="button" onclick="saveNode(prepareNodeData())">Zapisz</button>`
+    return `<button id="sidebar-save-button" class="button is-fullwidth" onclick="saveNode(prepareNodeData())">Zapisz</button>`;
 }
 
 // --------------------------------------------------------------
@@ -241,9 +240,9 @@ function showSidebar(properties) {
         } else if (properties.action === "addNode") {
             prepareSidebarAddingNode(properties.data);
         } else
-            console.log(`Unknown action: ${properties.action}.`)
+            console.log(`Unknown action: ${properties.action}.`);
     } else
-        console.log('Sidebar not found.')
+        console.log('Sidebar not found.');
 }
 
 function hideSidebar() {
@@ -289,20 +288,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // Check if there are any navbar burgers
     if ($navbarBurgers.length > 0) {
 
-      // Add a click event on each of them
-      $navbarBurgers.forEach( el => {
-        el.addEventListener('click', () => {
+        // Add a click event on each of them
+        $navbarBurgers.forEach(el => {
+            el.addEventListener('click', () => {
 
-          // Get the target from the "data-target" attribute
-          const target = el.dataset.target;
-          const $target = document.getElementById(target);
+                // Get the target from the "data-target" attribute
+                const target = el.dataset.target;
+                const $target = document.getElementById(target);
 
-          // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
-          el.classList.toggle('is-active');
-          $target.classList.toggle('is-active');
+                // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+                el.classList.toggle('is-active');
+                $target.classList.toggle('is-active');
 
+            });
         });
-      });
     }
 });
 // button listeners
