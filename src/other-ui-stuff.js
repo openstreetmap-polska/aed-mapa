@@ -191,7 +191,7 @@ function renderSidebarForm() {
     <div class="field">
     <label class="label has-text-weight-semibold">Telefon kontaktowy operatora</label>
     <div class="control">
-      <input id="${formPhoneFieldId}" tag="phone" class="input is-success" type="tel" placeholder="+48 123 456 789">
+      <input id="${formPhoneFieldId}" tag="phone" class="input is-success" type="text" placeholder="+48 123 456 789">
     </div>
     <p class="help has-text-weight-light">Pole opcjonalne</p>
   </div>
