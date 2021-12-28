@@ -7,13 +7,19 @@ var auth = osmAuth({
 
 });
 var openChangesetId = null;
+var marker = null;
 
 function getOpenChangesetId() {
     return new Promise((resolve, reject) => {
         if (openChangesetId !== null) {
             resolve(openChangesetId);
         } else {
-            let data = '<osm><changeset><tag k="comment" v="#AED_Defibrillator added via https://aed.openstreetmap.org.pl"/></changeset></osm>';
+            let data = '<osm><changeset>' +
+                '<tag k="comment" v="Defibrillator added via https://aed.openstreetmap.org.pl #aed"/>' +
+                '<tag k="created_by" v="https://aed.openstreetmap.org.pl"/>' +
+                '<tag k="locale" v="pl"/>' +
+                '<tag k="hashtags" v="#aed"/>' +
+                '</changeset></osm>';
             auth.xhr({
                 method: 'PUT',
                 path: '/api/0.6/changeset/create',
@@ -70,32 +76,107 @@ function showDetails() {
     }, done);
 }
 
-function log_xhr(err, res) {
-    if (err) console.log(err);
-    console.log(res);
+function getNodeUrl(nodeId) {
+    return `${auth.options().url}/node/${nodeId}`
 }
 
-function addDefibrillatorToOSM(changesetId) {
-    console.log('sending request to create node in changeset: ' + changesetId);
-    let data = `<osm>
-    <node changeset="${changesetId}" lat="52.20741" lon="20.87756">
-    <tag k="emergency" v="defibrillator"/></node></osm>`;
-    //    console.log(data);
-    auth.xhr({
-        method: 'PUT',
-        path: '/api/0.6/node/create',
-        content: data,
-        options: {
-            header: {
-                "Content-Type": "text/xml"
-            }
-        },
-    }, log_xhr);
+function renderModalMessage(newNodeUrl) {
+    return `<p>Dodano element: <a target="_blank" rel="noopener" href="${newNodeUrl}">${newNodeUrl}</a></p>`
 }
 
-document.getElementById('addNode').onclick = function () {
+function renderModalErrorMessage(message) {
+    return `<p>Wystąpił błąd: ${message}</p>`
+}
+
+function showSuccessModal(newNodeId) {
+    let modalContent = document.getElementById('modal-content');
+    modalContent.innerHTML = renderModalMessage(getNodeUrl(newNodeId));
+    openModal()
+}
+
+function showFailureModal(message) {
+    let modalContent = document.getElementById('modal-content');
+    modalContent.innerHTML = renderModalErrorMessage(message);
+    openModal()
+}
+
+function openModal() {
+    let modal = document.getElementById('modal-div');
+    modal.classList.add('is-clipped');
+    modal.classList.add('is-active');
+}
+
+function closeModal() {
+    let modal = document.getElementById('modal-div');
+    modal.classList.remove('is-clipped');
+    modal.classList.remove('is-active');
+}
+
+function addDefibrillatorToOSM(changesetId, data) {
+    return new Promise((resolve, reject) => {
+        console.log('sending request to create node in changeset: ' + changesetId);
+        var xml = `<osm><node changeset="${changesetId}" lat="${data.lat}" lon="${data.lng}">`;
+        xml += `<tag k="emergency" v="defibrillator"/>`;
+        xml += Object.entries(data.tags).map(arr => `<tag k="${arr[0]}" v="${arr[1]}"/>`).join('');
+        xml += `</node></osm>`;
+        console.log('payload: ' + xml);
+        auth.xhr({
+            method: 'PUT',
+            path: '/api/0.6/node/create',
+            content: xml,
+            options: {header: {"Content-Type": "text/xml"}},
+        }, (err, res) => {
+            if (err) reject(err);
+            else {resolve(res); console.log(`response: ${res}`)}
+        });
+    })
+}
+
+function startSaveButtonAnimation() {
+    let saveButton = document.getElementById('sidebar-save-button');
+    saveButton.classList.add('is-loading');
+    saveButton.disabled = true;
+}
+
+function stopSaveButtonAnimation() {
+    let saveButton = document.getElementById('sidebar-save-button');
+    saveButton.classList.remove('is-loading');
+    saveButton.disabled = false;
+}
+
+function saveNode(data) {
+    startSaveButtonAnimation();
     getOpenChangesetId()
-        .then(changesetId => addDefibrillatorToOSM(changesetId));
+    .then(changesetId => {
+        return addDefibrillatorToOSM(changesetId, data)
+    })
+    .then(newNodeId => {
+        stopSaveButtonAnimation();
+        showSuccessModal(newNodeId);
+    })
+    .catch(err => {
+        stopSaveButtonAnimation();
+        console.log(err);
+        showFailureModal(err);
+    });
+}
+
+document.getElementById('addNode').onclick = function() {
+    // add marker
+    const mapCenter = map.getCenter();
+    const initialCoordinates = [mapCenter.lng, mapCenter.lat];
+    if (marker !== null) marker.remove();
+    marker = new maplibregl.Marker({
+        draggable: true
+    })
+    .setLngLat(initialCoordinates);
+    marker.addTo(map);
+    // show sidebar
+    let properties = {
+        action: "addNode",
+        data: {},
+    };
+    showSidebar(properties);
 };
 
 function hideDetails() {
