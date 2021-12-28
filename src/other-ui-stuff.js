@@ -184,17 +184,6 @@ function renderSidebarForm() {
       </div>
     </div>
 
-<!--
-    <div class="field">
-      <label class="label has-text-weight-semibold">Czy wewnątrz budynku?</label>
-      <div class="control">
-        <label class="checkbox">
-          <input id="${formIndoorFieldId}" tag="indoor" val="yes" type="checkbox">
-          Tak
-        </label>
-      </div>
-    </div>
--->
     <div class="field">
       <label class="label has-text-weight-semibold">Opis lokalizacji defibrylatora</label>
       <div class="control">

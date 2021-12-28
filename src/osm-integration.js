@@ -57,6 +57,16 @@ function renderModalErrorMessage(message) {
     return `<p>Wystąpił błąd: ${message}</p>`;
 }
 
+function renderModalNeedLoginMessage() {
+    return `<p>Żeby dodawać obiekty za pomocą długiego dotknięcia/prawego przycisku myszy musisz się zalogować.</p>`;
+}
+
+function renderModalNeedLogin() {
+    let modalContent = document.getElementById('modal-content');
+    modalContent.innerHTML = renderModalNeedLoginMessage();
+    openModal()
+}
+
 function showSuccessModal(newNodeId) {
     let modalContent = document.getElementById('modal-content');
     modalContent.innerHTML = renderModalMessage(getNodeUrl(newNodeId));
@@ -166,6 +176,30 @@ document.getElementById('addNode').onclick = function () {
     };
     showSidebar(properties);
 };
+
+map.on('contextmenu', function(e) {
+    // only trigger when logged in
+    if (auth.authenticated()) {
+        // add marker
+        const clickLocation = e.lngLat;
+        const initialCoordinates = [clickLocation.lng, clickLocation.lat];
+        if (marker !== null) marker.remove();
+        marker = new maplibregl.Marker({
+                draggable: true
+            })
+            .setLngLat(initialCoordinates);
+        marker.addTo(map);
+        // show sidebar
+        let properties = {
+            action: "addNode",
+            data: {},
+        };
+        showSidebar(properties);
+    } else {
+        console.log('You need to be logged in to add new nodes.');
+        renderModalNeedLogin();
+    }
+});
 
 function authenticateAction() {
     if (!auth.bringPopupWindowToFront()) {
