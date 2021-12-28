@@ -4,6 +4,9 @@ const sidebarCaptionId = 'sidebar-caption';
 const sidebarContentDivId = 'sidebar-content-div';
 const sidebarFooterButtonLeftId = 'sidebar-footer-button-left';
 const sidebarButtonCloseIds = ['sidebar-button-close-touch', 'sidebar-button-close-desktop'];
+const formPhoneFieldId = 'form-phone';
+const formAccessFieldId = 'form-access';
+const formLocationFieldId = 'form-location';
 
 let sidebarHeader = document.getElementById(sidebarHeaderId);
 let sidebarCaption = document.getElementById(sidebarCaptionId);
@@ -161,6 +164,44 @@ function renderSidebarContent(properties) {
     return content
 }
 
+function renderSidebarForm() {
+    let content = `
+    <form>
+
+    <div class="field">
+      <label class="label">Telefon kontaktowy operatora</label>
+      <div class="control">
+        <input id="${formPhoneFieldId}" tag="phone" class="input" type="tel" placeholder="+48 123 456 789">
+      </div>
+      <p class="help">Jeżeli znany</p>
+    </div>
+
+    <div class="field">
+      <label class="label">Rodzaj dostępu</label>
+      <div class="control">
+        <div class="select">
+          <select id="${formAccessFieldId}" tag="access">
+            <option val="">Wybierz z listy</option>
+            <option val="yes">Publicznie dostępny</option>
+            <option val="private">Dostępny za zgodą właściciela</option>
+            <option val="customers">Tylko w godzinach pracy</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">Opis lokalizacji</label>
+      <div class="control">
+        <textarea id="${formLocationFieldId}" tag="defibrillator:location" class="textarea" placeholder="Na przykład: Na ścianie przy wejściu"></textarea>
+      </div>
+    </div>
+
+    <form>
+    `;
+    return content
+}
+
 function renderEditButton(osm_id) {
     return `<a href="${getOsmEditLink(osm_id)}" target="_blank" rel="noopener"
       class="has-background-success-light card-footer-item has-text-centered is-size-7 has-text-weight-semibold"
@@ -168,16 +209,26 @@ function renderEditButton(osm_id) {
 }
 
 function renderSaveButton() {
-    return `<button onclick="saveNode(prepareNodeData())">Zapisz</button>`
+    return `<button id="sidebar-save-button" class="button" onclick="saveNode(prepareNodeData())">Zapisz</button>`
 }
 
 // --------------------------------------------------------------
 function prepareNodeData() {
     let data = {};
+    // get coordinates
     let markerPosition = marker.getLngLat();
     data.lng = markerPosition.lng;
     data.lat = markerPosition.lat;
+    // get additional tags
     data.tags = {};
+    let formPhoneField = document.getElementById(formPhoneFieldId);
+    let formLocationField = document.getElementById(formLocationFieldId);
+    let formAccessField = document.getElementById(formAccessFieldId);
+    if (formPhoneFieldId.value) data.tags[formPhoneField.getAttribute('tag')] = formPhoneFieldId.value;
+    if (formLocationField.value) data.tags[formLocationField.getAttribute('tag')] = formLocationField.value;
+    if (formAccessField.selectedOptions[0].getAttribute('val'))
+        data.tags[formAccessField.getAttribute('tag')] = formAccessField.selectedOptions[0].getAttribute('val');
+
     return data
 }
 
@@ -221,9 +272,9 @@ function prepareSidebarShowingObjectInfo(properties) {
 function prepareSidebarAddingNode(properties) {
     sidebarHeader.classList = [];
     sidebarHeader.classList.add(defineColor('default'));
-    sidebarCaption.innerHTML = 'Dodaj defibrylator AED';
+    sidebarCaption.innerHTML = 'Dodaj defibrylator';
 
-    sidebarContent.innerHTML = '';
+    sidebarContent.innerHTML = renderSidebarForm();
 
     sidebarLink.innerHTML = renderSaveButton();
 }

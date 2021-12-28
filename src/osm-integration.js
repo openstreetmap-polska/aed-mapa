@@ -72,24 +72,45 @@ function log_xhr(err, res) {
     console.log(res);
 }
 
+function getNodeUrl(id) {
+    return `${auth.options().url}/node/${id}`
+}
+
 function addDefibrillatorToOSM(changesetId, data) {
-    console.log('sending request to create node in changeset: ' + changesetId);
-    var data = `<osm><node changeset="${changesetId}" lat="${data.lat}" lon="${data.lng}"><tag k="emergency" v="defibrillator"/>`;
-    // todo: add tags data
-    data += `</node></osm>`;
-    console.log(data);
-//    auth.xhr({
-//        method: 'PUT',
-//        path: '/api/0.6/node/create',
-//        content: data,
-//        options: {header: {"Content-Type": "text/xml"}},
-//    }, log_xhr);
-    // maybe instead of log_xhr create some function to show modal/popup or something informing of added node?
+    return new Promise((resolve, reject) => {
+        console.log('sending request to create node in changeset: ' + changesetId);
+        var xml = `<osm><node changeset="${changesetId}" lat="${data.lat}" lon="${data.lng}">`;
+        xml += `<tag k="emergency" v="defibrillator"/>`;
+        xml += Object.entries(data.tags).map(arr => `<tag k="${arr[0]}" v="${arr[1]}"/>`).join('');
+        xml += `</node></osm>`;
+        console.log('payload: ' + xml);
+        //    auth.xhr({
+        //        method: 'PUT',
+        //        path: '/api/0.6/node/create',
+        //        content: data,
+        //        options: {header: {"Content-Type": "text/xml"}},
+        //    }, log_xhr);
+            // maybe instead of log_xhr create some function to show modal/popup or something informing of added node?
+            // getNodeUrl(id) to get url
+    })
+}
+
+// for testing
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 function saveNode(data) {
     // maybe add some animation to button while sending xhr request is going on?
-    addDefibrillatorToOSM(-1, data)
+    let saveButton = document.getElementById('sidebar-save-button');
+    saveButton.classList.add('is-loading');
+    saveButton.disabled = true;
+    addDefibrillatorToOSM(-1, data);
+    sleep(5000).then(() => {
+        saveButton.classList.remove('is-loading');
+        saveButton.disabled = false;
+    });
+
 //    getOpenChangesetId().then(changesetId => addDefibrillatorToOSM(changesetId, data));
 }
 
