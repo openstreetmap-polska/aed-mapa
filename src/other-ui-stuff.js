@@ -231,12 +231,20 @@ function prepareNodeData() {
     return data
 }
 
+function removeMarkerIfExists() {
+    if (marker !== null) {
+        marker.remove();
+        marker = null;
+    }
+}
+
 function showSidebar(properties) {
-    let sidebar = document.getElementsByClassName('sidebar')[0];
+    let sidebar = document.getElementById(sidebarDivId);
     if (sidebar) {
         sidebar.classList.remove('is-invisible');
         if (properties.action === "showDetails") {
             prepareSidebarShowingObjectInfo(properties.data);
+            removeMarkerIfExists();
         } else if (properties.action === "addNode") {
             prepareSidebarAddingNode(properties.data);
         } else
@@ -249,10 +257,7 @@ function hideSidebar() {
     let sidebar = document.getElementById(sidebarDivId);
     if (sidebar) {
         sidebar.classList.add('is-invisible');
-        if (marker !== null) {
-            marker.remove();
-            marker = null;
-        }
+        removeMarkerIfExists();
     } else {
         console.log('Sidebar not found.');
     }
