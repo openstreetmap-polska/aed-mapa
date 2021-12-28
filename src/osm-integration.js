@@ -103,9 +103,21 @@ function openModal() {
 }
 
 function closeModal() {
+    // close modal
     let modal = document.getElementById('modal-div');
     modal.classList.remove('is-clipped');
     modal.classList.remove('is-active');
+    // remove marker and close sidebar too
+    let sidebar = document.getElementById('sidebar-div');
+    if (sidebar) {
+        sidebar.classList.add('is-invisible');
+        if (marker !== null) {
+            marker.remove();
+            marker = null;
+        }
+    } else {
+        console.log('Sidebar not found.');
+    }
 }
 
 function addDefibrillatorToOSM(changesetId, data) {
