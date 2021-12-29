@@ -86,6 +86,7 @@ map.on('load', () => {
             'layout': {
                 'icon-image': ['image', 'aed-icon'],
                 'icon-size': 1,
+                'icon-allow-overlap': true,
             },
             'filter': ['!', ['has', 'point_count']],
         });
