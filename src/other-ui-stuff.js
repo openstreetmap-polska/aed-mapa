@@ -190,6 +190,7 @@ function renderSidebarForm() {
         <textarea id="${formLocationFieldId}" tag="defibrillator:location" class="textarea is-success" placeholder="Na przykład: Na ścianie przy wejściu"></textarea>
       </div>
     </div>
+
     <div class="field">
       <label class="label has-text-weight-semibold">Telefon kontaktowy operatora</label>
       <div class="control">
@@ -213,6 +214,7 @@ function renderSidebarForm() {
       <div class="control">
         <textarea id="${formLocationEnFieldId}" tag="defibrillator:location:en" class="textarea is-success" placeholder="For example: On the wall near entrance"></textarea>
       </div>
+      <p class="help has-text-weight-light">Pole opcjonalne</p>
     </div>
 
     <form>
