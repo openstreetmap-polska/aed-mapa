@@ -124,7 +124,7 @@ function renderDescription(properties) {
     let beginning = '<p class="has-text-weight-light">Opis: <span class="add-new has-text-weight-medium">';
     let middle = properties['description:pl'] || properties.description || '<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji</span>';
     let end = '</span></p>';
-    return beginning + middle + end
+    return beginning + middle + end;
 }
 
 function renderContactNumber(phone) {
@@ -227,7 +227,7 @@ function renderEditButton(osm_id) {
 }
 
 function renderSaveButton() {
-    return `<button id="sidebar-save-button" class="button is-fullwidth" onclick="saveNode(prepareNodeData())">Zapisz</button>`;
+    return `<button id="sidebar-save-button" class="button is-success is-fullwidth" onclick="saveNode(prepareNodeData())">Dodaj AED</button>`;
 }
 
 // --------------------------------------------------------------
