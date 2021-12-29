@@ -223,7 +223,7 @@ function renderSidebarForm() {
 function renderEditButton(osm_id) {
     return `<a href="${getOsmEditLink(osm_id)}" target="_blank" rel="noopener"
       class="has-background-success-light card-footer-item has-text-centered is-size-7 has-text-weight-semibold"
-      >Dodaje brakujące informacje w OSM</a>`;
+      >Dodaj brakujące informacje w OSM</a>`;
 }
 
 function renderSaveButton() {
