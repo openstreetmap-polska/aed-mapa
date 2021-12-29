@@ -8,7 +8,7 @@ const formPhoneFieldId = 'form-phone';
 const formAccessFieldId = 'form-access';
 const formLocationFieldId = 'form-location';
 const formLocationEnFieldId = 'form-location-en';
-//const formIndoorFieldId = 'form-indoor';
+const formIndoorFieldId = 'form-indoor';
 const formEmergencyPhoneFieldId = 'form-emergency-phone';
 
 let sidebarHeader = document.getElementById(sidebarHeaderId);
@@ -185,9 +185,23 @@ function renderSidebarForm() {
     </div>
 
     <div class="field">
+      <label class="label has-text-weight-semibold">Czy wewnątrz budynku?</label>
+      <div class="control">
+        <div class="select is-success">
+          <select id="${formIndoorFieldId}" tag="location">
+            <option val="">Wybierz z listy</option>
+            <option val="outdoor">Na zewnątrz</option>
+            <option val="indoor">W budynku</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
       <label class="label has-text-weight-semibold">Opis lokalizacji defibrylatora</label>
       <div class="control">
-        <textarea id="${formLocationFieldId}" tag="defibrillator:location" class="textarea is-success" placeholder="Na przykład: Na ścianie przy wejściu"></textarea>
+        <textarea id="${formLocationFieldId}" tag="defibrillator:location" class="textarea is-success" rows="2"
+            placeholder="Na przykład: Na ścianie przy wejściu"></textarea>
       </div>
     </div>
 
@@ -212,7 +226,8 @@ function renderSidebarForm() {
     <div class="field">
       <label class="label has-text-weight-semibold">Opis lokalizacji defibrylatora po angielsku</label>
       <div class="control">
-        <textarea id="${formLocationEnFieldId}" tag="defibrillator:location:en" class="textarea is-success" placeholder="For example: On the wall near entrance"></textarea>
+        <textarea id="${formLocationEnFieldId}" tag="defibrillator:location:en" class="textarea is-success" rows="2"
+            placeholder="For example: On the wall near entrance"></textarea>
       </div>
       <p class="help has-text-weight-light">Pole opcjonalne</p>
     </div>
@@ -246,8 +261,9 @@ function prepareNodeData() {
     let formEmergencyPhoneField = document.getElementById(formEmergencyPhoneFieldId);
     let formLocationEnField = document.getElementById(formLocationEnFieldId);
     let formAccessField = document.getElementById(formAccessFieldId);
-//    let formIndoorField = document.getElementById(formIndoorFieldId);
-//    if (formIndoorField.value) data.tags[formIndoorField.getAttribute('tag')] = formIndoorField.getAttribute('val');
+    let formIndoorField = document.getElementById(formIndoorFieldId);
+    if (formIndoorField.selectedOptions[0].getAttribute('val'))
+        data.tags[formIndoorField.getAttribute('tag')] = formIndoorField.selectedOptions[0].getAttribute('val');
     if (formPhoneField.value) data.tags[formPhoneField.getAttribute('tag')] = formPhoneField.value;
     if (formLocationField.value) data.tags[formLocationField.getAttribute('tag')] = formLocationField.value;
     if (formEmergencyPhoneField.value) data.tags[formEmergencyPhoneField.getAttribute('tag')] = formEmergencyPhoneField.value;
