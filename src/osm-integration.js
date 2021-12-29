@@ -61,9 +61,13 @@ function renderModalNeedLoginMessage() {
     return `<p>Żeby dodawać obiekty za pomocą długiego dotknięcia/prawego przycisku myszy musisz się zalogować.</p>`;
 }
 
-function renderModalNeedLogin() {
+function renderModalNeedMoreZoomMessage() {
+    return `<p>Żeby dodawać obiekty za pomocą długiego dotknięcia/prawego przycisku myszy musisz bardziej przybliżyć mapę, żeby podana lokalizacja była możliwie dokładna.</p>`;
+}
+
+function showNeedMoreZoomModal() {
     let modalContent = document.getElementById('modal-content');
-    modalContent.innerHTML = renderModalNeedLoginMessage();
+    modalContent.innerHTML = renderModalNeedMoreZoomMessage();
     openModal();
 }
 
@@ -181,25 +185,29 @@ document.getElementById('addNode').onclick = function () {
 map.on('contextmenu', function(e) {
     // only trigger when logged in
     if (auth.authenticated()) {
-        // add marker
-        const clickLocation = e.lngLat;
-        const initialCoordinates = [clickLocation.lng, clickLocation.lat];
-        if (marker !== null) marker.remove();
-        marker = new maplibregl.Marker({
-                draggable: true,
-                color: "#e81224",
-            })
-            .setLngLat(initialCoordinates);
-        marker.addTo(map);
-        // show sidebar
-        let properties = {
-            action: "addNode",
-            data: {},
-        };
-        showSidebar(properties);
+        if (map.getZoom() < 15) {
+            showNeedMoreZoomModal();
+        } else {
+            // add marker
+            const clickLocation = e.lngLat;
+            const initialCoordinates = [clickLocation.lng, clickLocation.lat];
+            if (marker !== null) marker.remove();
+            marker = new maplibregl.Marker({
+                    draggable: true,
+                    color: "#e81224",
+                })
+                .setLngLat(initialCoordinates);
+            marker.addTo(map);
+            // show sidebar
+            let properties = {
+                action: "addNode",
+                data: {},
+            };
+            showSidebar(properties);        
+        }
     } else {
         console.log('You need to be logged in to add new nodes.');
-        renderModalNeedLogin();
+        showNeedLoginModal();
     }
 });
 
@@ -264,8 +272,8 @@ function update() {
             path: '/api/0.6/user/details'
         }, (err, res) => {
             if (err) {
-                document.getElementById('span-login').innerHTML = 'error! try clearing your browser cache';
                 updateAddNodeButtonState();
+                showFailureModal(err);
             } else {
                 const u = res.getElementsByTagName('user')[0];
                 const user_name = u.getAttribute('display_name');
