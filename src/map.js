@@ -2,19 +2,6 @@ const aedSource = './aed_poland.geojson';
 const aedMetadata = './aed_poland_metadata.json';
 let aedNumber = document.getElementById('aed-number');
 
-fetch(aedMetadata)
-  .then(response => response.json())
-  .then(data => {
-    aedNumber.innerHTML = data.number_of_elements;
-    let refreshTimeValue = new Date(data.data_download_ts_utc);
-    let refreshTimeValueLocale = new Date(data.data_download_ts_utc).toLocaleString('pl-PL');
-    let currentDate = new Date();
-    let dateDiff = Math.abs(currentDate - refreshTimeValue);
-    let dateDiffMinutes = Math.round(dateDiff / 60000);
-    let refreshTime = document.getElementById('refresh-time');
-    refreshTime.innerHTML = `Ostatnia aktualizacja danych OSM: <span class="has-text-grey-dark" title="${refreshTimeValueLocale}">${dateDiffMinutes} minut temu </span>`;
-  });
-
 var map = new maplibregl.Map({
     'container': 'map', // container id
     'center': [20, 52], // starting position [lng, lat]
@@ -67,6 +54,23 @@ let geolocate = new maplibregl.GeolocateControl({
 map.addControl(geolocate, 'bottom-right');
 
 map.on('load', () => {
+
+    // get metadata and fill page with info about number of defibrillators and last refresh time
+    fetch(aedMetadata)
+      .then(response => response.json())
+      .then(data => {
+        // number of defibrillators
+        aedNumber.innerHTML = data.number_of_elements;
+        // last refresh time
+        let refreshTimeValue = new Date(data.data_download_ts_utc);
+        let refreshTimeValueLocale = new Date(data.data_download_ts_utc).toLocaleString('pl-PL');
+        let currentDate = new Date();
+        let dateDiff = Math.abs(currentDate - refreshTimeValue);
+        let dateDiffMinutes = Math.round(dateDiff / 60000);
+        let refreshTime = document.getElementById('refresh-time');
+        refreshTime.innerHTML = `Ostatnia aktualizacja danych OSM: <span class="has-text-grey-dark" title="${refreshTimeValueLocale}">${dateDiffMinutes} minut temu </span>`;
+      });
+
     console.log('Loading icon...');
 
     map.loadImage('./src/img/marker-image_50.png', (error, image) => {
