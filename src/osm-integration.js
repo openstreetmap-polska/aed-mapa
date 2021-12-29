@@ -64,19 +64,19 @@ function renderModalNeedLoginMessage() {
 function renderModalNeedLogin() {
     let modalContent = document.getElementById('modal-content');
     modalContent.innerHTML = renderModalNeedLoginMessage();
-    openModal()
+    openModal();
 }
 
 function showSuccessModal(newNodeId) {
     let modalContent = document.getElementById('modal-content');
     modalContent.innerHTML = renderModalMessage(getNodeUrl(newNodeId));
-    openModal()
+    openModal();
 }
 
 function showFailureModal(message) {
     let modalContent = document.getElementById('modal-content');
     modalContent.innerHTML = renderModalErrorMessage(message);
-    openModal()
+    openModal();
 }
 
 function openModal() {
@@ -99,7 +99,7 @@ function closeModal() {
             marker = null;
         }
     } else {
-        console.log('Sidebar not found.');
+        console.log('sidebar not found.');
     }
 }
 
@@ -165,7 +165,8 @@ document.getElementById('addNode').onclick = function () {
     const initialCoordinates = [mapCenter.lng, mapCenter.lat];
     if (marker !== null) marker.remove();
     marker = new maplibregl.Marker({
-            draggable: true
+            draggable: true,
+            color: "#e81224",
         })
         .setLngLat(initialCoordinates);
     marker.addTo(map);
@@ -185,7 +186,8 @@ map.on('contextmenu', function(e) {
         const initialCoordinates = [clickLocation.lng, clickLocation.lat];
         if (marker !== null) marker.remove();
         marker = new maplibregl.Marker({
-                draggable: true
+                draggable: true,
+                color: "#e81224",
             })
             .setLngLat(initialCoordinates);
         marker.addTo(map);
@@ -201,24 +203,42 @@ map.on('contextmenu', function(e) {
     }
 });
 
+function updateNavbarLoggedUserState() {
+    let navbar = document.getElementById('navbar-logged');
+
+    if (!auth.authenticated()) {
+        navbar.classList.add('is-hidden');
+    }
+    else {
+        navbar.classList.remove('is-hidden');
+    }
+}
+
+document.getElementById('logout').onclick = function () {
+    auth.logout();
+    update();
+    updateNavbarLoggedUserState();
+};
+
 function authenticateAction() {
     if (!auth.bringPopupWindowToFront()) {
         auth.authenticate(function() {
             update();
+            updateNavbarLoggedUserState();
         });
     }
-};
+}
 
 function renderLoginButton() {
-    return '<button id="authenticate" onclick="authenticateAction()">Zaloguj kontem OSM</button>'
+    return '<button class="button is-success has-text-weight-light is-outlined" id="authenticate" onclick="authenticateAction()">Zaloguj kontem OSM</button>';
 }
 
 function renderUserLoggedIn(username) {
-    return `<span>Zalogowano jako: ${username}</span>`
+    return `${username}`;
 }
 
 function renderErrorLoggingIn() {
-    return '<p>Problem podczas logowania. Spróbuj wyczyścić cache (ctrl+f5).</p>'
+    return '<p>Problem podczas logowania. Spróbuj wyczyścić cache (ctrl+f5).</p>';
 }
 
 function updateAddNodeButtonState() {
@@ -249,9 +269,10 @@ function update() {
             } else {
                 const u = res.getElementsByTagName('user')[0];
                 const user_name = u.getAttribute('display_name');
-                const user_id = u.getAttribute('id');
-                const user_with_id = `${user_name} (${user_id})`;
-                document.getElementById('span-login').innerHTML = renderUserLoggedIn(user_with_id);
+                const user_with_id = `${user_name}`;
+                document.getElementById('span-login').innerHTML = '';
+                document.getElementById('span-login').classList.add('is-hidden');
+                document.getElementById('navbar-username').innerHTML = renderUserLoggedIn(user_with_id);
                 updateAddNodeButtonState();
             }
         });

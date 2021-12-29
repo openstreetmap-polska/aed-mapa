@@ -190,7 +190,6 @@ function renderSidebarForm() {
         <textarea id="${formLocationFieldId}" tag="defibrillator:location" class="textarea is-success" placeholder="Na przykład: Na ścianie przy wejściu"></textarea>
       </div>
     </div>
-
     <div class="field">
       <label class="label has-text-weight-semibold">Telefon kontaktowy operatora</label>
       <div class="control">
@@ -206,11 +205,11 @@ function renderSidebarForm() {
         <input id="${formEmergencyPhoneFieldId}" tag="emergency:phone" class="input is-success" type="text" placeholder="+48 123 456 789"
           pattern="^[+][0-9]{2}[ ]?((?:[0-9]{9})|(?:[0-9]{3} [0-9]{3} [0-9]{3})|(?:[0-9]{2} [0-9]{3} [0-9]{2} [0-9]{2}))$">
       </div>
-      <p class="help has-text-weight-light">Pole opcjonalne. Wypełnij tylko jak inny niż 112/999.</p>
+      <p class="help has-text-weight-light">Pole opcjonalne. Wypełnij tylko, jeżeli jest inny niż 112/999.</p>
     </div>
 
     <div class="field">
-      <label class="label has-text-weight-semibold">Opis lokalizacji po angielsku</label>
+      <label class="label has-text-weight-semibold">Opis lokalizacji defibrylatora po angielsku</label>
       <div class="control">
         <textarea id="${formLocationEnFieldId}" tag="defibrillator:location:en" class="textarea is-success" placeholder="For example: On the wall near entrance"></textarea>
       </div>

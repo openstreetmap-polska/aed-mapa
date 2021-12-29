@@ -29,7 +29,7 @@
       width: 425px;
       border-radius: 10px;
       box-shadow: 0 .5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.02);
-      max-height: 90vh;  
+      max-height: 90vh;
       overflow: auto !important;
     }
   }
@@ -65,6 +65,10 @@
     background-color: #008954eb !important;
   }
 
+  .navbar.is-success {
+    background-color: #008954eb !important;
+  }
+
   .card-content {
     border-left: 5px solid hsl(0, 0%, 96%);
     border-right: 5px solid hsl(0, 0%, 96%);
@@ -74,7 +78,50 @@
     border-bottom: 1px solid hsl(0, 0%, 96%);
   }
 
-  .navbar-menu.is-active
-  {
+  .navbar-menu.is-active {
     background-color: #008954eb !important;
   }
+
+  .button.is-floating {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 40px;
+    right: 40px;
+    border-radius: 100px;
+    text-align: center;
+    font-size: 1.6rem;
+    box-shadow: 0 .0625em .125em rgba(10, 10, 10, .05);
+    z-index: 3;
+  }
+
+  .button.is-floating.is-large {
+    width: 90px;
+    height: 90px;
+    font-size: 2.6rem
+  }
+
+  .button.is-floating.is-medium {
+    width: 75px;
+    height: 75px;
+    font-size: 2.2rem
+  }
+
+  .button.is-floating.is-small {
+    width: 45px;
+    height: 45px;
+    font-size: 1.2rem;
+    border-radius: 50px
+  }
+
+  [class*=" icon"], [class^=icon] {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    stroke-width: 0;
+    stroke: currentColor;
+    fill: currentColor;
+    line-height: 1;
+    position: relative;
+    vertical-align: middle;
+}
