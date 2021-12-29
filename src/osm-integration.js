@@ -71,6 +71,12 @@ function showNeedMoreZoomModal() {
     openModal();
 }
 
+function showNeedLoginModal() {
+    let modalContent = document.getElementById('modal-content');
+    modalContent.innerHTML = renderModalNeedLoginMessage();
+    openModal();
+}
+
 function showSuccessModal(newNodeId) {
     let modalContent = document.getElementById('modal-content');
     modalContent.innerHTML = renderModalMessage(getNodeUrl(newNodeId));
