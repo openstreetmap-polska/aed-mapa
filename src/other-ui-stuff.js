@@ -173,7 +173,7 @@ function renderSidebarForm() {
     <div class="field">
       <label class="label has-text-weight-semibold">Rodzaj dostępu</label>
       <div class="control">
-        <div class="select is-success">
+        <div class="select is-success is-fullwidth">
           <select id="${formAccessFieldId}" tag="access">
             <option val="">Wybierz z listy</option>
             <option val="yes">Publicznie dostępny</option>
@@ -187,7 +187,7 @@ function renderSidebarForm() {
     <div class="field">
       <label class="label has-text-weight-semibold">Czy wewnątrz budynku?</label>
       <div class="control">
-        <div class="select is-success">
+        <div class="select is-success is-fullwidth">
           <select id="${formIndoorFieldId}" tag="location">
             <option val="">Wybierz z listy</option>
             <option val="outdoor">Na zewnątrz</option>
@@ -239,7 +239,7 @@ function renderSidebarForm() {
 
 function renderEditButton(osm_id) {
     return `<a href="${getOsmEditLink(osm_id)}" target="_blank" rel="noopener"
-      class="has-background-success-light card-footer-item has-text-centered is-size-7 has-text-weight-semibold"
+      class="has-background-success-light card-footer-item is-size-7 has-text-weight-semibold"
       >Dodaj brakujące informacje w OSM</a>`;
 }
 
@@ -307,7 +307,7 @@ function hideSidebar() {
 }
 
 function prepareSidebarShowingObjectInfo(properties) {
-    sidebarHeader.classList = [];
+    sidebarHeader.classList = ['p-2'];
     sidebarHeader.classList.add(defineColor(properties.access));
     sidebarCaption.innerHTML = `defibrylator AED ${defineAccessDescription(properties.access)}`;
 
@@ -317,7 +317,7 @@ function prepareSidebarShowingObjectInfo(properties) {
 }
 
 function prepareSidebarAddingNode(properties) {
-    sidebarHeader.classList = [];
+    sidebarHeader.classList = ['p-2'];
     sidebarHeader.classList.add(defineColor('default'));
     sidebarCaption.innerHTML = 'Dodaj defibrylator';
 
