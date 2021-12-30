@@ -48,9 +48,9 @@ function getNodeUrl(nodeId) {
 
 function renderModalMessage(newNodeUrl) {
     return `
-    <p>AED dodany z powodzeniem:
-            <a target="_blank" rel="noopener" href="${newNodeUrl}">${newNodeUrl}</a>
-            </p>`;
+    <p>AED dodany z powodzeniem: <a target="_blank" rel="noopener" href="${newNodeUrl}">${newNodeUrl}</a></p>
+            
+            <p>Powinien być widoczny na mapie w ciągu maksymalnie 60 minut.</p>`;
 }
 
 function renderModalErrorMessage(message) {

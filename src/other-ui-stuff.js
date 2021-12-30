@@ -5,7 +5,6 @@ const sidebarContentDivId = 'sidebar-content-div';
 const sidebarFooterButtonLeftId = 'sidebar-footer-button-left';
 const sidebarButtonCloseIds = ['sidebar-button-close-touch', 'sidebar-button-close-desktop'];
 const formPhoneFieldId = 'form-phone';
-const formAccessFieldId = 'form-access';
 const formLocationFieldId = 'form-location';
 const formLocationEnFieldId = 'form-location-en';
 const formIndoorFieldId = 'form-indoor';
@@ -170,34 +169,29 @@ function renderSidebarContent(properties) {
 function renderSidebarForm() {
     let content = `
     <form>
+    <label class="label has-text-weight-semibold">Rodzaj dostępności:</label>
     <div class="field">
-      <label class="label has-text-weight-semibold">Rodzaj dostępu</label>
-      <div class="control">
-        <div class="select is-success is-fullwidth">
-          <select id="${formAccessFieldId}" tag="access">
-            <option val="">Wybierz z listy</option>
-            <option val="yes">Publicznie dostępny</option>
-            <option val="private">Dostępny za zgodą właściciela</option>
-            <option val="customers">Dostępny tylko w godzinach pracy</option>
-          </select>
-        </div>
-      </div>
+        <input class="is-checkradio is-success" id="accessRadio1" type="radio" name="aedAccess" value="yes" tag="access">
+        <label for="accessRadio1">Publicznie dostępny</label>
+    </div>
+    <div class="field">
+        <input class="is-checkradio is-success" id="accessRadio2" type="radio" name="aedAccess" value="private" tag="access">
+        <label for="accessRadio2">Dostępny za zgodą właściciela</label>
+    </div>
+    <div class="field">
+        <input class="is-checkradio is-success" id="accessRadio3" type="radio" name="aedAccess" value="customers" tag="access">
+        <label for="accessRadio3">Dostępny tylko w godzinach pracy</label>
     </div>
 
+    <label class="label has-text-weight-semibold pt-2">Czy wewnątrz budynku?</label>
     <div class="field">
-      <label class="label has-text-weight-semibold">Czy wewnątrz budynku?</label>
-      <div class="control">
-        <div class="select is-success is-fullwidth">
-          <select id="${formIndoorFieldId}" tag="location">
-            <option val="">Wybierz z listy</option>
-            <option val="outdoor">Na zewnątrz</option>
-            <option val="indoor">W budynku</option>
-          </select>
-        </div>
-      </div>
+        <input class="is-checkradio is-success" id="indoorRadio1" type="radio" name="aedIndoor" value="outdoor" tag="location">
+        <label for="indoorRadio1">Na zewnątrz</label>    
+        <input class="is-checkradio is-success" id="indoorRadio2" type="radio" name="aedIndoor" value="indoor" tag="location">
+        <label for="indoorRadio2">W budynku</label>
     </div>
 
-    <div class="field">
+    <div class="field pt-2">
       <label class="label has-text-weight-semibold">Opis lokalizacji defibrylatora</label>
       <div class="control">
         <textarea id="${formLocationFieldId}" tag="defibrillator:location" class="textarea is-success" rows="2"
@@ -260,18 +254,18 @@ function prepareNodeData() {
     let formLocationField = document.getElementById(formLocationFieldId);
     let formEmergencyPhoneField = document.getElementById(formEmergencyPhoneFieldId);
     let formLocationEnField = document.getElementById(formLocationEnFieldId);
-    let formAccessField = document.getElementById(formAccessFieldId);
-    let formIndoorField = document.getElementById(formIndoorFieldId);
-    if (formIndoorField.selectedOptions[0].getAttribute('val'))
-        data.tags[formIndoorField.getAttribute('tag')] = formIndoorField.selectedOptions[0].getAttribute('val');
+    let formAccessField = document.querySelector('input[name="aedAccess"]:checked');
+    let formIndoorField = document.querySelector('input[name="aedIndoor"]:checked');
+    if (formIndoorField.getAttribute('value'))
+        data.tags[formIndoorField.getAttribute('tag')] = formIndoorField.getAttribute('value');
     if (formPhoneField.value) data.tags[formPhoneField.getAttribute('tag')] = formPhoneField.value;
     if (formLocationField.value) data.tags[formLocationField.getAttribute('tag')] = formLocationField.value;
     if (formEmergencyPhoneField.value) data.tags[formEmergencyPhoneField.getAttribute('tag')] = formEmergencyPhoneField.value;
     if (formLocationEnField.value) data.tags[formLocationEnField.getAttribute('tag')] = formLocationEnField.value;
-    if (formAccessField.selectedOptions[0].getAttribute('val'))
-        data.tags[formAccessField.getAttribute('tag')] = formAccessField.selectedOptions[0].getAttribute('val');
+    if (formAccessField.getAttribute('value'))
+        data.tags[formAccessField.getAttribute('tag')] = formAccessField.getAttribute('value');
 
-    return data
+    return data;
 }
 
 function removeMarkerIfExists() {
