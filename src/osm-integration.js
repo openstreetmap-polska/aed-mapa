@@ -6,9 +6,11 @@ var auth = osmAuth({
     landing: 'land.html',
 
 });
+// global variables
 var openChangesetId = null;
 var marker = null;
 
+// --------------------------------------------------------------------------------------
 function getOpenChangesetId() {
     return new Promise((resolve, reject) => {
         if (openChangesetId !== null) {
@@ -58,11 +60,11 @@ function renderModalErrorMessage(message) {
 }
 
 function renderModalNeedLoginMessage() {
-    return `<p>Żeby dodawać obiekty za pomocą długiego dotknięcia/prawego przycisku myszy musisz się zalogować.</p>`;
+    return `<p>Żeby dodawać obiekty musisz się zalogować kontem OSM.</p>`;
 }
 
 function renderModalNeedMoreZoomMessage() {
-    return `<p>Żeby dodawać obiekty za pomocą długiego dotknięcia/prawego przycisku myszy musisz bardziej przybliżyć mapę, żeby podana lokalizacja była możliwie dokładna.</p>`;
+    return `<p>Żeby dodawać obiekty musisz bardziej przybliżyć mapę, żeby podana lokalizacja była możliwie dokładna.</p>`;
 }
 
 function showNeedMoreZoomModal() {
@@ -103,11 +105,20 @@ function closeModal() {
     // remove marker and close sidebar too
     let sidebar = document.getElementById('sidebar-div');
     if (sidebar) {
+        // hide sidebar
         sidebar.classList.add('is-invisible');
+        // remove marker
         if (marker !== null) {
             marker.remove();
             marker = null;
         }
+        // restore buttons
+        let mobileButton1 = document.getElementById('addNode-mobile-1');
+        let mobileButton2 = document.getElementById('addNode-mobile-2');
+        let mobileButton3 = document.getElementById('addNode-mobile-3');
+        mobileButton1.classList.remove('is-hidden');
+        mobileButton2.classList.add('is-hidden');
+        mobileButton3.classList.add('is-hidden');
     } else {
         console.log('sidebar not found.');
     }
@@ -188,34 +199,52 @@ document.getElementById('addNode').onclick = function () {
     showSidebar(properties);
 };
 
-map.on('contextmenu', function(e) {
-    // only trigger when logged in
-    if (auth.authenticated()) {
-        if (map.getZoom() < 15) {
-            showNeedMoreZoomModal();
-        } else {
-            // add marker
-            const clickLocation = e.lngLat;
-            const initialCoordinates = [clickLocation.lng, clickLocation.lat];
-            if (marker !== null) marker.remove();
-            marker = new maplibregl.Marker({
-                    draggable: true,
-                    color: "#e81224",
-                })
-                .setLngLat(initialCoordinates);
-            marker.addTo(map);
-            // show sidebar
-            let properties = {
-                action: "addNode",
-                data: {},
-            };
-            showSidebar(properties);        
-        }
-    } else {
-        console.log('You need to be logged in to add new nodes.');
-        showNeedLoginModal();
-    }
-});
+function mobileButton1onClick() {
+    // add marker
+    const mapCenter = map.getCenter();
+    const initialCoordinates = [mapCenter.lng, mapCenter.lat];
+    if (marker !== null) marker.remove();
+    marker = new maplibregl.Marker({
+            draggable: true,
+            color: "#e81224",
+        })
+        .setLngLat(initialCoordinates);
+    marker.addTo(map);
+    // swap buttons
+    let mobileButton1 = document.getElementById('addNode-mobile-1');
+    let mobileButton2 = document.getElementById('addNode-mobile-2');
+    let mobileButton3 = document.getElementById('addNode-mobile-3');
+    mobileButton1.classList.add('is-hidden');
+    mobileButton2.classList.remove('is-hidden');
+    mobileButton3.classList.remove('is-hidden');
+};
+document.getElementById('addNode-mobile-1').onclick = mobileButton1onClick;
+
+document.getElementById('addNode-mobile-2').onclick = function () {
+    // show sidebar
+    let properties = {
+        action: "addNode",
+        data: {},
+    };
+    showSidebar(properties);
+    // hide buttons
+    let mobileButton2 = document.getElementById('addNode-mobile-2');
+    let mobileButton3 = document.getElementById('addNode-mobile-3');
+    mobileButton2.classList.add('is-hidden');
+    mobileButton3.classList.add('is-hidden');
+};
+
+document.getElementById('addNode-mobile-3').onclick = function () {
+    // remove marker if exists
+    if (marker !== null) marker.remove();
+    // restore buttons
+    let mobileButton1 = document.getElementById('addNode-mobile-1');
+    let mobileButton2 = document.getElementById('addNode-mobile-2');
+    let mobileButton3 = document.getElementById('addNode-mobile-3');
+    mobileButton1.classList.remove('is-hidden');
+    mobileButton2.classList.add('is-hidden');
+    mobileButton3.classList.add('is-hidden');
+}
 
 function updateNavbarLoggedUserState() {
     let navbar = document.getElementById('navbar-logged');
@@ -257,15 +286,19 @@ function renderErrorLoggingIn() {
 
 function updateAddNodeButtonState() {
     let addNodeButton = document.getElementById('addNode');
+    let mobileButton1 = document.getElementById('addNode-mobile-1');
     addNodeButton.disabled = false;
     addNodeButton.title = "";
+    mobileButton1.onclick = mobileButton1onClick;
     if (!auth.authenticated()) {
         addNodeButton.disabled = true;
         addNodeButton.title = "Zaloguj się aby móc dodawać obiekty";
+        mobileButton1.onclick = showNeedLoginModal;
     }
     if (map.getZoom() < 15) {
         addNodeButton.disabled = true;
         addNodeButton.title = "Zbyt duże oddalenie mapy";
+        mobileButton1.onclick = showNeedMoreZoomModal;
     }
 }
 

@@ -138,10 +138,29 @@
         </div>
 
         <div id="map"></div>        
-        <button id="addNode" class="button is-floating is-medium is-success" style="bottom: 8px;left: 16px;" aria-label="Wymaga zalogowania" disabled>
+        <button id="addNode" class="button is-floating is-medium is-success is-hidden-touch"
+                style="bottom: 8px;left: 16px;" aria-label="Wymaga zalogowania" disabled>
           <svg class="icon" viewBox="0 0 24 24">
             <path fill="currentColor" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
           </svg>
+        </button>
+        <button id="addNode-mobile-1" class="button is-floating is-medium is-success is-hidden-desktop"
+                style="bottom: 8px;left: 16px;" aria-label="Wymaga zalogowania">
+          <svg class="icon" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+          </svg>
+        </button>
+        <button id="addNode-mobile-2" class="button is-floating is-medium is-success is-hidden-desktop is-hidden"
+                style="bottom: 8px;left: 16px;" aria-label="Zapisz">
+          <svg class="icon" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+          </svg> Dalej
+        </button>
+        <button id="addNode-mobile-3" class="button is-floating is-medium is-success is-hidden-desktop is-hidden"
+                style="bottom: 8px;left: 156px;" aria-label="Zamknij">
+          <svg class="icon" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+          </svg> Anuluj
         </button>
         <script src="./src/other-ui-stuff.js"></script>
         <script src="./src/map.js"></script>

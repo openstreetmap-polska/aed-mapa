@@ -194,7 +194,7 @@ function renderSidebarForm() {
     <div class="field pt-2">
       <label class="label has-text-weight-semibold">Opis lokalizacji defibrylatora</label>
       <div class="control">
-        <textarea id="${formLocationFieldId}" tag="defibrillator:location" class="textarea is-success" rows="2"
+        <textarea id="${formLocationFieldId}" tag="defibrillator:location" class="textarea is-success" rows="1"
             placeholder="Na przykład: Na ścianie przy wejściu"></textarea>
       </div>
     </div>
@@ -220,7 +220,7 @@ function renderSidebarForm() {
     <div class="field">
       <label class="label has-text-weight-semibold">Opis lokalizacji defibrylatora po angielsku</label>
       <div class="control">
-        <textarea id="${formLocationEnFieldId}" tag="defibrillator:location:en" class="textarea is-success" rows="2"
+        <textarea id="${formLocationEnFieldId}" tag="defibrillator:location:en" class="textarea is-success" rows="1"
             placeholder="For example: On the wall near entrance"></textarea>
       </div>
       <p class="help has-text-weight-light">Pole opcjonalne</p>
@@ -295,6 +295,13 @@ function hideSidebar() {
     if (sidebar) {
         sidebar.classList.add('is-invisible');
         removeMarkerIfExists();
+        // restore buttons
+        let mobileButton1 = document.getElementById('addNode-mobile-1');
+        let mobileButton2 = document.getElementById('addNode-mobile-2');
+        let mobileButton3 = document.getElementById('addNode-mobile-3');
+        mobileButton1.classList.remove('is-hidden');
+        mobileButton2.classList.add('is-hidden');
+        mobileButton3.classList.add('is-hidden');
     } else {
         console.log('Sidebar not found.');
     }

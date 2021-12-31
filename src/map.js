@@ -1,6 +1,9 @@
 const aedSource = './aed_poland.geojson';
 const aedMetadata = './aed_poland_metadata.json';
+const controlsLocation = 'bottom-right';
 let aedNumber = document.getElementById('aed-number');
+
+let fetchMetadata = fetch(aedMetadata);
 
 var map = new maplibregl.Map({
     'container': 'map', // container id
@@ -29,15 +32,42 @@ var map = new maplibregl.Map({
                 'data': aedSource,
                 'cluster': true,
                 'clusterRadius': 32,
-                'maxzoom': 14
+                'maxzoom': 12
             },
         },
-        'layers': [{
-            'id': 'background',
-            'type': 'raster',
-            'source': 'raster-tiles',
-            'minZoom': 0,
-        }, ]
+        'layers': [
+            {
+                'id': 'background',
+                'type': 'raster',
+                'source': 'raster-tiles',
+                'minZoom': 0,
+            }, {
+                'id': 'clustered-circle',
+                'type': 'circle',
+                'source': 'aed-locations',
+                'paint': {
+                    'circle-color': 'rgba(0, 137, 84, 0.88)',
+                    'circle-radius': 26,
+                    'circle-stroke-color': 'rgba(245, 245, 245, 0.88)',
+                    'circle-stroke-width': 3,
+                },
+                'filter': ['has', 'point_count'],
+            }, {
+                'id': 'clustered-label',
+                'type': 'symbol',
+                'source': 'aed-locations',
+                'layout': {
+                    'text-field': '{point_count_abbreviated}',
+                    'text-font': ['Open Sans Bold'],
+                    'text-size': 20,
+                    'text-letter-spacing': 0.05,
+                },
+                'paint': {
+                    'text-color': '#f5f5f5',
+                },
+                'filter': ['has', 'point_count'],
+            },
+        ],
     },
 });
 console.log('MapLibre library version: ' + map.version);
@@ -45,18 +75,51 @@ console.log('MapLibre library version: ' + map.version);
 map.scrollZoom.setWheelZoomRate(1 / 100);
 
 let control = new maplibregl.NavigationControl();
-map.addControl(control, 'bottom-right');
+map.addControl(control, controlsLocation);
 let geolocate = new maplibregl.GeolocateControl({
     positionOptions: {
         enableHighAccuracy: true
     }
 });
-map.addControl(geolocate, 'bottom-right');
+map.addControl(geolocate, controlsLocation);
+
+console.log('Loading icon...');
+map.loadImage('./src/img/marker-image_50.png', (error, image) => {
+    if (error) throw error;
+    map.addImage('aed-icon', image, {
+        'sdf': false
+    });
+});
+
+map.on('mouseenter', 'clustered-circle', () => {
+    map.getCanvas().style.cursor = 'pointer';
+});
+
+map.on('mouseleave', 'clustered-circle', () => {
+    map.getCanvas().style.cursor = '';
+});
+
+// zoom to cluster on click
+map.on('click', 'clustered-circle', function (e) {
+    var features = map.queryRenderedFeatures(e.point, {
+        layers: ['clustered-circle']
+    });
+    var clusterId = features[0].properties.cluster_id;
+    map.getSource('aed-locations').getClusterExpansionZoom(
+        clusterId,
+        function (err, zoom) {
+            if (err) return;
+            map.easeTo({
+                center: features[0].geometry.coordinates,
+                zoom: zoom
+            });
+        }
+    );
+});
 
 map.on('load', () => {
-
     // get metadata and fill page with info about number of defibrillators and last refresh time
-    fetch(aedMetadata)
+    fetchMetadata
       .then(response => response.json())
       .then(data => {
         // number of defibrillators
@@ -71,97 +134,36 @@ map.on('load', () => {
         refreshTime.innerHTML = `Ostatnia aktualizacja danych OSM: <span class="has-text-grey-dark" title="${refreshTimeValueLocale}">${dateDiffMinutes} minut temu </span>`;
       });
 
-    console.log('Loading icon...');
-
-    map.loadImage('./src/img/marker-image_50.png', (error, image) => {
-        if (error) throw error;
-        map.addImage('aed-icon', image, {
-            'sdf': false
-        });
-        console.log('Adding layers...');
-        map.addLayer({
-            'id': 'unclustered',
-            'type': 'symbol',
-            'source': 'aed-locations',
-            'layout': {
-                'icon-image': ['image', 'aed-icon'],
-                'icon-size': 1,
-                'icon-allow-overlap': true,
-            },
-            'filter': ['!', ['has', 'point_count']],
-        });
-        map.addLayer({
-            'id': 'clustered-circle',
-            'type': 'circle',
-            'source': 'aed-locations',
-            'paint': {
-                'circle-color': 'rgba(0, 137, 84, 0.88)',
-                'circle-radius': 26,
-                'circle-stroke-color': 'rgba(245, 245, 245, 0.88)',
-                'circle-stroke-width': 3,
-            },
-            'filter': ['has', 'point_count'],
-        });
-        map.addLayer({
-            'id': 'clustered-label',
-            'type': 'symbol',
-            'source': 'aed-locations',
-            'layout': {
-                'text-field': '{point_count_abbreviated}',
-                'text-font': ['Open Sans Bold'],
-                'text-size': 20,
-                'text-letter-spacing': 0.05,
-            },
-            'paint': {
-                'text-color': '#f5f5f5',
-            },
-            'filter': ['has', 'point_count'],
-        });
-
-        map.on('click', 'unclustered', function (e) {
-            if (e.features[0].properties !== undefined) {
-                let properties = {
-                    action: "showDetails",
-                    data: e.features[0].properties,
-                };
-                showSidebar(properties);
-            }
-        });
-
-        map.on('mouseenter', 'unclustered', () => {
-            map.getCanvas().style.cursor = 'pointer';
-        });
-
-        map.on('mouseleave', 'unclustered', () => {
-            map.getCanvas().style.cursor = '';
-        });
-
-        map.on('mouseenter', 'clustered-circle', () => {
-            map.getCanvas().style.cursor = 'pointer';
-        });
-
-        map.on('mouseleave', 'clustered-circle', () => {
-            map.getCanvas().style.cursor = '';
-        });
-
-        // zoom to cluster on click
-        map.on('click', 'clustered-circle', function (e) {
-            var features = map.queryRenderedFeatures(e.point, {
-                layers: ['clustered-circle']
-            });
-            var clusterId = features[0].properties.cluster_id;
-            map.getSource('aed-locations').getClusterExpansionZoom(
-                clusterId,
-                function (err, zoom) {
-                    if (err) return;
-                    map.easeTo({
-                        center: features[0].geometry.coordinates,
-                        zoom: zoom
-                    });
-                }
-            );
-        });
-
-        console.log('Map ready.');
+    console.log('Adding layers...');
+    map.addLayer({
+        'id': 'unclustered',
+        'type': 'symbol',
+        'source': 'aed-locations',
+        'layout': {
+            'icon-image': ['image', 'aed-icon'],
+            'icon-size': 1,
+            'icon-allow-overlap': true,
+        },
+        'filter': ['!', ['has', 'point_count']],
     });
+
+    map.on('click', 'unclustered', function (e) {
+        if (e.features[0].properties !== undefined) {
+            let properties = {
+                action: "showDetails",
+                data: e.features[0].properties,
+            };
+            showSidebar(properties);
+        }
+    });
+
+    map.on('mouseenter', 'unclustered', () => {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+
+    map.on('mouseleave', 'unclustered', () => {
+        map.getCanvas().style.cursor = '';
+    });
+
+    console.log('Map ready.');
 });
