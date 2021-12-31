@@ -145,3 +145,8 @@
 .navbar-item, .navbar-link {
 	color: #ffffff;
 }
+
+.osm-caption-mobile
+{
+  width: 200px;
+}
