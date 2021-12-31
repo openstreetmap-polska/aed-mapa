@@ -60,7 +60,9 @@ function renderModalErrorMessage(message) {
 }
 
 function renderModalNeedLoginMessage() {
-    return `<p>Żeby dodawać obiekty musisz się zalogować kontem OSM.</p>`;
+    return `<p>Żeby dodawać obiekty musisz się zalogować kontem OSM.</p>
+    ${renderLoginButton()}
+    `;
 }
 
 function renderModalNeedMoreZoomMessage() {
@@ -257,21 +259,24 @@ function updateNavbarLoggedUserState() {
     }
 }
 
-document.getElementById('logout').onclick = function () {
+function logoutAction() {
     auth.logout();
     update();
 };
+
+document.getElementById('logout').onclick = logoutAction;
 
 function authenticateAction() {
     if (!auth.bringPopupWindowToFront()) {
         auth.authenticate(function() {
             update();
+            closeModal();
         });
     }
 }
 
 function renderLoginButton() {
-    return '<button class="button is-success has-text-weight-light is-outlined" id="authenticate" onclick="authenticateAction()">Zaloguj kontem OSM</button>';
+    return '<button class="button is-success has-text-weight-light is-outlined" onclick="authenticateAction()">Zaloguj kontem OSM</button>';
 }
 
 function renderUserLoggedIn(username) {
