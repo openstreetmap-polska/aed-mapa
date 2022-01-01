@@ -10,6 +10,10 @@ Informacje o defibrylatorach są zawyczaj udostępniane przez poszczególnych op
 Przez taką fragmentację ciężej znaleźć takie urządzenia.
 OSM jest otwartym zbiorem danych i zawsze taki pozostanie, więc dane mogą być wykorzystywane przez inne aplikacje webowe i mobilne.
 
+Poza pobieraniem danych bezpośrednio z OSM albo za pomocą usług jak Overpass API dane wyświetlane na stronie można pobrać w formacie:
+- GeoJSON: https://aed.openstreetmap.org.pl/aed_poland.geojson
+- CSV: https://aed.openstreetmap.org.pl/aed_poland.csv
+
 ### Technical information [ENG]
 
 This is a simple static website using HTML and vanilla JavaScript.
