@@ -1,0 +1,152 @@
+  html {
+    overflow-y: scroll;
+    overflow-y: hidden;
+
+  }
+
+  a {
+    text-decoration: none;
+    color: #007044;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  #map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+  }
+
+  .delete
+  {
+    align-self: flex-start;
+  }
+
+
+  @media (min-width: 500px) {
+    .sidebar {
+      position: absolute;
+      z-index: 1;
+      margin: 0.5rem !important;
+      width: 425px;
+      border-radius: 10px;
+      box-shadow: 0 .5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.02);
+      max-height: 90vh;
+      overflow: auto !important;
+      z-index: 10 !important;
+    }
+  }
+
+  @media (max-width: 500px) {
+    .sidebar {
+      position: absolute;
+      margin: 0 !important;
+      width: 100vw;
+      display: block !important;
+      overflow-wrap: break-word;
+      max-height: 85vh;
+      z-index: 10 !important;
+      overflow: auto !important;
+    }
+  }
+
+  .card {
+    z-index: 1;
+  }
+
+  #sidebar-card-image {
+    margin-left: 10px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    max-height: 60px;
+    padding: 0;
+  }
+  
+  @media (min-width: 500px) {
+  #sidebar-header {
+    border: 4px solid hsl(0, 0%, 96%);
+    border-radius: 8px;
+  }
+}
+
+  @media (max-width: 500px) {
+    #sidebar-header {
+      border-top: 0;
+      border-left: 0;
+      border-right: 0;
+    }
+  }
+
+  .navbar.is-success {
+    background-color: #008954eb !important;
+  }
+
+  .card-content {
+    border-left: 5px solid hsl(0, 0%, 96%);
+    border-right: 5px solid hsl(0, 0%, 96%);
+  }
+
+  .has-background-green {
+    background-color: #008954eb !important;
+  }
+
+  .navbar-menu.is-active {
+    background-color: #008954eb !important;
+  }
+
+  .button.is-floating {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 40px;
+    right: 40px;
+    border-radius: 100px;
+    text-align: center;
+    font-size: 1.6rem;
+    box-shadow: 0 .0625em .125em rgba(10, 10, 10, .05);
+    z-index: 3;
+  }
+
+  .button.is-floating.is-large {
+    width: 90px;
+    height: 90px;
+    font-size: 2.6rem
+  }
+
+  .button.is-floating.is-medium {
+    width: 75px;
+    height: 75px;
+    font-size: 2.2rem
+  }
+
+  .button.is-floating.is-small {
+    width: 45px;
+    height: 45px;
+    font-size: 1.2rem;
+    border-radius: 50px
+  }
+
+  [class*=" icon"], [class^=icon] {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    stroke-width: 0;
+    stroke: currentColor;
+    fill: currentColor;
+    line-height: 1;
+    position: relative;
+    vertical-align: middle;
+}
+
+.navbar-item, .navbar-link {
+	color: #ffffff;
+}
+
+.osm-caption-mobile
+{
+  width: 200px;
+}
