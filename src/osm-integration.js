@@ -1,7 +1,7 @@
 // osm integration stuff
 var auth = osmAuth({
     oauth_consumer_key: 'BR73INeC1mlLMrxHyNFMj7tm4UxlfEmfyc9VlVEn',
-    oauth_secret: 'BR73INeC1mlLMrxHyNFMj7tm4UxlfEmfyc9VlVEn',
+    oauth_secret: 'coK9N1Wud1PlwIQIaHgA1wei1TCnjwVJsQ0X2wew',
     url: "https://www.openstreetmap.org",
     landing: 'land.html',
 
