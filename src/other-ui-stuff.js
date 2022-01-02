@@ -198,7 +198,15 @@ function renderSidebarForm() {
             placeholder="Na przykład: Na ścianie przy wejściu"></textarea>
       </div>
     </div>
-
+    <div class="field">
+    <label class="label has-text-weight-semibold">Opis lokalizacji defibrylatora po angielsku</label>
+    <div class="control">
+      <textarea id="${formLocationEnFieldId}" tag="defibrillator:location:en" class="textarea is-success" rows="1"
+          placeholder="For example: On the wall near entrance"></textarea>
+    </div>
+    <p class="help has-text-weight-light">Pole opcjonalne</p>
+  </div>
+    <div class="field-body">
     <div class="field">
       <label class="label has-text-weight-semibold">Telefon kontaktowy operatora</label>
       <div class="control">
@@ -216,14 +224,6 @@ function renderSidebarForm() {
       </div>
       <p class="help has-text-weight-light">Pole opcjonalne. Wypełnij tylko, jeżeli jest inny niż 112/999.</p>
     </div>
-
-    <div class="field">
-      <label class="label has-text-weight-semibold">Opis lokalizacji defibrylatora po angielsku</label>
-      <div class="control">
-        <textarea id="${formLocationEnFieldId}" tag="defibrillator:location:en" class="textarea is-success" rows="1"
-            placeholder="For example: On the wall near entrance"></textarea>
-      </div>
-      <p class="help has-text-weight-light">Pole opcjonalne</p>
     </div>
 
     <form>
