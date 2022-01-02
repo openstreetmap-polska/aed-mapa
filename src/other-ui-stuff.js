@@ -238,7 +238,14 @@ function renderEditButton(osm_id) {
 }
 
 function renderSaveButton() {
-    return `<button id="sidebar-save-button" class="button is-success is-fullwidth" onclick="saveNode(prepareNodeData())">Dodaj AED</button>`;
+    return `
+    <button id="sidebar-save-button" class="button is-success is-fullwidth" onclick="saveNode(prepareNodeData())">
+        Dodaj AED
+    </button> 
+    <div class="is-hidden-desktop">
+    <span class="has-text-weight-light has-text-grey-light is-size-7 pt-1 is-pulled-right">ver. 0.1</span>
+    </div>
+    `;
 }
 
 // --------------------------------------------------------------
