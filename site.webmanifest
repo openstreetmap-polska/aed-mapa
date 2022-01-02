@@ -1,7 +1,7 @@
 {
-    "name": "AED Polska",
-    "short_name": "AED Polska",
-    "start_url": "https://aed.openstreetmap.org.pl/",
+    "name": "AED Mapa",
+    "short_name": "AED Mapa",
+    "start_url": "/",
     "icons": [
         {
             "src": "./src/favicon/android-chrome-192x192.png",
