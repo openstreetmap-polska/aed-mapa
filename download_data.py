@@ -151,7 +151,10 @@ if __name__ == '__main__':
         'number_of_elements': number_of_elements,
     }
 
-    save_json(file_path=geojson_file_path, data=geojson_data)
-    save_json(file_path=json_metadata_file_path, data=json_metadata)
-    sorted_csv_columns = list(sorted(list(csv_columns)))
-    save_csv(file_path=csv_file_path, data=csv_data, columns=sorted_csv_columns)
+    if number_of_elements > 0:
+        save_json(file_path=geojson_file_path, data=geojson_data)
+        save_json(file_path=json_metadata_file_path, data=json_metadata)
+        sorted_csv_columns = list(sorted(list(csv_columns)))
+        save_csv(file_path=csv_file_path, data=csv_data, columns=sorted_csv_columns)
+    else:
+        logger.info('Number of downloaded elements is 0. Exiting.')
