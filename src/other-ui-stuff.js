@@ -99,9 +99,9 @@ function isCurrentlyOpen(openingHours) {
 
 function renderCurrentlyOpenStatus(openingHours) {
     if (isCurrentlyOpen(openingHours)) {
-        return '<sup><span class="tag is-success is-light">Dostępny</span></sup>';
+        return '<sup class="pl-1"><span class="tag is-success is-light">Dostępny</span></sup>';
     } else {
-        return '<sup><span class="tag is-danger is-light">Niedostępny</span></sup>';
+        return '<sup class="pl-1"><span class="tag is-danger is-light">Niedostępny</span></sup>';
     }
 }
 
@@ -163,7 +163,7 @@ function renderSidebarContent(properties) {
     content += renderDescription(properties);
     content += renderContactNumber(properties.phone);
     content += renderNotes(properties);
-    return content
+    return content;
 }
 
 function renderSidebarForm() {
@@ -246,6 +246,42 @@ function renderSaveButton() {
     <span class="has-text-weight-light has-text-grey-light is-size-7 pt-1 is-pulled-right">ver. 0.1</span>
     </div>
     `;
+}
+
+function renderMiniMap(lng, lat) {
+    let miniMap = '';
+
+    miniMap = new maplibregl.Map({
+            container: 'mini-map', // container id
+            center: [lng, lat], // starting position [lng, lat]
+            zoom: 16, // starting zoom
+            style: {
+                'version': 8,
+                'sources': {
+                    'raster-tiles': {
+                        'type': 'raster',
+                        'tiles': [
+                            'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                            'https://b.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                            'https://c.tile.openstreetmap.org/{z}/{x}/{y}.png'
+                        ],
+                        'tileSize': 256,
+                        'attribution': `<span id="refresh-time"></span>dane © <a target="_top" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors.`,
+                    },
+                },
+                'layers': [
+                    {
+                        'id': 'background',
+                        'type': 'raster',
+                        'source': 'raster-tiles',
+                        'minZoom': 0,
+                    }]
+
+            
+            }
+        });
+    
+    return miniMap;
 }
 
 // --------------------------------------------------------------

@@ -150,7 +150,7 @@ function addDefibrillatorToOSM(changesetId, data) {
                 console.log(`response: ${res}`);
             }
         });
-    })
+    });
 }
 
 function startSaveButtonAnimation() {
