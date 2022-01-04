@@ -46,7 +46,7 @@ var map = new maplibregl.Map({
                 'type': 'circle',
                 'source': 'aed-locations',
                 'paint': {
-                    'circle-color': 'rgba(0, 137, 84, 0.88)',
+                    'circle-color': 'rgba(0,145,64, 0.85)',//'rgba(0, 137, 84, 0.88)',
                     'circle-radius': 26,
                     'circle-stroke-color': 'rgba(245, 245, 245, 0.88)',
                     'circle-stroke-width': 3,
