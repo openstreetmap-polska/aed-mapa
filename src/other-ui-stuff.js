@@ -37,6 +37,12 @@ const indoorMapping = {
     'default': '',
 };
 
+const locationMapping = {
+    'indoor': 'tak',
+    'outdoor': 'nie',
+    'default': '',
+};
+
 // --------------------------------------------------------------------------------------
 function defineColor(access) {
     return accessToColourMapping[access] || accessToColourMapping['default'];
@@ -48,6 +54,10 @@ function defineAccessDescription(access) {
 
 function defineIndoor(indoor) {
     return indoorMapping[indoor] || indoorMapping['default'];
+}
+
+function defineLocationIndoor(location) {
+    return locationMapping[location] || locationMapping['default'];
 }
 
 function getOsmEditLink(id) {
@@ -105,9 +115,9 @@ function renderCurrentlyOpenStatus(openingHours) {
     }
 }
 
-function renderIfIndoor(indoor) {
+function renderIfIndoor(indoor, location) {
     let beginning = '<p class="has-text-weight-light">Wewnątrz budynku?: <span class="add-new has-text-weight-medium">';
-    let middle = defineIndoor(indoor) || '<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji</span>';
+    let middle = defineLocationIndoor(location) || defineIndoor(indoor) || '<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji</span>';
     let end = '</span></p>';
     return beginning + middle + end;
 }
@@ -151,13 +161,13 @@ function renderNotes(properties) {
         let end = '</span></p>';
         return beginning + middle + end;
     } else {
-        return ''
+        return '';
     }
 }
 
 function renderSidebarContent(properties) {
     let content = '';
-    content += renderIfIndoor(properties.indoor);
+    content += renderIfIndoor(properties.indoor, properties.location);
     content += renderLocation(properties);
     content += renderAccessibleTime(properties.opening_hours);
     content += renderDescription(properties);
@@ -252,35 +262,34 @@ function renderMiniMap(lng, lat) {
     let miniMap = '';
 
     miniMap = new maplibregl.Map({
-            container: 'mini-map', // container id
-            center: [lng, lat], // starting position [lng, lat]
-            zoom: 16, // starting zoom
-            style: {
-                'version': 8,
-                'sources': {
-                    'raster-tiles': {
-                        'type': 'raster',
-                        'tiles': [
-                            'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                            'https://b.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                            'https://c.tile.openstreetmap.org/{z}/{x}/{y}.png'
-                        ],
-                        'tileSize': 256,
-                        'attribution': `<span id="refresh-time"></span>dane © <a target="_top" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors.`,
-                    },
+        container: 'mini-map',
+        center: [lng, lat], 
+        zoom: 16,
+        style: {
+            'version': 8,
+            'sources': {
+                'raster-tiles': {
+                    'type': 'raster',
+                    'tiles': [
+                        'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                        'https://b.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                        'https://c.tile.openstreetmap.org/{z}/{x}/{y}.png'
+                    ],
+                    'tileSize': 256,
+                    'attribution': `<span id="refresh-time"></span>dane © <a target="_top" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors.`,
                 },
-                'layers': [
-                    {
-                        'id': 'background',
-                        'type': 'raster',
-                        'source': 'raster-tiles',
-                        'minZoom': 0,
-                    }]
+            },
+            'layers': [{
+                'id': 'background',
+                'type': 'raster',
+                'source': 'raster-tiles',
+                'minZoom': 0,
+            }]
 
-            
-            }
-        });
-    
+
+        }
+    });
+
     return miniMap;
 }
 
