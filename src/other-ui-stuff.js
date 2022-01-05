@@ -263,7 +263,7 @@ function renderMiniMap(lng, lat) {
 
     miniMap = new maplibregl.Map({
         container: 'mini-map',
-        center: [lng, lat], 
+        center: [lng, lat],
         zoom: 16,
         style: {
             'version': 8,

@@ -35,39 +35,37 @@ var map = new maplibregl.Map({
                 'maxzoom': 12
             },
         },
-        'layers': [
-            {
-                'id': 'background',
-                'type': 'raster',
-                'source': 'raster-tiles',
-                'minZoom': 0,
-            }, {
-                'id': 'clustered-circle',
-                'type': 'circle',
-                'source': 'aed-locations',
-                'paint': {
-                    'circle-color': 'rgba(0, 137, 84, 0.88)',
-                    'circle-radius': 26,
-                    'circle-stroke-color': 'rgba(245, 245, 245, 0.88)',
-                    'circle-stroke-width': 3,
-                },
-                'filter': ['has', 'point_count'],
-            }, {
-                'id': 'clustered-label',
-                'type': 'symbol',
-                'source': 'aed-locations',
-                'layout': {
-                    'text-field': '{point_count_abbreviated}',
-                    'text-font': ['Open Sans Bold'],
-                    'text-size': 20,
-                    'text-letter-spacing': 0.05,
-                },
-                'paint': {
-                    'text-color': '#f5f5f5',
-                },
-                'filter': ['has', 'point_count'],
+        'layers': [{
+            'id': 'background',
+            'type': 'raster',
+            'source': 'raster-tiles',
+            'minZoom': 0,
+        }, {
+            'id': 'clustered-circle',
+            'type': 'circle',
+            'source': 'aed-locations',
+            'paint': {
+                'circle-color': 'rgba(0, 137, 84, 0.88)',
+                'circle-radius': 26,
+                'circle-stroke-color': 'rgba(245, 245, 245, 0.88)',
+                'circle-stroke-width': 3,
             },
-        ],
+            'filter': ['has', 'point_count'],
+        }, {
+            'id': 'clustered-label',
+            'type': 'symbol',
+            'source': 'aed-locations',
+            'layout': {
+                'text-field': '{point_count_abbreviated}',
+                'text-font': ['Open Sans Bold'],
+                'text-size': 20,
+                'text-letter-spacing': 0.05,
+            },
+            'paint': {
+                'text-color': '#f5f5f5',
+            },
+            'filter': ['has', 'point_count'],
+        }, ],
     },
 });
 console.log('MapLibre library version: ' + map.version);
@@ -120,19 +118,19 @@ map.on('click', 'clustered-circle', function (e) {
 map.on('load', () => {
     // get metadata and fill page with info about number of defibrillators and last refresh time
     fetchMetadata
-      .then(response => response.json())
-      .then(data => {
-        // number of defibrillators
-        aedNumber.innerHTML = data.number_of_elements;
-        // last refresh time
-        let refreshTimeValue = new Date(data.data_download_ts_utc);
-        let refreshTimeValueLocale = new Date(data.data_download_ts_utc).toLocaleString('pl-PL');
-        let currentDate = new Date();
-        let dateDiff = Math.abs(currentDate - refreshTimeValue);
-        let dateDiffMinutes = Math.round(dateDiff / 60000);
-        let refreshTime = document.getElementById('refresh-time');
-        refreshTime.innerHTML = `Ostatnia aktualizacja danych OSM: <span class="has-text-grey-dark" title="${refreshTimeValueLocale}">${dateDiffMinutes} minut temu </span>`;
-      });
+        .then(response => response.json())
+        .then(data => {
+            // number of defibrillators
+            aedNumber.innerHTML = data.number_of_elements;
+            // last refresh time
+            let refreshTimeValue = new Date(data.data_download_ts_utc);
+            let refreshTimeValueLocale = new Date(data.data_download_ts_utc).toLocaleString('pl-PL');
+            let currentDate = new Date();
+            let dateDiff = Math.abs(currentDate - refreshTimeValue);
+            let dateDiffMinutes = Math.round(dateDiff / 60000);
+            let refreshTime = document.getElementById('refresh-time');
+            refreshTime.innerHTML = `Ostatnia aktualizacja danych OSM: <span class="has-text-grey-dark" title="${refreshTimeValueLocale}">${dateDiffMinutes} minut temu </span>`;
+        });
 
     console.log('Adding layers...');
     map.addLayer({

@@ -39,9 +39,9 @@ function getOpenChangesetId() {
                     console.log('Api returned changeset id: ' + res);
                     resolve(res);
                 }
-            })
+            });
         }
-    })
+    });
 }
 
 function getNodeUrl(nodeId) {
@@ -50,23 +50,23 @@ function getNodeUrl(nodeId) {
 
 function renderModalMessage(newNodeUrl) {
     return `
-    <p>AED dodany z powodzeniem: <a target="_blank" rel="noopener" href="${newNodeUrl}">${newNodeUrl}</a></p>
-            
-            <p>Powinien być widoczny na mapie w ciągu maksymalnie 60 minut.</p>`;
+    <p class="pb-2">AED dodany z powodzeniem.</p>
+    <p class="pb-4">Dostępny jest w bazie OpenStreetMap pod adresem: <a target="_blank" rel="noopener" href="${newNodeUrl}">${newNodeUrl}</a></p>
+    <p class="pb-2">Obiekt powinien być widoczny na mapie w ciągu maksymalnie <strong>60</strong> minut.</p>`;
 }
 
 function renderModalErrorMessage(message) {
-    return `<p>Wystąpił błąd: ${message}</p>`;
+    return `<p class="pb-2">Wystąpił błąd: ${message}</p>`;
 }
 
 function renderModalNeedLoginMessage() {
-    return `<p>Żeby dodawać obiekty musisz się zalogować kontem OSM.</p>
+    return `<p class="pb-3">Żeby dodawać obiekty musisz się zalogować kontem OpenStreetMap.</p>
     ${renderLoginButton()}
     `;
 }
 
 function renderModalNeedMoreZoomMessage() {
-    return `<p>Żeby dodawać obiekty musisz bardziej przybliżyć mapę, żeby podana lokalizacja była możliwie dokładna.</p>`;
+    return `<p class="pb-2">Żeby dodawać obiekty musisz bardziej przybliżyć mapę, żeby podana lokalizacja była możliwie dokładna.</p>`;
 }
 
 function showNeedMoreZoomModal() {
@@ -219,7 +219,7 @@ function mobileButton1onClick() {
     mobileButton1.classList.add('is-hidden');
     mobileButton2.classList.remove('is-hidden');
     mobileButton3.classList.remove('is-hidden');
-};
+}
 document.getElementById('addNode-mobile-1').onclick = mobileButton1onClick;
 
 document.getElementById('addNode-mobile-2').onclick = function () {
@@ -246,15 +246,14 @@ document.getElementById('addNode-mobile-3').onclick = function () {
     mobileButton1.classList.remove('is-hidden');
     mobileButton2.classList.add('is-hidden');
     mobileButton3.classList.add('is-hidden');
-}
+};
 
 function updateNavbarLoggedUserState() {
     let navbar = document.getElementById('navbar-logged');
 
     if (!auth.authenticated()) {
         navbar.classList.add('is-hidden');
-    }
-    else {
+    } else {
         navbar.classList.remove('is-hidden');
     }
 }
@@ -262,13 +261,13 @@ function updateNavbarLoggedUserState() {
 function logoutAction() {
     auth.logout();
     update();
-};
+}
 
 document.getElementById('logout').onclick = logoutAction;
 
 function authenticateAction() {
     if (!auth.bringPopupWindowToFront()) {
-        auth.authenticate(function() {
+        auth.authenticate(function () {
             update();
             closeModal();
         });
