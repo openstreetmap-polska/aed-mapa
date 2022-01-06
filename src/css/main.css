@@ -150,3 +150,10 @@
 {
   width: 200px;
 }
+
+.modal-card
+{
+  border: 5px solid hsl(0, 0%, 96%);
+  box-shadow: 0 .5em 1em -.125em rgba(10,10,10,.1),0 0 0 1px rgba(10,10,10,.02);
+  border-radius: .25rem;
+}

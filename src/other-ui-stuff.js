@@ -37,6 +37,12 @@ const indoorMapping = {
     'default': '',
 };
 
+const locationMapping = {
+    'indoor': 'tak',
+    'outdoor': 'nie',
+    'default': '',
+};
+
 // --------------------------------------------------------------------------------------
 function defineColor(access) {
     return accessToColourMapping[access] || accessToColourMapping['default'];
@@ -48,6 +54,10 @@ function defineAccessDescription(access) {
 
 function defineIndoor(indoor) {
     return indoorMapping[indoor] || indoorMapping['default'];
+}
+
+function defineLocationIndoor(location) {
+    return locationMapping[location] || locationMapping['default'];
 }
 
 function getOsmEditLink(id) {
@@ -99,15 +109,15 @@ function isCurrentlyOpen(openingHours) {
 
 function renderCurrentlyOpenStatus(openingHours) {
     if (isCurrentlyOpen(openingHours)) {
-        return '<sup><span class="tag is-success is-light">Dostępny</span></sup>';
+        return '<sup class="pl-1"><span class="tag is-success is-light">Dostępny</span></sup>';
     } else {
-        return '<sup><span class="tag is-danger is-light">Niedostępny</span></sup>';
+        return '<sup class="pl-1"><span class="tag is-danger is-light">Niedostępny</span></sup>';
     }
 }
 
-function renderIfIndoor(indoor) {
+function renderIfIndoor(indoor, location) {
     let beginning = '<p class="has-text-weight-light">Wewnątrz budynku?: <span class="add-new has-text-weight-medium">';
-    let middle = defineIndoor(indoor) || '<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji</span>';
+    let middle = defineLocationIndoor(location) || defineIndoor(indoor) || '<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji</span>';
     let end = '</span></p>';
     return beginning + middle + end;
 }
@@ -151,19 +161,19 @@ function renderNotes(properties) {
         let end = '</span></p>';
         return beginning + middle + end;
     } else {
-        return ''
+        return '';
     }
 }
 
 function renderSidebarContent(properties) {
     let content = '';
-    content += renderIfIndoor(properties.indoor);
+    content += renderIfIndoor(properties.indoor, properties.location);
     content += renderLocation(properties);
     content += renderAccessibleTime(properties.opening_hours);
     content += renderDescription(properties);
     content += renderContactNumber(properties.phone);
     content += renderNotes(properties);
-    return content
+    return content;
 }
 
 function renderSidebarForm() {
@@ -263,13 +273,13 @@ function prepareNodeData() {
     let formLocationEnField = document.getElementById(formLocationEnFieldId);
     let formAccessField = document.querySelector('input[name="aedAccess"]:checked');
     let formIndoorField = document.querySelector('input[name="aedIndoor"]:checked');
-    if (formIndoorField.getAttribute('value'))
+    if (formIndoorField && formIndoorField.getAttribute('value'))
         data.tags[formIndoorField.getAttribute('tag')] = formIndoorField.getAttribute('value');
     if (formPhoneField.value) data.tags[formPhoneField.getAttribute('tag')] = formPhoneField.value;
     if (formLocationField.value) data.tags[formLocationField.getAttribute('tag')] = formLocationField.value;
     if (formEmergencyPhoneField.value) data.tags[formEmergencyPhoneField.getAttribute('tag')] = formEmergencyPhoneField.value;
     if (formLocationEnField.value) data.tags[formLocationEnField.getAttribute('tag')] = formLocationEnField.value;
-    if (formAccessField.getAttribute('value'))
+    if (formAccessField && formAccessField.getAttribute('value'))
         data.tags[formAccessField.getAttribute('tag')] = formAccessField.getAttribute('value');
 
     return data;

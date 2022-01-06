@@ -35,6 +35,7 @@ tags_to_keep = {
     'defibrillator:location:pl',
     'access',
     'indoor',
+    'location',
     'description',
     'description:pl',
     'phone',
