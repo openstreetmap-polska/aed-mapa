@@ -1,8 +1,8 @@
 // osm integration stuff
 var auth = osmAuth({
-    oauth_consumer_key: 'BR73INeC1mlLMrxHyNFMj7tm4UxlfEmfyc9VlVEn',
-    oauth_secret: 'coK9N1Wud1PlwIQIaHgA1wei1TCnjwVJsQ0X2wew',
-    url: "https://www.openstreetmap.org",
+    oauth_consumer_key: 'SVN3D2Q8ciaIbHCdHbhuiG7mEwvOGbnSDcy1ZgnV',
+    oauth_secret: 'alqjD88o2qtdN9ZwtOfanqqu5Rbp2lhIxbGFukTD',
+    url: "https://master.apis.dev.openstreetmap.org",
     landing: 'land.html',
 
 });
