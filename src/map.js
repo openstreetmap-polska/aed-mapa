@@ -60,11 +60,11 @@ var map = new maplibregl.Map({
                 'text-font': ['Open Sans Bold'],
                 'text-size': 20,
                 'text-letter-spacing': 0.05,
-            },
+                },
             'paint': {
-                'text-color': '#f5f5f5',
-            },
-            'filter': ['has', 'point_count'],
+                    'text-color': '#f5f5f5',
+                },
+                'filter': ['has', 'point_count'],
         }, ],
     },
 });

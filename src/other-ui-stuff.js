@@ -258,41 +258,6 @@ function renderSaveButton() {
     `;
 }
 
-function renderMiniMap(lng, lat) {
-    let miniMap = '';
-
-    miniMap = new maplibregl.Map({
-        container: 'mini-map',
-        center: [lng, lat],
-        zoom: 16,
-        style: {
-            'version': 8,
-            'sources': {
-                'raster-tiles': {
-                    'type': 'raster',
-                    'tiles': [
-                        'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                        'https://b.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                        'https://c.tile.openstreetmap.org/{z}/{x}/{y}.png'
-                    ],
-                    'tileSize': 256,
-                    'attribution': `<span id="refresh-time"></span>dane © <a target="_top" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors.`,
-                },
-            },
-            'layers': [{
-                'id': 'background',
-                'type': 'raster',
-                'source': 'raster-tiles',
-                'minZoom': 0,
-            }]
-
-
-        }
-    });
-
-    return miniMap;
-}
-
 // --------------------------------------------------------------
 function prepareNodeData() {
     let data = {};
@@ -308,13 +273,13 @@ function prepareNodeData() {
     let formLocationEnField = document.getElementById(formLocationEnFieldId);
     let formAccessField = document.querySelector('input[name="aedAccess"]:checked');
     let formIndoorField = document.querySelector('input[name="aedIndoor"]:checked');
-    if (formIndoorField.getAttribute('value'))
+    if (formIndoorField && formIndoorField.getAttribute('value'))
         data.tags[formIndoorField.getAttribute('tag')] = formIndoorField.getAttribute('value');
     if (formPhoneField.value) data.tags[formPhoneField.getAttribute('tag')] = formPhoneField.value;
     if (formLocationField.value) data.tags[formLocationField.getAttribute('tag')] = formLocationField.value;
     if (formEmergencyPhoneField.value) data.tags[formEmergencyPhoneField.getAttribute('tag')] = formEmergencyPhoneField.value;
     if (formLocationEnField.value) data.tags[formLocationEnField.getAttribute('tag')] = formLocationEnField.value;
-    if (formAccessField.getAttribute('value'))
+    if (formAccessField && formAccessField.getAttribute('value'))
         data.tags[formAccessField.getAttribute('tag')] = formAccessField.getAttribute('value');
 
     return data;
