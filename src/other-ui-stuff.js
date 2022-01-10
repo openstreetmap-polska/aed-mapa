@@ -275,10 +275,10 @@ function prepareNodeData() {
     let formIndoorField = document.querySelector('input[name="aedIndoor"]:checked');
     if (formIndoorField && formIndoorField.getAttribute('value'))
         data.tags[formIndoorField.getAttribute('tag')] = formIndoorField.getAttribute('value');
-    if (formPhoneField.value) data.tags[formPhoneField.getAttribute('tag')] = formPhoneField.value;
-    if (formLocationField.value) data.tags[formLocationField.getAttribute('tag')] = formLocationField.value;
-    if (formEmergencyPhoneField.value) data.tags[formEmergencyPhoneField.getAttribute('tag')] = formEmergencyPhoneField.value;
-    if (formLocationEnField.value) data.tags[formLocationEnField.getAttribute('tag')] = formLocationEnField.value;
+    if (formPhoneField.value) data.tags[formPhoneField.getAttribute('tag')] = formPhoneField.value.trim();
+    if (formLocationField.value) data.tags[formLocationField.getAttribute('tag')] = formLocationField.value.trim();
+    if (formEmergencyPhoneField.value) data.tags[formEmergencyPhoneField.getAttribute('tag')] = formEmergencyPhoneField.value.trim();
+    if (formLocationEnField.value) data.tags[formLocationEnField.getAttribute('tag')] = formLocationEnField.value.trim();
     if (formAccessField && formAccessField.getAttribute('value'))
         data.tags[formAccessField.getAttribute('tag')] = formAccessField.getAttribute('value');
 
