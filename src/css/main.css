@@ -85,6 +85,10 @@
     background-color: #008954eb !important;
   }
 
+  .footer-partners.is-white {
+    background: linear-gradient(to bottom, rgba(243, 243, 243, 0.55), rgb(243, 243, 243));
+  }
+
   .card-content {
     border-left: 5px solid hsl(0, 0%, 96%);
     border-right: 5px solid hsl(0, 0%, 96%);
@@ -156,4 +160,38 @@
   border: 5px solid hsl(0, 0%, 96%);
   box-shadow: 0 .5em 1em -.125em rgba(10,10,10,.1),0 0 0 1px rgba(10,10,10,.02);
   border-radius: .25rem;
+}
+.footer-partners
+{
+left: 0;
+position: fixed;
+right: 0;
+bottom: 0;
+z-index: 30;
+min-height: 3.25rem;
+box-shadow: 0 .5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.02);
+}
+.mapboxgl-ctrl-bottom-right, .maplibregl-ctrl-bottom-right
+{
+  bottom: 68px !important;
+}
+.add-button
+{
+  bottom: 68px !important;
+}
+
+.attrib
+{
+  justify-content: flex-end;
+  margin-left: auto;
+  position:absolute;
+  align-items: stretch;
+  display: flex;
+  bottom:0;
+  right:0;
+}
+
+.image-gugik {
+  height: 58px;
+  width: 105px;
 }

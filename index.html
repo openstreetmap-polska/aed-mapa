@@ -4,7 +4,7 @@
         <title>AED - mapa defibrylatorów</title>
         <meta charset="utf-8" />
         <meta name="title" content="AED - mapa defibrylatorów">
-        <meta name="description" content="Mapa defibrylatorów AED w Polsce oparta o dane OpenStreetMap">
+        <meta name="description" content="Mapa defibrylatorów AED w Polsce oparta o otwarte dane z projektu OpenStreetMap">
         <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
         <link rel="apple-touch-icon" sizes="180x180" href="src/favicon/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="./src/favicon/favicon-32x32.png">
@@ -18,12 +18,12 @@
         <meta property="og:type" content="website">
         <meta property="og:url" content="https://aed.openstreetmap.org.pl">
         <meta property="og:title" content="AED - mapa defibrylatorów">
-        <meta property="og:description" content="Mapa defibrylatorów AED w Polsce oparta o dane OpenStreetMap">
+        <meta property="og:description" content="Mapa defibrylatorów AED w Polsce oparta o otwarte dane z projektu OpenStreetMap">
         <meta property="og:image" content="https://aed.openstreetmap.org.pl/src/img/meta-image.png">
         <meta property="twitter:card" content="summary_large_image">
         <meta property="twitter:url" content="https://aed.openstreetmap.org.pl">
         <meta property="twitter:title" content="AED - mapa defibrylatorów">
-        <meta property="twitter:description" content="Mapa defibrylatorów AED w Polsce oparta o dane OpenStreetMap">
+        <meta property="twitter:description" content="Mapa defibrylatorów AED w Polsce oparta o otwarte dane z projektu OpenStreetMap">
         <meta property="twitter:image" content="https://aed.openstreetmap.org.pl/src/img/meta-image.png">
         <script src='./src/osmauth.min.js'></script>
         <script src="https://unpkg.com/maplibre-gl@1.15.2/dist/maplibre-gl.js"></script>
@@ -36,7 +36,6 @@
 
     <body>
           <nav class="navbar is-success p-1" role="navigation" aria-label="main navigation">
-
             <div class="navbar-brand">
               <a class="has-text-weight-light navbar-item has-text-white-ter is-size-4 is-size-5-mobile pr-1 pl-2" href="#">
                 Mapa <span class="has-text-weight-semibold pl-1">AED</span>
@@ -151,26 +150,42 @@
         </div>
 
         <div id="map"></div> 
+        <footer class="footer"> 
+          <div class="footer-partners is-white">
+            <div class="columns is-mobile is-gapless is-vcentered">
+              <div class="column is-narrow"><span class="ml-4 has-text-grey-darker is-size-6 px-3">Partner:</span></div>
+              <div class="column is-narrow"><a target="_blank" title="Główny Urząd Geodezji i Kartografii" rel="noopener" href="http://www.gugik.gov.pl/"><img class="image-gugik pl-4 pt-1" src="./src/img/logo-gugik.png" /></a></div>
+              <div class="column">
+                <div class="attrib is-size-7 has-text-weight-light">
+                <span id="refresh-time" class="is-hidden-mobile pr-1">Ostatnia aktualizacja danych OSM: 
+                  <span class="has-text-grey-dark"></span>
+                </span>
+                <span class="osm-attribution">dane © <a target="_top" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors.</span>
+                </div>
+              </div>
+            </div>            
+          </nav>
+        </footer>
 
-        <button id="addNode" class="button is-floating is-medium is-success is-hidden-touch"
+        <button id="addNode" class="button is-floating is-medium is-success is-hidden-touch add-button"
                 style="bottom: 8px;left: 16px;" aria-label="Wymaga zalogowania" disabled>
           <svg class="icon" viewBox="0 0 24 24">
             <path fill="currentColor" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
           </svg>
         </button>
-        <button id="addNode-mobile-1" class="button is-floating is-medium is-success is-hidden-desktop"
+        <button id="addNode-mobile-1" class="button is-floating is-medium is-success is-hidden-desktop add-button"
                 style="bottom: 8px;left: 16px;" aria-label="Wymaga zalogowania">
           <svg class="icon" viewBox="0 0 24 24">
             <path fill="currentColor" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
           </svg>
         </button>
-        <button id="addNode-mobile-2" class="button is-floating is-medium is-success is-hidden-desktop is-hidden"
+        <button id="addNode-mobile-2" class="button is-floating is-medium is-success is-hidden-desktop is-hidden add-button"
                 style="bottom: 8px;left: 16px;" aria-label="Dalej">
           <svg class="icon" viewBox="0 0 24 24">
             <path fill="currentColor" d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" />
           </svg>
         </button>
-        <button id="addNode-mobile-3" class="button is-floating is-medium is-danger is-hidden-desktop is-hidden"
+        <button id="addNode-mobile-3" class="button is-floating is-medium is-danger is-hidden-desktop is-hidden add-button"
                 style="bottom: 8px;left: 156px;" aria-label="Anuluj">
           <svg class="icon" viewBox="0 0 24 24">
             <path fill="currentColor" d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
