@@ -163,13 +163,13 @@
 }
 .footer-partners
 {
-left: 0;
-position: fixed;
-right: 0;
-bottom: 0;
-z-index: 30;
-min-height: 3.25rem;
-box-shadow: 0 .5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.02);
+  left: 0;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  z-index: 9;
+  min-height: 3.25rem;
+  box-shadow: 0 .5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.02);
 }
 .mapboxgl-ctrl-bottom-right, .maplibregl-ctrl-bottom-right
 {
