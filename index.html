@@ -74,7 +74,7 @@
                 </span>
                 <span class="has-text-white has-text-weight-light ml-1">AED</span>
               </div>
-                <div class="navbar-item">
+                <div class="navbar-item px-1">
                     <a href="https://wiki.openstreetmap.org/wiki/Pl:Przewodnik_dla_pocz%C4%85tkuj%C4%85cych"
                        class="button is-success has-text-weight-light is-outlined" target="_blank" rel="noopener">Przewodnik OSM</a>
                 </div>
@@ -92,8 +92,8 @@
                   </div>
                 </div>
                 <hr class="navbar-divider">
-                <div class="navbar-item">
-                  <a href="mailto:aed@openstreetmap.pl" class="button is-success has-text-weight-light is-outlined">Kontakt</a>
+                <div class="navbar-item px-1">
+                  <a href="mailto:aed@openstreetmap.pl" class="button is-success has-text-weight-light is-outlined px-4">Kontakt</a>
                 </div>
                 <div class="navbar-item pb-0">
                   <a href="https://github.com/openstreetmap-polska/aed-mapa" target="_blank" rel="noopener">
@@ -109,7 +109,7 @@
               <div id="sidebar-header">
                 <div class="columns is-vcentered is-flex mr-0">
 
-                  <div class="column is-one-quarter is-one-fifth-mobile ">
+                  <div class="column is-one-quarter is-one  -fifth-mobile ">
                       <img class="image" src="./src/img/card-image.png" alt="Placeholder image" id="sidebar-card-image">
                   </div>
                   <div class="column">
@@ -159,7 +159,9 @@
             <div class="columns is-vcentered is-mobile is-gapless">
               <div class="column is-narrow ml-2">
                 <span class="span-partners is-family-secondary has-text-grey-dark has-text-weight-medium is-size-6 is-size-7-mobile ml-3" >Partner:</span></div>
-              <div class="column is-narrow ml-1 ml-4 mt-1"><a target="_blank" title="Główny Urząd Geodezji i Kartografii" rel="noopener" href="http://www.gugik.gov.pl/"><img class="image-gugik" src="./src/img/logo-gugik.png" /></a></div>
+              <div class="column is-narrow ml-1 ml-4 mt-1"><a target="_blank" title="Główny Urząd Geodezji i Kartografii" rel="noopener" href="http://www.gugik.gov.pl/">
+                <img class="image-gugik" src="./src/img/logo-gugik.png" /></a>
+              </div>
               <div class="column">
                 <div class="attrib is-size-7 has-text-weight-light">
                 <span id="refresh-time" class="is-hidden-mobile pr-1">Ostatnia aktualizacja danych OSM: 
@@ -171,13 +173,11 @@
             </div>            
           </div>
         </footer>
-
-        <button id="addNode" 
-        class="button is-floating is-medium is-success is-hidden-touch add-button" 
-        aria-label="Wymaga zalogowania" disabled style="bottom: 8px;left: 16px;">
-          <svg class="icon" viewBox="0 0 24 24">
-            <path fill="currentColor" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
-          </svg>
+        <button id="addNode" class="button is-success is-large is-hidden-touch has-text-weight-light" disabled style="bottom: 8px;left: 16px;  position: fixed; bottom: 75px; right: 40px;">
+          <svg class="icon mr-2" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M15 17H18V14H20V17H23V19H20V22H18V19H15V17M9 6.5C10.4 6.5 11.5 7.6 11.5 9S10.4 11.5 9 11.5 6.5 10.4 6.5 9 7.6 6.5 9 6.5M9 2C12.9 2 16 5.1 16 9C16 14.2 9 22 9 22S2 14.2 2 9C2 5.1 5.1 2 9 2M9 4C6.2 4 4 6.2 4 9C4 10 4 12 9 18.7C14 12 14 10 14 9C14 6.2 11.8 4 9 4Z" />
+        </svg>
+          Dodaj&nbsp;<span class="has-text-weight-semibold">AED</span>
         </button>
         <button id="addNode-mobile-1" 
         class="button is-floating is-medium is-success is-hidden-desktop add-button" 
