@@ -191,9 +191,10 @@
 
   .span-partners {
     letter-spacing: .03em;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif !important;
   }
 
   .image-gugik {
-    height: 58px;
-    width: 105px;
+    height: 55px;
+    width: 100px;
   }
