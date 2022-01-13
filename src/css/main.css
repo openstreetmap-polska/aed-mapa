@@ -202,3 +202,11 @@
   {
     opacity: 0.7 !important;
   }
+  #edit-poi:hover:after {
+    content:"Edytuj (iD)";
+    margin-left: 15px;
+  }
+  #preview-poi:hover:after {
+    content:"Podejrzyj w OSM";
+    margin-left: 15px;
+  }
