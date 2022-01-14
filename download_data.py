@@ -1,12 +1,13 @@
 import logging
-from typing import List, Dict, Union, Set, Tuple
+from typing import List, Dict, Union, Set
 import csv
 import requests
 import json
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from os import path
+
+import pyexcel_ods3
 
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -29,24 +30,28 @@ out body;
 >;
 out skel qt;'''
 
-tags_to_keep = {
-    'emergency',
-    'defibrillator:location',
-    'defibrillator:location:pl',
-    'access',
-    'indoor',
-    'location',
-    'description',
-    'description:pl',
-    'phone',
-    'note',
-    'note:pl',
-    'opening_hours',
-    'wikimedia_commons',
+tag_name_mapping = {
+    'defibrillator:location': 'lokalizacja (osm_tag:defibrillator:location)',
+    'defibrillator:location:pl': 'lokalizacja_pl (osm_tag:defibrillator:location:pl)',
+    'access': 'dostęp (osm_tag:access)',
+    'indoor': 'czy wewnątrz budynku (osm_tag:indoor)',
+    'location': 'czy wewnątrz budynku (osm_tag:location)',
+    'description': 'opis (osm_tag:description)',
+    'description:pl': 'opis_pl (osm_tag:description:pl)',
+    'phone': 'telefon (osm_tag:phone)',
+    'note': 'notatka (osm_tag:note)',
+    'note:pl': 'notatka_pl (osm_tag:note:pl)',
+    'opening_hours': 'godziny dostępności (osm_tag:opening_hours)',
+    'wikimedia_commons': 'zdjęcie (osm_tag:wikimedia_commons)',
+    'osm_id': 'id osm',
+    'osm_node_url': 'url obiektu osm'
 }
+
+tags_to_keep = set([tag for tag in tag_name_mapping.keys() if tag not in ('osm_id', 'osm_node_url')])
 
 prefix_to_add = {
     'wikimedia_commons': 'https://commons.wikimedia.org/wiki/',
+    'osm_node_url': 'https://osm.org/node/'
 }
 
 
@@ -72,24 +77,66 @@ def elements_from_overpass_api(api_url: str, query: str) -> List[dict]:
         return []
 
 
-def process_data(
-    data: List[dict],
+def save_json(file_path: Union[str, Path], data: dict) -> None:
+    logger.info(f'Saving file: {file_path}...')
+    with open(file=file_path, mode='w', encoding='utf-8') as f:
+        json.dump(data, f, allow_nan=False)
+    logger.info(f'Done saving file: {file_path}.')
+
+
+def save_csv(file_path: Union[str, Path], data: List[dict], columns: List[str]) -> None:
+    logger.info(f'Saving file: {file_path}...')
+    with open(file=file_path, mode='w', encoding='utf-8') as f:
+        csv_writer = csv.DictWriter(f, fieldnames=columns)
+        csv_writer.writeheader()
+        csv_writer.writerows(data)
+    logger.info(f'Done saving file: {file_path}.')
+
+
+def save_spreadsheet(file_path: str, data: Dict[str, list]) -> None:
+    logger.info(f'Saving file: {file_path}...')
+    pyexcel_ods3.save_data(file_path, data)
+    logger.info(f'Done saving file: {file_path}.')
+
+
+def load_geocoding_cache(file_path: Union[str, Path]) -> Dict[str, str]:
+    raise NotImplemented()
+
+
+def save_geocoding_cache(file_path: Union[str, Path]) -> None:
+    raise NotImplemented()
+
+
+def main(
+    output_dir: Path,
     keep_tags: Union[bool, Set[str]],
     prefixes: Dict[str, str],
-) -> Tuple[dict, Set[str], List[dict]]:
-    """Process data from Overpass API and return tuple with data ready to be dumped to:
-    GeoJSON (1st elem), CSV columns (2nd elem), CSV data (3rd elem).
-    """
+    col_name_map: Dict[str, str],
+) -> None:
 
+    geojson_file_path = output_dir.joinpath('aed_poland.geojson')
+    csv_file_path = output_dir.joinpath('aed_poland.csv')
+    spreadsheet_file_path = output_dir.joinpath('aed_poland.ods')
+    json_metadata_file_path = output_dir.joinpath('aed_poland_metadata.json')
+
+    ts = datetime.now(tz=timezone.utc).replace(microsecond=0)
+    # call Overpass API
+    elements = elements_from_overpass_api(api_url=overpass_api_url, query=overpass_query)
+
+    # vars for data
     geojson_template = {
         "type": "FeatureCollection",
         "features": [],
     }
     csv_row_list: List[Dict[str, str]] = []
     csv_columns_set: Set[str] = set()
+    data_sheet_name = 'dane'
+    metadata_sheet_name = 'metadane'
+    spreadsheet_template = {metadata_sheet_name: [], data_sheet_name: []}
+    spreadsheet_row_list: List[Dict[str, str]] = []
 
     logger.info('Processing data...')
-    for element in data:
+    for element in elements:
         # prepare
         osm_id = element['id']
         longitude = element['lon']
@@ -109,6 +156,13 @@ def process_data(
             'longitude': str(longitude),
             **tags
         }
+        spreadsheet_attributes = {
+            'osm_id': str(osm_id),
+            'osm_node_url': prefixes.get('osm_node_url', '') + str(osm_id),
+            'latitude': str(latitude),
+            'longitude': str(longitude),
+            **tags
+        }
         csv_columns_set.update(csv_attributes.keys())
 
         # append
@@ -116,46 +170,51 @@ def process_data(
             geojson_point_feature(lat=latitude, lon=longitude, properties=geojson_properties)
         )
         csv_row_list.append(csv_attributes)
-    logger.info(f'Prepared data to save. Number of rows: {len(csv_row_list)}')
+        spreadsheet_row_list.append(spreadsheet_attributes)
 
-    return geojson_template, csv_columns_set, csv_row_list
+    number_of_rows = len(csv_row_list)
+    sorted_csv_columns = list(sorted(list(csv_columns_set)))
+    # prepare spreadsheet headers
+    sorted_spreadsheet_columns = list(sorted(list(csv_columns_set) + ['osm_node_url']))
+    mapped_spreadsheet_columns = [col_name_map.get(col, col) for col in sorted_spreadsheet_columns]
+    spreadsheet_template[data_sheet_name].append(mapped_spreadsheet_columns)
+    # add spreadsheet rows
+    for row in spreadsheet_row_list:
+        row_data = [row.get(col, '') for col in sorted_spreadsheet_columns]
+        spreadsheet_template[data_sheet_name].append(row_data)
 
+    # prepare metadata
+    json_metadata = {
+        'data_download_ts_utc': str(ts.isoformat()),
+        'number_of_elements': number_of_rows,
+    }
+    spreadsheet_template[metadata_sheet_name] = [
+        ['Czas pobrania danych z API', 'Liczba elementów'],
+        [str(ts.isoformat()), number_of_rows],
+    ]
 
-def save_json(file_path: str, data: dict) -> None:
-    logger.info(f'Saving file: {file_path}...')
-    with open(file=file_path, mode='w', encoding='utf-8') as f:
-        json.dump(data, f, allow_nan=False)
-    logger.info('Done.')
-
-
-def save_csv(file_path: str, data: List[dict], columns: List[str]) -> None:
-    logger.info(f'Saving file: {file_path}...')
-    with open(file=file_path, mode='w', encoding='utf-8') as f:
-        csv_writer = csv.DictWriter(f, fieldnames=columns)
-        csv_writer.writeheader()
-        csv_writer.writerows(data)
-    logger.info('Done.')
+    if number_of_rows > 0:
+        logger.info(f'Prepared data to save. Number of rows: {number_of_rows}')
+        save_json(file_path=geojson_file_path, data=geojson_template)
+        save_csv(file_path=csv_file_path, data=csv_row_list, columns=sorted_csv_columns)
+        save_spreadsheet(file_path=spreadsheet_file_path.as_posix(), data=spreadsheet_template)
+        save_json(file_path=json_metadata_file_path, data=json_metadata)
+    else:
+        logger.error('Nothing to write.')
 
 
 if __name__ == '__main__':
 
-    geojson_file_path = sys.argv[1] if len(sys.argv) > 1 else 'aed_poland.geojson'
-    csv_file_path = sys.argv[2] if len(sys.argv) > 2 else 'aed_poland.csv'
-    json_metadata_file_path = Path(geojson_file_path).parent.joinpath('aed_poland_metadata.json').resolve().as_posix()
+    this_files_dir = Path(__file__).parent.resolve()
 
-    ts = datetime.now(tz=timezone.utc).replace(microsecond=0)
-    elements = elements_from_overpass_api(api_url=overpass_api_url, query=overpass_query)
-    number_of_elements = len(elements)
-    geojson_data, csv_columns, csv_data = process_data(data=elements, keep_tags=tags_to_keep, prefixes=prefix_to_add)
-    json_metadata = {
-        'data_download_ts_utc': ts.isoformat().__str__(),
-        'number_of_elements': number_of_elements,
-    }
+    arg1 = Path(sys.argv[1]) if len(sys.argv) > 1 else this_files_dir
+    if not arg1.is_dir():
+        logger.error(f'Given path: "f{arg1}" is not a directory.')
+        sys.exit()
 
-    if number_of_elements > 0:
-        save_json(file_path=geojson_file_path, data=geojson_data)
-        save_json(file_path=json_metadata_file_path, data=json_metadata)
-        sorted_csv_columns = list(sorted(list(csv_columns)))
-        save_csv(file_path=csv_file_path, data=csv_data, columns=sorted_csv_columns)
-    else:
-        logger.info('Number of downloaded elements is 0. Exiting.')
+    main(
+        output_dir=arg1,
+        keep_tags=tags_to_keep,
+        prefixes=prefix_to_add,
+        col_name_map=tag_name_mapping,
+    )
