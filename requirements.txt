@@ -1,0 +1,2 @@
+requests
+pyexcel-ods3==0.6.0
