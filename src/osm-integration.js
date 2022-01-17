@@ -66,7 +66,9 @@ function renderModalNeedLoginMessage() {
 }
 
 function renderModalNeedMoreZoomMessage() {
-    return `<p class="pb-2">Żeby dodawać obiekty musisz bardziej przybliżyć mapę, żeby podana lokalizacja była możliwie dokładna.</p>`;
+    let zoomInfo = "";
+    if (map) zoomInfo = `, obecnie: ${map.getZoom().toFixed(2)}`;
+    return `<p class="pb-2">Żeby dodawać obiekty musisz bardziej przybliżyć mapę, aby podana lokalizacja była możliwie dokładna. (zoom >= 15${zoomInfo})</p>`;
 }
 
 function showNeedMoreZoomModal() {
@@ -182,7 +184,7 @@ function saveNode(data) {
         });
 }
 
-document.getElementById('addNode').onclick = function () {
+function addMarkerAndOpenSidebar() {
     // add marker
     const mapCenter = map.getCenter();
     const initialCoordinates = [mapCenter.lng, mapCenter.lat];
@@ -200,6 +202,8 @@ document.getElementById('addNode').onclick = function () {
     };
     showSidebar(properties);
 };
+
+document.getElementById('addNode').onclick = addMarkerAndOpenSidebar;
 
 function mobileButton1onClick() {
     // add marker
@@ -291,17 +295,14 @@ function renderErrorLoggingIn() {
 function updateAddNodeButtonState() {
     let addNodeButton = document.getElementById('addNode');
     let mobileButton1 = document.getElementById('addNode-mobile-1');
-    addNodeButton.disabled = false;
-    addNodeButton.title = "";
+    addNodeButton.onclick = addMarkerAndOpenSidebar;
     mobileButton1.onclick = mobileButton1onClick;
     if (!auth.authenticated()) {
-        addNodeButton.disabled = true;
-        addNodeButton.title = "Zaloguj się aby móc dodawać obiekty";
+        addNodeButton.onclick = showNeedLoginModal;
         mobileButton1.onclick = showNeedLoginModal;
     }
     if (map.getZoom() < 15) {
-        addNodeButton.disabled = true;
-        addNodeButton.title = "Zbyt duże oddalenie mapy";
+        addNodeButton.onclick = showNeedMoreZoomModal;
         mobileButton1.onclick = showNeedMoreZoomModal;
     }
 }
