@@ -171,7 +171,7 @@
     right: 0;
     bottom: 0;
     z-index: 9;
-    min-height: 3.25rem;
+    min-height: 3.0rem;
   }
 
   .mapboxgl-ctrl-bottom-right,
@@ -193,11 +193,11 @@
     right: 0;
   }
 
-  .span-partners {
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif !important;
+  .image-gugik {
+    height: 40px;
+    width: 73px;
   }
 
-  .image-gugik {
-    height: 55px;
-    width: 100px;
+  .span-partners {
+    font-size: 0.88em !important;
   }
