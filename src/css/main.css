@@ -194,6 +194,10 @@
   }
 
   .image-gugik {
-    height: 50px;
-    width: 90px;
+    height: 40px;
+    width: 73px;
+  }
+
+  .span-partners {
+    font-size: 0.88em !important;
   }
