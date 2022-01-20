@@ -206,7 +206,7 @@ function renderSidebarForm() {
     </div>
 
     <div class="field pt-2">
-      <label class="label has-text-weight-semibold">Opis lokalizacji defibrylatora</label>
+      <label class="label has-text-weight-semibold">Szczegółowy opis lokalizacji defibrylatora</label>
       <div class="control">
         <textarea id="${formLocationFieldId}" tag="defibrillator:location" class="textarea is-success" rows="1"
             placeholder="Na przykład: Na ścianie przy wejściu"></textarea>
