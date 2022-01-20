@@ -392,10 +392,3 @@ document.addEventListener('DOMContentLoaded', () => {
 sidebarButtonCloseIds.forEach(id => {
     document.getElementById(id).addEventListener('click', hideSidebar);
 });
-
-function updateUrl(id) {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const featureId = urlParams.get('id');
-    console.log(featureId + ' featureId');
-}
