@@ -1,6 +1,7 @@
 {
-    "name": "AED Mapa",
-    "short_name": "AED Mapa",
+    "name": "Mapa AED",
+    "short_name": "Mapa AED",
+    "description": "Mapa defibrylatorów (AED) na terenie Polski",
     "start_url": "/index.html",
     "icons": [
         {
