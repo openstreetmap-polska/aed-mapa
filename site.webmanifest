@@ -1,20 +1,28 @@
 {
     "name": "AED Mapa",
     "short_name": "AED Mapa",
-    "start_url": "/",
+    "start_url": "/index.html",
     "icons": [
         {
             "src": "./src/favicon/android-chrome-192x192.png",
             "sizes": "192x192",
-            "type": "image/png"
+            "type": "image/png",
+            "purpose": "any maskable"
         },
         {
             "src": "./src/favicon/android-chrome-256x256.png",
             "sizes": "256x256",
-            "type": "image/png"
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "./src/favicon/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
         }
     ],
     "theme_color": "#008855",
     "background_color": "#f5f5f5",
-    "display": "standalone"
+    "display": "fullscreen"
 }
