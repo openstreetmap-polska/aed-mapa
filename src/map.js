@@ -60,6 +60,7 @@ var map = new maplibregl.Map({
                 'text-font': ['Open Sans Bold'],
                 'text-size': 20,
                 'text-letter-spacing': 0.05,
+                'text-allow-overlap': true,
                 },
             'paint': {
                     'text-color': '#f5f5f5',
