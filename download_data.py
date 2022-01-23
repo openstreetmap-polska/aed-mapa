@@ -1,4 +1,5 @@
 import logging
+from copy import deepcopy
 from typing import List, Dict, Union, Set
 import csv
 import requests
@@ -8,7 +9,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import pyexcel_ods3
-
+import gspread
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__file__)
@@ -52,6 +53,11 @@ tags_to_keep = set([tag for tag in tag_name_mapping.keys() if tag not in ('osm_i
 prefix_to_add = {
     'wikimedia_commons': 'https://commons.wikimedia.org/wiki/',
     'osm_node_url': 'https://osm.org/node/'
+}
+
+geojson_template = {
+    "type": "FeatureCollection",
+    "features": [],
 }
 
 
@@ -107,7 +113,7 @@ def save_geocoding_cache(file_path: Union[str, Path]) -> None:
     raise NotImplemented()
 
 
-def main(
+def main_overpass(
     output_dir: Path,
     keep_tags: Union[bool, Set[str]],
     prefixes: Dict[str, str],
@@ -124,10 +130,7 @@ def main(
     elements = elements_from_overpass_api(api_url=overpass_api_url, query=overpass_query)
 
     # vars for data
-    geojson_template = {
-        "type": "FeatureCollection",
-        "features": [],
-    }
+    geojson = deepcopy(geojson_template)
     csv_row_list: List[Dict[str, str]] = []
     csv_columns_set: Set[str] = set()
     data_sheet_name = 'dane'
@@ -166,7 +169,7 @@ def main(
         csv_columns_set.update(csv_attributes.keys())
 
         # append
-        geojson_template['features'].append(
+        geojson['features'].append(
             geojson_point_feature(lat=latitude, lon=longitude, properties=geojson_properties)
         )
         csv_row_list.append(csv_attributes)
@@ -195,12 +198,35 @@ def main(
 
     if number_of_rows > 0:
         logger.info(f'Prepared data to save. Number of rows: {number_of_rows}')
-        save_json(file_path=geojson_file_path, data=geojson_template)
+        save_json(file_path=geojson_file_path, data=geojson)
         save_csv(file_path=csv_file_path, data=csv_row_list, columns=sorted_csv_columns)
         save_spreadsheet(file_path=spreadsheet_file_path.as_posix(), data=spreadsheet_template)
         save_json(file_path=json_metadata_file_path, data=json_metadata)
     else:
         logger.error('Nothing to write.')
+
+
+def main_google_sheets(output_dir: Path, config_files_dir: Path) -> None:
+    sa_credentials_json_path = config_files_dir.joinpath('sa-credentials.json').resolve().as_posix()
+    config_path = config_files_dir.joinpath('gsheetsurl').resolve().as_posix()
+
+    custom_layer_file_path = output_dir.joinpath('custom_layer.geojson')
+    geojson = deepcopy(geojson_template)
+    gsheets_url = open(config_path, 'r').read()
+
+    logger.info('Reading Google Sheets credentials.')
+    gc = gspread.service_account(filename=sa_credentials_json_path)
+    logger.info('Opening Google Sheets url.')
+    gsheet = gc.open_by_url(gsheets_url)
+    data = gsheet.worksheet('dane_raw').get_all_records()
+    logger.info(f'Reading rows from Google Sheets. Rows to process: {len(data)}.')
+    for row in data:
+        if all([row['latitude'], row['longitude']]):
+            geojson['features'].append(
+                geojson_point_feature(lat=row['latitude'], lon=row['longitude'], properties={})
+            )
+    if len(geojson['features']) > 0:
+        save_json(file_path=custom_layer_file_path.as_posix(), data=geojson)
 
 
 if __name__ == '__main__':
@@ -212,9 +238,10 @@ if __name__ == '__main__':
         logger.error(f'Given path: "f{arg1}" is not a directory.')
         sys.exit()
 
-    main(
+    main_overpass(
         output_dir=arg1,
         keep_tags=tags_to_keep,
         prefixes=prefix_to_add,
         col_name_map=tag_name_mapping,
     )
+    main_google_sheets(output_dir=arg1, config_files_dir=arg1)
