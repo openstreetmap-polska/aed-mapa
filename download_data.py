@@ -222,9 +222,12 @@ def main_google_sheets(output_dir: Path, config_files_dir: Path) -> None:
     logger.info(f'Reading rows from Google Sheets. Rows to process: {len(data)}.')
     counter = 0
     for row in data:
-        if all([row['latitude'], row['longitude']]) and row.get('import', 'UNKNOWN') == 'FALSE':
+        if (
+            all([row['latitude'], row['longitude']])
+            and row.get('import', 'UNKNOWN') == 'FALSE'
+        ):
             geojson['features'].append(
-                geojson_point_feature(lat=row['latitude'], lon=row['longitude'], properties={})
+                geojson_point_feature(lat=row['latitude'], lon=row['longitude'], properties={'type': row.get('typ')})
             )
             counter += 1
     logger.info(f'{counter} features to export.')

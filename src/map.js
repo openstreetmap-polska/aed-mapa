@@ -177,13 +177,13 @@ map.on('load', () => {
 });
 
 function toggleCustomLayer() {
-    const customLayerId = "custom-layer";
+    const customLayerId = "mobile-aed";
     let layer = map.getLayer(customLayerId);
     if (layer) {
-        console.log("Removing custom layer from map.");
+        console.log("Removing " + customLayerId + " layer from map.");
         map.removeLayer(customLayerId);
     } else {
-        console.log("Adding custom layer to map.");
+        console.log("Adding " + customLayerId + " layer to map.");
         map.addLayer({
             'id': customLayerId,
             'type': 'circle',
@@ -194,7 +194,7 @@ function toggleCustomLayer() {
                 'circle-stroke-color': 'rgba(245, 245, 245, 0.88)',
                 'circle-stroke-width': 3,
             },
-            'filter': ['!', ['has', 'point_count']],
+            'filter': ['==', 'type', 'mobile'],
         });
     }
 }
