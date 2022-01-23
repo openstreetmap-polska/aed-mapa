@@ -193,9 +193,9 @@
     right: 0;
   }
 
-  .image-mobile
-  {
+  .image-mobile {
     height: 40px;
+
   }
 
   .image-gugik {
@@ -209,5 +209,9 @@
   }
 
   .span-partners {
-    font-size: 0.88em !important;
+    font-size: 0.80em !important;
+  }
+
+  .smaller-text {
+    font-size: 0.8em !important;
   }

@@ -160,8 +160,8 @@
                 <span class="span-partners has-text-grey-dark has-text-weight-medium is-size-7-mobile ml-3" >Partnerzy:</span></div>
 
                 <!-- Only mobile start -->
-                <div class="column is-narrow ml-3 mt-1 is-hidden-desktop">
-                  <img id="partners-slideshow" class="image-mobile" src="./src/img/logo-gugik-short.png" />
+                <div class="column is-narrow ml-3 mt-1 is-hidden-desktop" id="slideshow">
+                  <img id="partners-slideshow" class="image-mobile" src="./src/img/logo-gugik-short.png"/>
                 </div>
                 <!-- Only mobile end -->
 
@@ -171,12 +171,17 @@
               <div class="column is-narrow ml-3 mt-1 is-hidden-touch"><span title="Fundacja Powszechnego Dostępu do Defibrylacji w Polsce">
                 <img class="image-fundacja" src="./src/img/logo-fundacja.png" /></span>
               </div>
-              <div class="column">
+              <div class="column is-hidden-touch">
                 <div class="attrib is-size-7 has-text-weight-light">
                 <span id="refresh-time" class="is-hidden-mobile pr-1">Ostatnia aktualizacja danych OSM: 
                   <span class="has-text-grey-dark"></span>
                 </span>
-                <span class="osm-attribution">dane © <a target="_top" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors.</span>
+                <span class="osm-attribution">dane © twórcy <a target="_top" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>.</span>
+                </div>
+              </div>
+              <div class="column is-hidden-desktop">
+                <div class="attrib is-size-7 has-text-weight-light">
+                <span class="osm-attribution smaller-text">dane © twórcy <a target="_top" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>.</span>
                 </div>
               </div>
             </div>            

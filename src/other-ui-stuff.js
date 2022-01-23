@@ -404,5 +404,5 @@ function change() {
  }
  
  window.onload = function () {
-    setInterval(change, 6000);
+    setInterval(change, 5000);
 };
