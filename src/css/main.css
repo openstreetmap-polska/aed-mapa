@@ -193,6 +193,11 @@
     right: 0;
   }
 
+  .image-mobile
+  {
+    height: 40px;
+  }
+
   .image-gugik {
     height: 40px;
     width: 73px;

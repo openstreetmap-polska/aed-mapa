@@ -392,3 +392,17 @@ document.addEventListener('DOMContentLoaded', () => {
 sidebarButtonCloseIds.forEach(id => {
     document.getElementById(id).addEventListener('click', hideSidebar);
 });
+
+// partners slideshow
+partners = ['./src/img/logo-gugik-short.png', './src/img/logo-fundacja.png'];
+let slideShow = document.getElementById('partners-slideshow');
+
+let index = 0;
+function change() {
+    slideShow.src = partners[index];
+    index > 0 ? index = 0 : index++;
+ }
+ 
+ window.onload = function () {
+    setInterval(change, 6000);
+};
