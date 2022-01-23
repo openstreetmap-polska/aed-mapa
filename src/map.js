@@ -25,6 +25,7 @@ var map = new maplibregl.Map({
                     'https://c.tile.openstreetmap.org/{z}/{x}/{y}.png'
                 ],
                 'tileSize': 256,
+                'maxzoom': 19,
                 //'attribution': `<span id="refresh-time"></span>dane © <a target="_top" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors.`,
             },
             'aed-locations': {
@@ -32,7 +33,7 @@ var map = new maplibregl.Map({
                 'data': aedSource,
                 'cluster': true,
                 'clusterRadius': 32,
-                'maxzoom': 12
+                'maxzoom': 12,
             },
         },
         'layers': [{
@@ -40,6 +41,7 @@ var map = new maplibregl.Map({
             'type': 'raster',
             'source': 'raster-tiles',
             'minZoom': 0,
+            'maxZoom': 19,
         }, {
             'id': 'clustered-circle',
             'type': 'circle',
