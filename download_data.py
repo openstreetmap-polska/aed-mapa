@@ -240,6 +240,7 @@ if __name__ == '__main__':
     this_files_dir = Path(__file__).parent.resolve()
 
     arg1 = Path(sys.argv[1]) if len(sys.argv) > 1 else this_files_dir
+    arg2 = Path(sys.argv[2]) if len(sys.argv) > 2 else this_files_dir
     if not arg1.is_dir():
         logger.error(f'Given path: "f{arg1}" is not a directory.')
         sys.exit()
@@ -250,4 +251,4 @@ if __name__ == '__main__':
         prefixes=prefix_to_add,
         col_name_map=tag_name_mapping,
     )
-    main_google_sheets(output_dir=arg1, config_files_dir=arg1)
+    main_google_sheets(output_dir=arg1, config_files_dir=arg2)
