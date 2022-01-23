@@ -220,11 +220,14 @@ def main_google_sheets(output_dir: Path, config_files_dir: Path) -> None:
     gsheet = gc.open_by_url(gsheets_url)
     data = gsheet.worksheet('dane_raw').get_all_records()
     logger.info(f'Reading rows from Google Sheets. Rows to process: {len(data)}.')
+    counter = 0
     for row in data:
-        if all([row['latitude'], row['longitude']]):
+        if all([row['latitude'], row['longitude']]) and row.get('import', 'UNKNOWN') == 'FALSE':
             geojson['features'].append(
                 geojson_point_feature(lat=row['latitude'], lon=row['longitude'], properties={})
             )
+            counter += 1
+    logger.info(f'{counter} features to export.')
     if len(geojson['features']) > 0:
         save_json(file_path=custom_layer_file_path.as_posix(), data=geojson)
 
