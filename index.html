@@ -68,7 +68,7 @@
                   <svg class="icon" style="width:24px;height:24px" viewBox="0 0 24 24">
                     <path fill="#ffc83d" d="M11 15H6L13 1V9H18L11 23V15Z" />
                 </svg>
-                <span class="has-text-white has-text-weight-light ">dodaliśmy już&nbsp;</span>
+                <span class="has-text-white-ter has-text-weight-light ">dodaliśmy już&nbsp;</span>
                 <span class="has-text-white-ter has-text-weight-semibold" id="aed-number">
                     <button class="button is-success has-background-green is-loading is-small"></button>
                 </span>
@@ -78,7 +78,7 @@
                     <a href="https://wiki.openstreetmap.org/wiki/Pl:Przewodnik_dla_pocz%C4%85tkuj%C4%85cych"
                        class="button is-success has-text-weight-light is-outlined" target="_blank" rel="noopener">Przewodnik OSM</a>
                 </div>
-                <div class="navbar-item" id="span-login"></div>
+                <div class="navbar-item px-1" id="span-login"></div>
                 <div id="navbar-logged" class="navbar-item has-dropdown is-hoverable">
                   <a id="navbar-username" class="navbar-link has-text-white-ter has-text-weight-light is-arrowless">
                   </a>
@@ -91,13 +91,12 @@
                     </a>
                   </div>
                 </div>
-                <hr class="navbar-divider">
                 <div class="navbar-item px-1">
                   <a href="mailto:aed@openstreetmap.pl" class="button is-success has-text-weight-light is-outlined px-4">Kontakt</a>
                 </div>
-                <div class="navbar-item pb-0">
-                  <button class="button" onclick="showSidebar2()">
-                    <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                <div class="navbar-item px-1">
+                  <button class="button is-success is-outlined has-text-weight-light has-text-white-ter" onclick="showSidebar2()">
+                    <svg class="icon" style="width:24px;height:24px" viewBox="0 0 24 24">
                         <path fill="currentColor" d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z" />
                     </svg>
                   </button>
@@ -146,34 +145,34 @@
 
               <div id="sidebar2-header">
                 <div class="columns is-vcentered is-flex mr-0">
-                  <div class="column">
+                  <div class="column ml-4 my-3">
                       <p id="sidebar2-caption" class="title has-text-weight-light">Ustawienia</p>
                   </div>
                   <button id="sidebar2-button-close-touch" aria-label="Zamknij ekran boczny"
-                          class="delete is-medium is-hidden-touch is-pulled-right close-button mr-2 mt-4"></button>
+                          class="delete is-medium is-hidden-touch is-pulled-right close-button mr-2 mt-5"></button>
                   <button id="sidebar2-button-close-desktop" aria-label="Zamknij ekran boczny"
-                          class="delete is-large is-hidden-desktop is-pulled-right close-button mr-2 mt-4"></button>
+                          class="delete is-large is-hidden-desktop is-pulled-right close-button mr-2 mt-5"></button>
                 </div>
               </div>
 
               <div class="card-content pt-3 pb-3">
                 <div id="sidebar2-content-div" class="content">
                     <p>Pobierz dane o AED dodanych do OSM:</p>
-                    <a href="./aed_poland.geojson" target="_blank" class="button">
-                        <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                    <a href="./aed_poland.geojson" target="_blank" class="button is-success">
+                        <svg class="icon mr-2" style="width:24px;height:24px" viewBox="0 0 24 24">
                             <path fill="currentColor" d="M17.9,17.39C17.64,16.59 16.89,16 16,16H15V13A1,1 0 0,0 14,12H8V10H10A1,1 0 0,0 11,9V7H13A2,2 0 0,0 15,5V4.59C17.93,5.77 20,8.64 20,12C20,14.08 19.2,15.97 17.9,17.39M11,19.93C7.05,19.44 4,16.08 4,12C4,11.38 4.08,10.78 4.21,10.21L9,15V16A2,2 0 0,0 11,18M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
                         </svg> GeoJSON</a>
-                    <a href="./aed_poland.csv" target="_blank" class="button">
-                        <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                    <a href="./aed_poland.csv" target="_blank" class="button is-success">
+                        <svg class="icon mr-2" style="width:24px;height:24px" viewBox="0 0 24 24">
                             <path fill="currentColor" d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2M15 16L13 20H10L12 16H9V11H15V16M13 9V3.5L18.5 9H13Z" />
                         </svg> CSV</a>
-                    <a href="./aed_poland.ods" target="_blank" class="button">
-                        <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                    <a href="./aed_poland.ods" target="_blank" class="button is-success">
+                        <svg class="icon mr-2" style="width:24px;height:24px" viewBox="0 0 24 24">
                             <path fill="currentColor" d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M15.8,20H14L12,16.6L10,20H8.2L11.1,15.5L8.2,11H10L12,14.4L14,11H15.8L12.9,15.5L15.8,20M13,9V3.5L18.5,9H13Z" />
                         </svg> Excel</a>
                     <hr>
                     <p>Warstwy dodatkowe:</p>
-                        <button onclick="toggleCustomLayer()" class="button">Włącz/wyłącz</button> warstwę AED <b>mobilnych</b> zebranych z urzędów, które jeszcze nie zostały dodane
+                        <button onclick="toggleCustomLayer()" class="button is-success">Włącz/wyłącz</button> warstwę AED <b>mobilnych</b> zebranych z urzędów, które jeszcze nie zostały dodane
                 </div>
               </div>
 
