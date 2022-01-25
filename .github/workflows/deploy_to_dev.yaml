@@ -19,4 +19,11 @@ jobs:
           ssh-host: ${{ secrets.SSH_HOST_IP }}
           ssh-port: ${{ secrets.SSH_HOST_PORT }}
       - name: Run deploy script on host
-        run: ssh -t -p ${{ secrets.SSH_HOST_PORT }} -l ${{ secrets.SSH_USER }} ${{ secrets.SSH_HOST_IP }} /home/${{ secrets.SSH_USER }}/deploy_dev.sh 2> deploy_dev_err.txt
+        run: |
+          ssh -t -p ${{ secrets.SSH_HOST_PORT }} -l ${{ secrets.SSH_USER }} ${{ secrets.SSH_HOST_IP }} << EOF
+            cd /home/${{ secrets.SSH_USER }}/aed-mapa-dev/
+            git pull
+            rsync --update --recursive --delete \
+              --exclude '*.py' --exclude '*.geojson' --exclude '.git*' --exclude '*.json' \
+              --verbose /home/${{ secrets.SSH_USER }}/aed-mapa-dev/ /var/www/dev/
+          EOF
