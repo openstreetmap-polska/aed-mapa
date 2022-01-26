@@ -11,6 +11,7 @@ jobs:
   deploy:
     name: Deploy to dev env
     runs-on: ubuntu-latest
+    environment: dev
     steps:
       - name: Install SSH Key
         uses: kielabokkie/ssh-key-and-known-hosts-action@v1
