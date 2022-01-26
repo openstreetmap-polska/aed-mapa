@@ -26,7 +26,7 @@ jobs:
           OSM_API_URL: ${{ secrets.URL }}
         run: |
           ssh -t -p ${{ secrets.SSH_HOST_PORT }} -l ${{ secrets.SSH_USER }} ${{ secrets.SSH_HOST_IP }} << EOF
-            set -e
+            # set -e
             cd /home/${{ secrets.SSH_USER }}/aed-mapa-dev/
             git pull
             rm -rf /home/${{ secrets.SSH_USER }}/temp_deploy_dev/
