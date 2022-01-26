@@ -1,10 +1,10 @@
 // osm integration stuff
+// to be filled during deploy
 var auth = osmAuth({
-    oauth_consumer_key: 'SVN3D2Q8ciaIbHCdHbhuiG7mEwvOGbnSDcy1ZgnV',
-    oauth_secret: 'alqjD88o2qtdN9ZwtOfanqqu5Rbp2lhIxbGFukTD',
-    url: "https://master.apis.dev.openstreetmap.org",
+    oauth_consumer_key: '<< oauth_consumer_key >>',
+    oauth_secret: '<< oauth_secret >>',
+    url: "<< url >>",
     landing: 'land.html',
-
 });
 // global variables
 var openChangesetId = null;
