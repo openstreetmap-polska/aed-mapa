@@ -19,18 +19,26 @@ self.addEventListener('activate', event => {
     console.log('SW now ready to handle fetches!');
   });
 
-self.addEventListener('fetch', (event) => {
-    console.log('SW fetch: ' + event.request.url);
-        event.respondWith(
-            caches.match(event.request).then((resp) => {
-            return resp || fetch(event.request).then((response) => {
-                return caches.open(cacheName).then((cache) => {
-                 if(event.request.method == 'GET') {
-                  cache.put(event.request, response.clone());
-                 }
-                return response;
+
+self.addEventListener('fetch', event => {
+    event.respondWith(
+        // try get response from network
+        
+        fetch(event.request).then(async response => {
+            // if network success, cache it for all GET requests
+            var responseClone = response.clone(); 
+
+            if(event.request.method == 'GET'){
+                await caches.open(cacheName)
+                .then(cache => {
+                    cache.put(event.request, responseClone);
                 });
-            });
+            }
+            return response;
+        }).catch(function(){
+        // if network fails, try get response from cache
+
+            return caches.match(event.request);
         })
     );
 });
