@@ -11,6 +11,7 @@ jobs:
   deploy:
     name: Deploy to dev env
     runs-on: ubuntu-latest
+    environment: dev
     steps:
       - name: Install SSH Key
         uses: kielabokkie/ssh-key-and-known-hosts-action@v1
@@ -19,4 +20,25 @@ jobs:
           ssh-host: ${{ secrets.SSH_HOST_IP }}
           ssh-port: ${{ secrets.SSH_HOST_PORT }}
       - name: Run deploy script on host
-        run: ssh -t -p ${{ secrets.SSH_HOST_PORT }} -l ${{ secrets.SSH_USER }} ${{ secrets.SSH_HOST_IP }} /home/${{ secrets.SSH_USER }}/deploy_dev.sh 2> deploy_dev_err.txt
+        env:
+          OAUTH_CONSUMER_KEY: ${{ secrets.OAUTH_CONSUMER_KEY }}
+          OAUTH_SECRET: ${{ secrets.OAUTH_SECRET }}
+          OSM_API_URL: ${{ secrets.URL }}
+        run: |
+          ssh -t -p ${{ secrets.SSH_HOST_PORT }} -l ${{ secrets.SSH_USER }} ${{ secrets.SSH_HOST_IP }} << EOF
+            set -e
+            cd /home/${{ secrets.SSH_USER }}/aed-mapa-dev/
+            git pull
+            rm -rf /home/${{ secrets.SSH_USER }}/temp_deploy_dev/
+            mkdir /home/${{ secrets.SSH_USER }}/temp_deploy_dev/
+            rsync --recursive \
+              --exclude '*.py' --exclude '*.geojson' --exclude '.git*' --exclude 'aed_poland_metadata.json' \
+              --exclude 'requirements.txt' --exclude 'LICENSE' --exclude 'README.md' --exclude '*.ods' --exclude '*.csv' \
+              --quiet /home/${{ secrets.SSH_USER }}/aed-mapa-dev/ /home/${{ secrets.SSH_USER }}/temp_deploy_dev/
+            sed -i "s/<< oauth_consumer_key >>/$OAUTH_CONSUMER_KEY/;s/<< oauth_secret >>/$OAUTH_SECRET/;s|<< url >>|$OSM_API_URL|" /home/${{ secrets.SSH_USER }}/temp_deploy_dev/src/osm-integration.js
+            rsync --update --recursive --delete \
+              --exclude '*.py' --exclude '*.geojson' --exclude '.git*' --exclude 'aed_poland_metadata.json' \
+              --exclude 'requirements.txt' --exclude 'LICENSE' --exclude 'README.md' --exclude '*.ods' --exclude '*.csv' \
+              --verbose /home/${{ secrets.SSH_USER }}/temp_deploy_dev/ /var/www/dev/
+            rm -rf /home/${{ secrets.SSH_USER }}/temp_deploy_dev/
+          EOF

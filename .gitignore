@@ -132,3 +132,6 @@ dmypy.json
 # IDE folders
 .idea
 .vscode
+
+# IIS configuration file
+web.config
