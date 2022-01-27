@@ -82,7 +82,7 @@
                 <div id="navbar-logged" class="navbar-item has-dropdown is-hoverable">
                   <a id="navbar-username" class="navbar-link has-text-white-ter has-text-weight-light is-arrowless">
                   </a>
-              
+
                   <div class="navbar-dropdown has-background-green">
                     <a class="navbar-item" id="logout">
                       <svg class="icon mr-1" style="width:24px;height:24px" viewBox="0 0 24 24">
@@ -200,8 +200,8 @@
           <button class="modal-close is-large" aria-label="close" onclick="closeModal()"></button>
         </div>
 
-        <div id="map"></div> 
-        <footer> 
+        <div id="map"></div>
+        <footer>
           <div class="footer-partners is-white">
             <div class="columns is-vcentered is-mobile is-gapless">
               <div class="column is-narrow ml-2">
@@ -221,7 +221,7 @@
               </div>
               <div class="column is-hidden-touch">
                 <div class="attrib is-size-7 has-text-weight-light">
-                <span id="refresh-time" class="is-hidden-mobile pr-1">Ostatnia aktualizacja danych OSM: 
+                <span id="refresh-time" class="is-hidden-mobile pr-1">Ostatnia aktualizacja danych OSM:
                   <span class="has-text-grey-dark"></span>
                 </span>
                 <span class="osm-attribution">dane © twórcy <a target="_top" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>.</span>
@@ -232,7 +232,7 @@
                 <span class="osm-attribution smaller-text">dane © twórcy <a target="_top" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>.</span>
                 </div>
               </div>
-            </div>            
+            </div>
           </div>
         </footer>
         <button id="addNode" class="button is-success is-large is-hidden-touch has-text-weight-light"
@@ -242,15 +242,15 @@
         </svg>
           Dodaj&nbsp;<span class="has-text-weight-semibold">AED</span>
         </button>
-        <button id="addNode-mobile-1" 
-        class="button is-floating is-medium is-success is-hidden-desktop add-button" 
+        <button id="addNode-mobile-1"
+        class="button is-floating is-medium is-success is-hidden-desktop add-button"
         aria-label="Dodaj AED" style="bottom: 8px;left: 16px;">
           <svg class="icon" viewBox="0 0 24 24">
             <path fill="currentColor" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
           </svg>
         </button>
-        <button id="addNode-mobile-2" 
-        class="button is-floating is-medium is-success is-hidden-desktop is-hidden add-button" 
+        <button id="addNode-mobile-2"
+        class="button is-floating is-medium is-success is-hidden-desktop is-hidden add-button"
         aria-label="Dalej" style="bottom: 8px;left: 16px;">
           <svg class="icon" viewBox="0 0 24 24">
             <path fill="currentColor" d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" />
@@ -262,9 +262,22 @@
             <path fill="currentColor" d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
           </svg>
         </button>
+        <script>
+          if ('serviceWorker' in navigator){
+            window.addEventListener('load', () =>{
+              navigator.serviceWorker.register('serviceWorker.js')
+              .then(reg => {
+                console.log('SW registred', reg);
+              }).catch(err => {
+                console.log('SW registration faild!', err);
+              });
+            });
+          }
+        </script>
         <script src="./src/other-ui-stuff.js"></script>
         <script src="./src/map.js"></script>
         <script src="./src/osm-integration.js"></script>
+        <script src="./src/pwa-EventListeners.js" type="module"></script>
 
         <!-- Cloudflare Web Analytics -->
         <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
