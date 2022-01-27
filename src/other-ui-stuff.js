@@ -1,9 +1,11 @@
 const sidebarDivId = 'sidebar-div';
+const sidebar2DivId = 'sidebar2-div';
 const sidebarHeaderId = 'sidebar-header';
 const sidebarCaptionId = 'sidebar-caption';
 const sidebarContentDivId = 'sidebar-content-div';
 const sidebarFooterButtonLeftId = 'sidebar-footer-button-left';
 const sidebarButtonCloseIds = ['sidebar-button-close-touch', 'sidebar-button-close-desktop'];
+const sidebar2ButtonCloseIds = ['sidebar2-button-close-touch', 'sidebar2-button-close-desktop'];
 const formPhoneFieldId = 'form-phone';
 const formLocationFieldId = 'form-location';
 const formLocationEnFieldId = 'form-location-en';
@@ -309,6 +311,11 @@ function removeMarkerIfExists() {
     }
 }
 
+function closeNavBurger() {
+    document.getElementById('navMenu').classList.remove('is-active');
+    document.getElementsByClassName('navbar-burger')[0].classList.remove('is-active');
+}
+
 function showSidebar(properties) {
     let sidebar = document.getElementById(sidebarDivId);
     if (sidebar) {
@@ -318,8 +325,21 @@ function showSidebar(properties) {
             removeMarkerIfExists();
         } else if (properties.action === "addNode") {
             prepareSidebarAddingNode(properties.data);
-        } else
+        } else {
             console.log(`Unknown action: ${properties.action}.`);
+        }
+        hideSidebar2();
+        closeNavBurger();
+    } else
+        console.log('Sidebar not found.');
+}
+
+function showSidebar2() {
+    let sidebar = document.getElementById(sidebar2DivId);
+    if (sidebar) {
+        sidebar.classList.remove('is-invisible');
+        hideSidebar();
+        closeNavBurger();
     } else
         console.log('Sidebar not found.');
 }
@@ -336,6 +356,15 @@ function hideSidebar() {
         mobileButton1.classList.remove('is-hidden');
         mobileButton2.classList.add('is-hidden');
         mobileButton3.classList.add('is-hidden');
+    } else {
+        console.log('Sidebar not found.');
+    }
+}
+
+function hideSidebar2() {
+    let sidebar = document.getElementById(sidebar2DivId);
+    if (sidebar) {
+        sidebar.classList.add('is-invisible');
     } else {
         console.log('Sidebar not found.');
     }
@@ -392,3 +421,20 @@ document.addEventListener('DOMContentLoaded', () => {
 sidebarButtonCloseIds.forEach(id => {
     document.getElementById(id).addEventListener('click', hideSidebar);
 });
+sidebar2ButtonCloseIds.forEach(id => {
+    document.getElementById(id).addEventListener('click', hideSidebar2);
+});
+
+// partners slideshow
+partners = ['./src/img/logo-gugik-short.png', './src/img/logo-fundacja.png'];
+let slideShow = document.getElementById('partners-slideshow');
+
+let index = 0;
+function change() {
+    slideShow.src = partners[index];
+    index > 0 ? index = 0 : index++;
+ }
+ 
+ window.onload = function () {
+    setInterval(change, 5000);
+};

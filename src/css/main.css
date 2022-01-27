@@ -57,6 +57,35 @@
     }
   }
 
+    @media (min-width: 500px) {
+    .sidebar-right {
+      position: relative;
+      float: right;
+      right: 40px;
+      z-index: 1;
+      margin: 0.5rem !important;
+      width: 425px;
+      border-radius: 10px;
+      box-shadow: 0 .5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.02);
+      max-height: 90vh;
+      overflow: auto !important;
+      z-index: 10 !important;
+    }
+  }
+
+  @media (max-width: 500px) {
+    .sidebar-right {
+      position: absolute;
+      margin: 0 !important;
+      width: 100vw;
+      display: block !important;
+      overflow-wrap: break-word;
+      max-height: 85vh;
+      z-index: 10 !important;
+      overflow: auto !important;
+    }
+  }
+
   .card {
     z-index: 1;
   }
@@ -193,6 +222,11 @@
     right: 0;
   }
 
+  .image-mobile {
+    height: 40px;
+
+  }
+
   .image-gugik {
     height: 40px;
     width: 73px;
@@ -204,5 +238,9 @@
   }
 
   .span-partners {
-    font-size: 0.88em !important;
+    font-size: 0.80em !important;
+  }
+
+  .smaller-text {
+    font-size: 0.8em !important;
   }

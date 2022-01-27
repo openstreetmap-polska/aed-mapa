@@ -13,6 +13,18 @@ OSM jest otwartym zbiorem danych i zawsze taki pozostanie, więc dane mogą być
 Poza pobieraniem danych bezpośrednio z OSM albo za pomocą usług jak Overpass API dane wyświetlane na stronie można pobrać w formacie:
 - GeoJSON: https://aed.openstreetmap.org.pl/aed_poland.geojson
 - CSV: https://aed.openstreetmap.org.pl/aed_poland.csv
+- Excel: https://aed.openstreetmap.org.pl/aed_poland.ods
+
+### Gitflow
+branch 'development' -> branch 'main'
+
+Branch 'development' jest hostowany pod: https://aed.openstreetmap.org.pl/dev/
+a branch 'main' pod: https://aed.openstreetmap.org.pl/
+
+Github actions robi deploy gdy pojawiają się nowe commity na tych branch-ach.
+
+Nowe branche powinny być bazowane na 'development' i PR mergowane również do 'development'.
+Następnie PR z brancha 'development' do 'main'.
 
 ### Technical information [ENG]
 

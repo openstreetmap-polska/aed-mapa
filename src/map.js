@@ -1,4 +1,5 @@
 const aedSource = './aed_poland.geojson';
+const customLayerSource= './custom_layer.geojson';
 const aedMetadata = './aed_poland_metadata.json';
 const controlsLocation = 'bottom-right';
 let aedNumber = document.getElementById('aed-number');
@@ -25,6 +26,7 @@ var map = new maplibregl.Map({
                     'https://c.tile.openstreetmap.org/{z}/{x}/{y}.png'
                 ],
                 'tileSize': 256,
+                'maxzoom': 19,
                 //'attribution': `<span id="refresh-time"></span>dane © <a target="_top" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors.`,
             },
             'aed-locations': {
@@ -32,7 +34,13 @@ var map = new maplibregl.Map({
                 'data': aedSource,
                 'cluster': true,
                 'clusterRadius': 32,
-                'maxzoom': 12
+                'maxzoom': 12,
+            },
+            'custom-source': {
+                'type': 'geojson',
+                'data': customLayerSource,
+                'cluster': false,
+                'maxzoom': 12,
             },
         },
         'layers': [{
@@ -40,6 +48,7 @@ var map = new maplibregl.Map({
             'type': 'raster',
             'source': 'raster-tiles',
             'minZoom': 0,
+            'maxZoom': 19,
         }, {
             'id': 'clustered-circle',
             'type': 'circle',
@@ -60,6 +69,7 @@ var map = new maplibregl.Map({
                 'text-font': ['Open Sans Bold'],
                 'text-size': 20,
                 'text-letter-spacing': 0.05,
+                'text-allow-overlap': true,
                 },
             'paint': {
                     'text-color': '#f5f5f5',
@@ -165,3 +175,26 @@ map.on('load', () => {
 
     console.log('Map ready.');
 });
+
+function toggleCustomLayer() {
+    const customLayerId = "mobile-aed";
+    let layer = map.getLayer(customLayerId);
+    if (layer) {
+        console.log("Removing " + customLayerId + " layer from map.");
+        map.removeLayer(customLayerId);
+    } else {
+        console.log("Adding " + customLayerId + " layer to map.");
+        map.addLayer({
+            'id': customLayerId,
+            'type': 'circle',
+            'source': 'custom-source',
+            'paint': {
+                'circle-color': 'rgba(237, 223, 1, 0.85)',
+                'circle-radius': 26,
+                'circle-stroke-color': 'rgba(245, 245, 245, 0.88)',
+                'circle-stroke-width': 3,
+            },
+            'filter': ['==', 'type', 'mobile'],
+        });
+    }
+}

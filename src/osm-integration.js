@@ -1,14 +1,15 @@
 // osm integration stuff
+// to be filled during deploy
 var auth = osmAuth({
-    oauth_consumer_key: 'BR73INeC1mlLMrxHyNFMj7tm4UxlfEmfyc9VlVEn',
-    oauth_secret: 'coK9N1Wud1PlwIQIaHgA1wei1TCnjwVJsQ0X2wew',
-    url: "https://www.openstreetmap.org",
+    oauth_consumer_key: '<< oauth_consumer_key >>',
+    oauth_secret: '<< oauth_secret >>',
+    url: "<< url >>",
     landing: 'land.html',
-
 });
 // global variables
 var openChangesetId = null;
 var marker = null;
+const markerColour = "#e81224";
 
 // --------------------------------------------------------------------------------------
 function getOpenChangesetId() {
@@ -46,6 +47,10 @@ function getOpenChangesetId() {
 
 function getNodeUrl(nodeId) {
     return `${auth.options().url}/node/${nodeId}`;
+}
+
+function renderMarkerPopup() {
+    return "Przesuń marker w docelowe miejsce"
 }
 
 function renderModalMessage(newNodeUrl) {
@@ -191,10 +196,13 @@ function addMarkerAndOpenSidebar() {
     if (marker !== null) marker.remove();
     marker = new maplibregl.Marker({
             draggable: true,
-            color: "#e81224",
+            color: markerColour,
         })
         .setLngLat(initialCoordinates);
+    //add popup
+    marker.setPopup(new maplibregl.Popup().setHTML(renderMarkerPopup()))
     marker.addTo(map);
+    marker.togglePopup();
     // show sidebar
     let properties = {
         action: "addNode",
@@ -212,10 +220,13 @@ function mobileButton1onClick() {
     if (marker !== null) marker.remove();
     marker = new maplibregl.Marker({
             draggable: true,
-            color: "#e81224",
+            color: markerColour,
         })
         .setLngLat(initialCoordinates);
+    //add popup
+    marker.setPopup(new maplibregl.Popup().setHTML(renderMarkerPopup()));
     marker.addTo(map);
+    marker.togglePopup();
     // swap buttons
     let mobileButton1 = document.getElementById('addNode-mobile-1');
     let mobileButton2 = document.getElementById('addNode-mobile-2');
