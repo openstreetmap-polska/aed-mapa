@@ -1,285 +1,319 @@
 <!DOCTYPE html>
 <html lang="pl">
-    <head>
-        <title>AED - mapa defibrylatorów</title>
-        <meta charset="utf-8" />
-        <meta name="title" content="AED - mapa defibrylatorów">
-        <meta name="description" content="Mapa defibrylatorów AED w Polsce oparta o otwarte dane z projektu OpenStreetMap">
-        <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-        <link rel="canonical" href="https://aed.openstreetmap.org.pl" />
-        <link rel="apple-touch-icon" sizes="180x180" href="src/favicon/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="./src/favicon/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="./src/favicon/favicon-16x16.png">
-        <link rel="manifest" href="site.webmanifest">
-        <link rel="mask-icon" href="./src/favicon/safari-pinned-tab.svg" color="#5bbad5">
-        <link rel="shortcut icon" href="./src/favicon/favicon.ico">
-        <meta name="msapplication-TileColor" content="#da532c">
-        <meta name="msapplication-config" content="./src/favicon/browserconfig.xml">
-        <meta name="theme-color" content="#f5f5f5">
-        <meta property="og:type" content="website">
-        <meta property="og:url" content="https://aed.openstreetmap.org.pl">
-        <meta property="og:title" content="AED - mapa defibrylatorów">
-        <meta property="og:description" content="Mapa defibrylatorów AED w Polsce oparta o otwarte dane z projektu OpenStreetMap">
-        <meta property="og:image" content="https://aed.openstreetmap.org.pl/src/img/meta-image.png">
-        <meta property="twitter:card" content="summary_large_image">
-        <meta property="twitter:url" content="https://aed.openstreetmap.org.pl">
-        <meta property="twitter:title" content="AED - mapa defibrylatorów">
-        <meta property="twitter:description" content="Mapa defibrylatorów AED w Polsce oparta o otwarte dane z projektu OpenStreetMap">
-        <meta property="twitter:image" content="https://aed.openstreetmap.org.pl/src/img/meta-image.png">
-        <script src='./src/osmauth.min.js'></script>
-        <script src="https://unpkg.com/maplibre-gl@1.15.2/dist/maplibre-gl.js"></script>
-        <script src="https://openingh.openstreetmap.de/opening_hours.js/opening_hours+deps.min.js" defer></script>
-        <link href="https://unpkg.com/maplibre-gl@1.15.2/dist/maplibre-gl.css" rel="stylesheet" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-checkradio@2.1.2/dist/css/bulma-checkradio.min.css" />
-        <link rel="stylesheet" href="./src/css/main.css" />
-    </head>
+<head>
+  <title>AED - mapa defibrylatorów</title>
+  <meta charset="utf-8"/>
+  <meta content="AED - mapa defibrylatorów" name="title">
+  <meta content="Mapa defibrylatorów AED w Polsce oparta o otwarte dane z projektu OpenStreetMap" name="description">
+  <meta content="initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport"/>
+  <link href="https://aed.openstreetmap.org.pl" rel="canonical"/>
+  <link href="src/favicon/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180">
+  <link href="./src/favicon/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png">
+  <link href="./src/favicon/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png">
+  <link href="site.webmanifest" rel="manifest">
+  <link color="#5bbad5" href="./src/favicon/safari-pinned-tab.svg" rel="mask-icon">
+  <link href="./src/favicon/favicon.ico" rel="shortcut icon">
+  <meta content="#da532c" name="msapplication-TileColor">
+  <meta content="./src/favicon/browserconfig.xml" name="msapplication-config">
+  <meta content="#f5f5f5" name="theme-color">
+  <meta content="website" property="og:type">
+  <meta content="https://aed.openstreetmap.org.pl" property="og:url">
+  <meta content="AED - mapa defibrylatorów" property="og:title">
+  <meta content="Mapa defibrylatorów AED w Polsce oparta o otwarte dane z projektu OpenStreetMap"
+        property="og:description">
+  <meta content="https://aed.openstreetmap.org.pl/src/img/meta-image.png" property="og:image">
+  <meta content="summary_large_image" property="twitter:card">
+  <meta content="https://aed.openstreetmap.org.pl" property="twitter:url">
+  <meta content="AED - mapa defibrylatorów" property="twitter:title">
+  <meta content="Mapa defibrylatorów AED w Polsce oparta o otwarte dane z projektu OpenStreetMap"
+        property="twitter:description">
+  <meta content="https://aed.openstreetmap.org.pl/src/img/meta-image.png" property="twitter:image">
+  <script src='./src/osmauth.min.js'></script>
+  <script src="https://unpkg.com/maplibre-gl@1.15.2/dist/maplibre-gl.js"></script>
+  <script defer src="https://openingh.openstreetmap.de/opening_hours.js/opening_hours+deps.min.js"></script>
+  <link href="https://unpkg.com/maplibre-gl@1.15.2/dist/maplibre-gl.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bulma-checkradio@2.1.2/dist/css/bulma-checkradio.min.css" rel="stylesheet"/>
+  <link href="./src/css/main.css" rel="stylesheet"/>
+</head>
 
-    <body>
-          <nav class="navbar is-success p-1" role="navigation" aria-label="main navigation">
-            <div class="navbar-brand">
-              <a class="has-text-weight-light navbar-item has-text-white-ter is-size-4 is-size-5-mobile pr-1 pl-2" href="#">
-                Mapa <span class="has-text-weight-semibold pl-1">AED</span>
-              </a>
+<body>
+<nav aria-label="main navigation" class="navbar is-success p-1" role="navigation">
+  <div class="navbar-brand">
+    <a class="has-text-weight-light navbar-item has-text-white-ter is-size-4 is-size-5-mobile pr-1 pl-2" href="#">
+      Mapa <span class="has-text-weight-semibold pl-1">AED</span>
+    </a>
 
-              <div class="navbar-item is-hidden-touch">
-                <span class="has-text-grey-light has-text-weight-light mr-3">|</span>
-                <span class="has-text-weight-light is-size-6 is-size-7-touch pl-0">
-                tworzona z ❤️ przez <a class="has-text-weight-medium" href="https://openstreetmap.org.pl/" target="_blank" title="Odwiedź stronę polskiej społeczności OSM" rel="noopener" style="color:#effaf5;">OpenStreetMap Polska</a>
+    <div class="navbar-item is-hidden-touch">
+      <span class="has-text-grey-light has-text-weight-light mr-3">|</span>
+      <span class="has-text-weight-light is-size-6 is-size-7-touch pl-0">
+                tworzona z ❤️ przez <a class="has-text-weight-medium" href="https://openstreetmap.org.pl/"
+                                       rel="noopener" style="color:#effaf5;" target="_blank"
+                                       title="Odwiedź stronę polskiej społeczności OSM">OpenStreetMap Polska</a>
               </span>
-             </div>
-             <div class="navbar-item is-hidden-desktop osm-caption-mobile">
-              <span class="has-text-grey-light has-text-weight-light mr-3 is-size-4">|</span>
-              <span class="has-text-weight-light is-size-6 is-size-7-touch pl-0">
-              tworzona z ❤️ przez <a class="has-text-weight-medium" href="https://openstreetmap.org.pl/" target="_blank" title="Odwiedź stronę polskiej społeczności OSM" rel="noopener" style="color:#effaf5;">OpenStreetMap Polska</a>
+    </div>
+    <div class="navbar-item is-hidden-desktop osm-caption-mobile">
+      <span class="has-text-grey-light has-text-weight-light mr-3 is-size-4">|</span>
+      <span class="has-text-weight-light is-size-6 is-size-7-touch pl-0">
+              tworzona z ❤️ przez <a class="has-text-weight-medium" href="https://openstreetmap.org.pl/" rel="noopener"
+                                     style="color:#effaf5;" target="_blank"
+                                     title="Odwiedź stronę polskiej społeczności OSM">OpenStreetMap Polska</a>
             </span>
-           </div>
+    </div>
 
-              <a role="button" class="navbar-burger has-text-white-ter is-transparent" data-target="navMenu" aria-label="menu" aria-expanded="false">
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-              </a>
-            </div>
+    <a aria-expanded="false" aria-label="menu" class="navbar-burger has-text-white-ter is-transparent" data-target="navMenu"
+       role="button">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
 
-            <div id="navMenu" class="navbar-menu">
-              <div class="navbar-end">
-                <div class="navbar-item px-1">
-                    <a href="https://wiki.openstreetmap.org/wiki/Pl:Przewodnik_dla_pocz%C4%85tkuj%C4%85cych"
-                       class="button is-success has-text-weight-light is-outlined" target="_blank" rel="noopener">Przewodnik OSM</a>
-                </div>
-                <div class="navbar-item px-1" id="span-login"></div>
-                <div id="navbar-logged" class="navbar-item has-dropdown is-hoverable">
-                  <a id="navbar-username" class="navbar-link has-text-white-ter has-text-weight-light is-arrowless">
-                  </a>
+  <div class="navbar-menu" id="navMenu">
+    <div class="navbar-end">
+      <div class="navbar-item px-1">
+        <a class="button is-success has-text-weight-light is-outlined"
+           href="https://wiki.openstreetmap.org/wiki/Pl:Przewodnik_dla_pocz%C4%85tkuj%C4%85cych" rel="noopener" target="_blank">Przewodnik OSM</a>
+      </div>
+      <div class="navbar-item px-1" id="span-login"></div>
+      <div class="navbar-item has-dropdown is-hoverable" id="navbar-logged">
+        <a class="navbar-link has-text-white-ter has-text-weight-light is-arrowless" id="navbar-username">
+        </a>
 
-                  <div class="navbar-dropdown has-background-green">
-                    <a class="navbar-item" id="logout">
-                      <svg class="icon mr-1" style="width:24px;height:24px" viewBox="0 0 24 24">
-                        <path fill="currentColor" d="M16,17V14H9V10H16V7L21,12L16,17M14,2A2,2 0 0,1 16,4V6H14V4H5V20H14V18H16V20A2,2 0 0,1 14,22H5A2,2 0 0,1 3,20V4A2,2 0 0,1 5,2H14Z" />
-                    </svg> Wyloguj
-                    </a>
-                  </div>
-                </div>
-                <div class="navbar-item px-1">
-                  <a href="mailto:aed@openstreetmap.pl" class="button is-success has-text-weight-light is-outlined px-4">Kontakt</a>
-                </div>
-                <div class="navbar-item px-1">
-                  <button class="button is-success is-outlined has-text-weight-light has-text-white-ter" onclick="showSidebar2()">
-                    <svg class="icon" style="width:24px;height:24px" viewBox="0 0 24 24">
-                        <path fill="currentColor" d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z" />
-                    </svg>
-                  </button>
-                </div>
-                <div class="navbar-item pb-0">
-                  <a href="https://github.com/openstreetmap-polska/aed-mapa" target="_blank" rel="noopener">
-                    <img title="Odwiedź nasz Github" class="github" src="./src/img/github-image.png" alt="Github" width="24" height="24"></a>
-                </div>
-              </div>
-            </div>
-          </nav>
-
-          <div id="sidebar-div" class="sidebar is-invisible">
-            <div class="card">
-
-              <div id="sidebar-header">
-                <div class="columns is-vcentered is-flex mr-0">
-                  <div class="column is-one-quarter is-one-fifth-mobile ">
-                      <img class="image" src="./src/img/card-image.png" alt="Placeholder image" id="sidebar-card-image">
-                  </div>
-                  <div class="column">
-                      <p id="sidebar-caption" class="title has-text-white-ter has-text-weight-light"></p>
-                  </div>
-                  <button id="sidebar-button-close-touch" aria-label="Zamknij ekran boczny"
-                          class="delete is-medium is-hidden-touch is-pulled-right close-button mr-2 mt-4"></button>
-                  <button id="sidebar-button-close-desktop" aria-label="Zamknij ekran boczny"
-                          class="delete is-large is-hidden-desktop is-pulled-right close-button mr-2 mt-4"></button>
-                </div>
-              </div>
-
-              <div class="card-content pt-3 pb-3">
-                <div id="sidebar-content-div" class="content"></div>
-              </div>
-
-              <footer class="card-footer">
-                  <div class="has-background-success-light card-footer-item is-block has-text-centered is-size-7 has-text-weight-semibold p-1" id="sidebar-footer-button-left">
-                    <a href="" target="_blank" rel="noopener"
-                       class="has-background-success-light card-footer-item has-text-centered is-size-7 has-text-weight-semibold"></a>
-                  </div>
-              </footer>
-            </div>
-          </div>
-
-          <div id="sidebar2-div" class="sidebar-right is-invisible">
-            <div class="card">
-
-              <div id="sidebar2-header">
-                <div class="columns is-vcentered is-flex mr-0">
-                  <div class="column ml-4 my-3">
-                      <p id="sidebar2-caption" class="title has-text-weight-light">Ustawienia</p>
-                  </div>
-                  <button id="sidebar2-button-close-touch" aria-label="Zamknij ekran boczny"
-                          class="delete is-medium is-hidden-touch is-pulled-right close-button mr-2 mt-5"></button>
-                  <button id="sidebar2-button-close-desktop" aria-label="Zamknij ekran boczny"
-                          class="delete is-large is-hidden-desktop is-pulled-right close-button mr-2 mt-5"></button>
-                </div>
-              </div>
-
-              <div class="card-content pt-3 pb-3">
-                <div id="sidebar2-content-div" class="content">
-                    <p>Pobierz dane o AED dodanych do OSM:</p>
-                    <a href="./aed_poland.geojson" target="_blank" class="button is-success">
-                        <svg class="icon mr-2" style="width:24px;height:24px" viewBox="0 0 24 24">
-                            <path fill="currentColor" d="M17.9,17.39C17.64,16.59 16.89,16 16,16H15V13A1,1 0 0,0 14,12H8V10H10A1,1 0 0,0 11,9V7H13A2,2 0 0,0 15,5V4.59C17.93,5.77 20,8.64 20,12C20,14.08 19.2,15.97 17.9,17.39M11,19.93C7.05,19.44 4,16.08 4,12C4,11.38 4.08,10.78 4.21,10.21L9,15V16A2,2 0 0,0 11,18M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
-                        </svg> GeoJSON</a>
-                    <a href="./aed_poland.csv" target="_blank" class="button is-success">
-                        <svg class="icon mr-2" style="width:24px;height:24px" viewBox="0 0 24 24">
-                            <path fill="currentColor" d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2M15 16L13 20H10L12 16H9V11H15V16M13 9V3.5L18.5 9H13Z" />
-                        </svg> CSV</a>
-                    <a href="./aed_poland.ods" target="_blank" class="button is-success">
-                        <svg class="icon mr-2" style="width:24px;height:24px" viewBox="0 0 24 24">
-                            <path fill="currentColor" d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M15.8,20H14L12,16.6L10,20H8.2L11.1,15.5L8.2,11H10L12,14.4L14,11H15.8L12.9,15.5L15.8,20M13,9V3.5L18.5,9H13Z" />
-                        </svg> Excel</a>
-                    <hr>
-                    <p>Warstwy dodatkowe:</p>
-                        <button onclick="toggleCustomLayer()" class="button is-success">
-                          <svg class="icon mr-2" style="width:24px;height:24px" viewBox="0 0 24 24">
-                          <path fill="currentColor" d="M12,18.54L19.37,12.8L21,14.07L12,21.07L3,14.07L4.62,12.81L12,18.54M12,16L3,9L12,2L21,9L12,16M12,4.53L6.26,9L12,13.47L17.74,9L12,4.53Z" />
-                      </svg> Włącz/wyłącz warstwę AED mobilnych</button>
-                      <br />
-                      <span class="has-text-weight-light is-size-7">Warstwa zawiera dane z urzędów, które jeszcze nie zostały dodane</span>
-                </div>
-              </div>
-
-              <footer class="card-footer">
-
-              </footer>
-            </div>
-          </div>
-
-        <div id="modal-div" class="modal">
-          <div class="modal-background"></div>
-              <div class="modal-card">
-                <header class="modal-card-head is-radiusless has-background-grey">
-                  <svg class="icon mt-1 mr-2 has-text-white-ter" style="width:28px;height:28px" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z" />
-                 </svg>
-                  <p class="modal-card-title has-text-white-ter has-text-weight-light">
-                    Komunikat
-                  </p>
-                  <button class="delete is-large" aria-label="close" onclick="closeModal()"></button>
-                </header>
-                <section id="modal-content" class="modal-card-body has-text-weight-light">
-                </section>
-              </div>
-          <button class="modal-close is-large" aria-label="close" onclick="closeModal()"></button>
+        <div class="navbar-dropdown has-background-green">
+          <a class="navbar-item" id="logout">
+            <svg class="icon mr-1" style="width:24px;height:24px" viewBox="0 0 24 24">
+              <path d="M16,17V14H9V10H16V7L21,12L16,17M14,2A2,2 0 0,1 16,4V6H14V4H5V20H14V18H16V20A2,2 0 0,1 14,22H5A2,2 0 0,1 3,20V4A2,2 0 0,1 5,2H14Z"
+                    fill="currentColor"/>
+            </svg>
+            Wyloguj
+          </a>
         </div>
+      </div>
+      <div class="navbar-item px-1">
+        <a class="button is-success has-text-weight-light is-outlined px-4"
+           href="mailto:aed@openstreetmap.pl">Kontakt</a>
+      </div>
+      <div class="navbar-item px-1">
+        <button class="button is-success is-outlined has-text-weight-light has-text-white-ter" onclick="showSidebar2()">
+          <svg class="icon" style="width:24px;height:24px" viewBox="0 0 24 24">
+            <path d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z"
+                  fill="currentColor"/>
+          </svg>
+        </button>
+      </div>
+      <div class="navbar-item pb-0">
+        <a href="https://github.com/openstreetmap-polska/aed-mapa" rel="noopener" target="_blank">
+          <img alt="Github" class="github" height="24" src="./src/img/github-image.png" title="Odwiedź nasz Github"
+               width="24"></a>
+      </div>
+    </div>
+  </div>
+</nav>
 
-        <div id="map"></div>
+<div class="sidebar is-invisible" id="sidebar-div">
+  <div class="card">
 
-        <footer>
-          <div class="footer-partners is-white">
-            <div class="columns pb-0 pt-2 is-hidden-mobile">
-              <div class="column pb-1">
-                <button id="addNode" class="button is-success mt-1 ml-2 has-text-weight-light">
-                     <svg class="icon mr-2" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M15 17H18V14H20V17H23V19H20V22H18V19H15V17M9 6.5C10.4 6.5 11.5 7.6 11.5 9S10.4 11.5 9 11.5 6.5 10.4 6.5 9 7.6 6.5 9 6.5M9 2C12.9 2 16 5.1 16 9C16 14.2 9 22 9 22S2 14.2 2 9C2 5.1 5.1 2 9 2M9 4C6.2 4 4 6.2 4 9C4 10 4 12 9 18.7C14 12 14 10 14 9C14 6.2 11.8 4 9 4Z" />
-                </svg>
-                  Dodaj&nbsp;<span class="has-text-weight-semibold">AED</span>
-                </button>
-                <div class="button is-danger mt-1 ml-1 has-text-weight-light" title="dodane AED">
-                  <svg class="icon mr-1" style="width:24px;height:24px" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M16.5,2.83C14.76,2.83 13.09,3.64 12,4.9C10.91,3.64 9.24,2.83 7.5,2.83C4.42,2.83 2,5.24 2,8.33C2,12.1 5.4,15.19 10.55,19.86L12,21.17L13.45,19.86C18.6,15.19 22,12.1 22,8.33C22,5.24 19.58,2.83 16.5,2.83M12,17.83V13.83H9L12,6.83V10.83H15" />
-                  </svg>
-                  <span class="has-text-weight-semibold" id="aed-number">
+    <div id="sidebar-header">
+      <div class="columns is-vcentered is-flex mr-0">
+        <div class="column is-one-quarter is-one-fifth-mobile ">
+          <img alt="Placeholder image" class="image" id="sidebar-card-image" src="./src/img/card-image.png">
+        </div>
+        <div class="column">
+          <p class="title has-text-white-ter has-text-weight-light" id="sidebar-caption"></p>
+        </div>
+        <button aria-label="Zamknij ekran boczny" class="delete is-medium is-hidden-touch is-pulled-right close-button mr-2 mt-4"
+                id="sidebar-button-close-touch"></button>
+        <button aria-label="Zamknij ekran boczny" class="delete is-large is-hidden-desktop is-pulled-right close-button mr-2 mt-4"
+                id="sidebar-button-close-desktop"></button>
+      </div>
+    </div>
+
+    <div class="card-content pt-3 pb-3">
+      <div class="content" id="sidebar-content-div"></div>
+    </div>
+
+    <footer class="card-footer">
+      <div
+        class="has-background-success-light card-footer-item is-block has-text-centered is-size-7 has-text-weight-semibold p-1"
+        id="sidebar-footer-button-left">
+        <a class="has-background-success-light card-footer-item has-text-centered is-size-7 has-text-weight-semibold" href="" rel="noopener"
+           target="_blank"></a>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<div class="sidebar-right is-invisible" id="sidebar2-div">
+  <div class="card">
+
+    <div id="sidebar2-header">
+      <div class="columns is-vcentered is-flex mr-0">
+        <div class="column ml-4 my-3">
+          <p class="title has-text-weight-light" id="sidebar2-caption">Ustawienia</p>
+        </div>
+        <button aria-label="Zamknij ekran boczny" class="delete is-medium is-hidden-touch is-pulled-right close-button mr-2 mt-5"
+                id="sidebar2-button-close-touch"></button>
+        <button aria-label="Zamknij ekran boczny" class="delete is-large is-hidden-desktop is-pulled-right close-button mr-2 mt-5"
+                id="sidebar2-button-close-desktop"></button>
+      </div>
+    </div>
+
+    <div class="card-content pt-3 pb-3">
+      <div class="content" id="sidebar2-content-div">
+        <p>Pobierz dane o AED dodanych do OSM:</p>
+        <a class="button is-success" href="./aed_poland.geojson" target="_blank">
+          <svg class="icon mr-2" style="width:24px;height:24px" viewBox="0 0 24 24">
+            <path d="M17.9,17.39C17.64,16.59 16.89,16 16,16H15V13A1,1 0 0,0 14,12H8V10H10A1,1 0 0,0 11,9V7H13A2,2 0 0,0 15,5V4.59C17.93,5.77 20,8.64 20,12C20,14.08 19.2,15.97 17.9,17.39M11,19.93C7.05,19.44 4,16.08 4,12C4,11.38 4.08,10.78 4.21,10.21L9,15V16A2,2 0 0,0 11,18M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"
+                  fill="currentColor"/>
+          </svg>
+          GeoJSON</a>
+        <a class="button is-success" href="./aed_poland.csv" target="_blank">
+          <svg class="icon mr-2" style="width:24px;height:24px" viewBox="0 0 24 24">
+            <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2M15 16L13 20H10L12 16H9V11H15V16M13 9V3.5L18.5 9H13Z"
+                  fill="currentColor"/>
+          </svg>
+          CSV</a>
+        <a class="button is-success" href="./aed_poland.ods" target="_blank">
+          <svg class="icon mr-2" style="width:24px;height:24px" viewBox="0 0 24 24">
+            <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M15.8,20H14L12,16.6L10,20H8.2L11.1,15.5L8.2,11H10L12,14.4L14,11H15.8L12.9,15.5L15.8,20M13,9V3.5L18.5,9H13Z"
+                  fill="currentColor"/>
+          </svg>
+          Excel</a>
+        <hr>
+        <p>Warstwy dodatkowe:</p>
+        <button class="button is-success" onclick="toggleCustomLayer()">
+          <svg class="icon mr-2" style="width:24px;height:24px" viewBox="0 0 24 24">
+            <path d="M12,18.54L19.37,12.8L21,14.07L12,21.07L3,14.07L4.62,12.81L12,18.54M12,16L3,9L12,2L21,9L12,16M12,4.53L6.26,9L12,13.47L17.74,9L12,4.53Z"
+                  fill="currentColor"/>
+          </svg>
+          Włącz/wyłącz warstwę AED mobilnych
+        </button>
+        <br/>
+        <span
+          class="has-text-weight-light is-size-7">Warstwa zawiera dane z urzędów, które jeszcze nie zostały dodane</span>
+      </div>
+    </div>
+
+    <footer class="card-footer">
+
+    </footer>
+  </div>
+</div>
+
+<div class="modal" id="modal-div">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head is-radiusless has-background-grey">
+      <svg class="icon mt-1 mr-2 has-text-white-ter" style="width:28px;height:28px" viewBox="0 0 24 24">
+        <path d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"
+              fill="currentColor"/>
+      </svg>
+      <p class="modal-card-title has-text-white-ter has-text-weight-light">
+        Komunikat
+      </p>
+      <button aria-label="close" class="delete is-large" onclick="closeModal()"></button>
+    </header>
+    <section class="modal-card-body has-text-weight-light" id="modal-content">
+    </section>
+  </div>
+  <button aria-label="close" class="modal-close is-large" onclick="closeModal()"></button>
+</div>
+
+<div id="map"></div>
+
+<footer>
+  <div class="footer-partners is-white">
+    <div class="columns pb-0 pt-2 is-hidden-mobile">
+      <div class="column pb-1">
+        <button class="button is-success mt-1 ml-2 has-text-weight-light" id="addNode">
+          <svg class="icon mr-2" viewBox="0 0 24 24">
+            <path d="M15 17H18V14H20V17H23V19H20V22H18V19H15V17M9 6.5C10.4 6.5 11.5 7.6 11.5 9S10.4 11.5 9 11.5 6.5 10.4 6.5 9 7.6 6.5 9 6.5M9 2C12.9 2 16 5.1 16 9C16 14.2 9 22 9 22S2 14.2 2 9C2 5.1 5.1 2 9 2M9 4C6.2 4 4 6.2 4 9C4 10 4 12 9 18.7C14 12 14 10 14 9C14 6.2 11.8 4 9 4Z"
+                  fill="currentColor"/>
+          </svg>
+          Dodaj&nbsp;<span class="has-text-weight-semibold">AED</span>
+        </button>
+        <div class="button is-danger mt-1 ml-1 has-text-weight-light" title="dodane AED">
+          <svg class="icon mr-1" style="width:24px;height:24px" viewBox="0 0 24 24">
+            <path d="M16.5,2.83C14.76,2.83 13.09,3.64 12,4.9C10.91,3.64 9.24,2.83 7.5,2.83C4.42,2.83 2,5.24 2,8.33C2,12.1 5.4,15.19 10.55,19.86L12,21.17L13.45,19.86C18.6,15.19 22,12.1 22,8.33C22,5.24 19.58,2.83 16.5,2.83M12,17.83V13.83H9L12,6.83V10.83H15"
+                  fill="currentColor"/>
+          </svg>
+          <span class="has-text-weight-semibold" id="aed-number">
                       <button class="button is-danger is-loading is-small" disabled></button>
                   </span>
-                  <div class="is-hidden" id="aed-number-comment">&nbsp;dodanych AED</div>
-                </div>
-                <a class="button is-info mt-1 ml-1 has-text-weight-light" href="./partners.html">
-                  <svg class="icon mr-1" style="width:24px;height:24px" viewBox="0 0 24 24">
-                      <path fill="currentColor" d="M10.76,8.69A0.76,0.76 0 0,0 10,9.45V20.9C10,21.32 10.34,21.66 10.76,21.66C10.95,21.66 11.11,21.6 11.24,21.5L13.15,19.95L14.81,23.57C14.94,23.84 15.21,24 15.5,24C15.61,24 15.72,24 15.83,23.92L18.59,22.64C18.97,22.46 19.15,22 18.95,21.63L17.28,18L19.69,17.55C19.85,17.5 20,17.43 20.12,17.29C20.39,16.97 20.35,16.5 20,16.21L11.26,8.86L11.25,8.87C11.12,8.76 10.95,8.69 10.76,8.69M15,10V8H20V10H15M13.83,4.76L16.66,1.93L18.07,3.34L15.24,6.17L13.83,4.76M10,0H12V5H10V0M3.93,14.66L6.76,11.83L8.17,13.24L5.34,16.07L3.93,14.66M3.93,3.34L5.34,1.93L8.17,4.76L6.76,6.17L3.93,3.34M7,10H2V8H7V10" />
-                  </svg>
-                  <span class="has-text-weight-semibold pr-1">Patroni</span> projektu
-                </a>
-                </div>
-                <div class="">
-                  <div class="attrib is-size-7 has-text-weight-light">
-                  <span id="refresh-time" class="pr-1">Ostatnia aktualizacja danych OSM:
+          <div class="is-hidden" id="aed-number-comment">&nbsp;dodanych AED</div>
+        </div>
+        <a class="button is-info mt-1 ml-1 has-text-weight-light" href="./partners.html">
+          <svg class="icon mr-1" style="width:24px;height:24px" viewBox="0 0 24 24">
+            <path d="M10.76,8.69A0.76,0.76 0 0,0 10,9.45V20.9C10,21.32 10.34,21.66 10.76,21.66C10.95,21.66 11.11,21.6 11.24,21.5L13.15,19.95L14.81,23.57C14.94,23.84 15.21,24 15.5,24C15.61,24 15.72,24 15.83,23.92L18.59,22.64C18.97,22.46 19.15,22 18.95,21.63L17.28,18L19.69,17.55C19.85,17.5 20,17.43 20.12,17.29C20.39,16.97 20.35,16.5 20,16.21L11.26,8.86L11.25,8.87C11.12,8.76 10.95,8.69 10.76,8.69M15,10V8H20V10H15M13.83,4.76L16.66,1.93L18.07,3.34L15.24,6.17L13.83,4.76M10,0H12V5H10V0M3.93,14.66L6.76,11.83L8.17,13.24L5.34,16.07L3.93,14.66M3.93,3.34L5.34,1.93L8.17,4.76L6.76,6.17L3.93,3.34M7,10H2V8H7V10"
+                  fill="currentColor"/>
+          </svg>
+          <span class="has-text-weight-semibold pr-1">Patroni</span> projektu
+        </a>
+      </div>
+      <div class="">
+        <div class="attrib is-size-7 has-text-weight-light">
+                  <span class="pr-1" id="refresh-time">Ostatnia aktualizacja danych OSM:
                     <span class="has-text-grey-dark"></span>
                   </span>
-                  <span class="osm-attribution">dane © autorzy <a target="_top" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>.</span>
-                  </div>
-                </div>
-            </div>
-            <div class="columns pb-0 pt-2 is-hidden-tablet">
-              <div class="column pb-1 is-narrow ml-2">
-                <button id="addNode-mobile-1"
-                  class="button is-success mt-1 ml-2 has-text-weight-light"
-                  aria-label="Dodaj AED">
-                    <svg class="icon mr-2" viewBox="0 0 24 24">
-                        <path fill="currentColor" d="M15 17H18V14H20V17H23V19H20V22H18V19H15V17M9 6.5C10.4 6.5 11.5 7.6 11.5 9S10.4 11.5 9 11.5 6.5 10.4 6.5 9 7.6 6.5 9 6.5M9 2C12.9 2 16 5.1 16 9C16 14.2 9 22 9 22S2 14.2 2 9C2 5.1 5.1 2 9 2M9 4C6.2 4 4 6.2 4 9C4 10 4 12 9 18.7C14 12 14 10 14 9C14 6.2 11.8 4 9 4Z" />
-                    </svg>
-                      Dodaj
-                </button>
-                <div class="button is-danger mt-1 ml-1 has-text-weight-light" title="dodane AED">
-                  <svg class="icon mr-1" style="width:24px;height:24px" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M16.5,2.83C14.76,2.83 13.09,3.64 12,4.9C10.91,3.64 9.24,2.83 7.5,2.83C4.42,2.83 2,5.24 2,8.33C2,12.1 5.4,15.19 10.55,19.86L12,21.17L13.45,19.86C18.6,15.19 22,12.1 22,8.33C22,5.24 19.58,2.83 16.5,2.83M12,17.83V13.83H9L12,6.83V10.83H15" />
-                  </svg>
-                  <span class="has-text-weight-semibold" id="aed-number-mobile">
+          <span class="osm-attribution">dane © autorzy <a href="https://www.openstreetmap.org/copyright" rel="noopener"
+                                                          target="_top">OpenStreetMap</a>.</span>
+        </div>
+      </div>
+    </div>
+    <div class="columns pb-0 pt-2 is-hidden-tablet">
+      <div class="column pb-1 is-narrow ml-2">
+        <button aria-label="Dodaj AED"
+                class="button is-success mt-1 ml-2 has-text-weight-light"
+                id="addNode-mobile-1">
+          <svg class="icon mr-2" viewBox="0 0 24 24">
+            <path d="M15 17H18V14H20V17H23V19H20V22H18V19H15V17M9 6.5C10.4 6.5 11.5 7.6 11.5 9S10.4 11.5 9 11.5 6.5 10.4 6.5 9 7.6 6.5 9 6.5M9 2C12.9 2 16 5.1 16 9C16 14.2 9 22 9 22S2 14.2 2 9C2 5.1 5.1 2 9 2M9 4C6.2 4 4 6.2 4 9C4 10 4 12 9 18.7C14 12 14 10 14 9C14 6.2 11.8 4 9 4Z"
+                  fill="currentColor"/>
+          </svg>
+          Dodaj
+        </button>
+        <div class="button is-danger mt-1 ml-1 has-text-weight-light" title="dodane AED">
+          <svg class="icon mr-1" style="width:24px;height:24px" viewBox="0 0 24 24">
+            <path d="M16.5,2.83C14.76,2.83 13.09,3.64 12,4.9C10.91,3.64 9.24,2.83 7.5,2.83C4.42,2.83 2,5.24 2,8.33C2,12.1 5.4,15.19 10.55,19.86L12,21.17L13.45,19.86C18.6,15.19 22,12.1 22,8.33C22,5.24 19.58,2.83 16.5,2.83M12,17.83V13.83H9L12,6.83V10.83H15"
+                  fill="currentColor"/>
+          </svg>
+          <span class="has-text-weight-semibold" id="aed-number-mobile">
                     <button class="button is-danger is-loading is-small" disabled></button>
                   </span>
-                </div>
-                <a class="button is-info mt-1 ml-1 has-text-weight-light" href="./partners.html">
-                  <svg class="icon mr-1" style="width:24px;height:24px" viewBox="0 0 24 24">
-                      <path fill="currentColor" d="M10.76,8.69A0.76,0.76 0 0,0 10,9.45V20.9C10,21.32 10.34,21.66 10.76,21.66C10.95,21.66 11.11,21.6 11.24,21.5L13.15,19.95L14.81,23.57C14.94,23.84 15.21,24 15.5,24C15.61,24 15.72,24 15.83,23.92L18.59,22.64C18.97,22.46 19.15,22 18.95,21.63L17.28,18L19.69,17.55C19.85,17.5 20,17.43 20.12,17.29C20.39,16.97 20.35,16.5 20,16.21L11.26,8.86L11.25,8.87C11.12,8.76 10.95,8.69 10.76,8.69M15,10V8H20V10H15M13.83,4.76L16.66,1.93L18.07,3.34L15.24,6.17L13.83,4.76M10,0H12V5H10V0M3.93,14.66L6.76,11.83L8.17,13.24L5.34,16.07L3.93,14.66M3.93,3.34L5.34,1.93L8.17,4.76L6.76,6.17L3.93,3.34M7,10H2V8H7V10" />
-                  </svg>
-                  Patroni
-                </a>
-              </div>
-              <div class="column">
-                <div class="attrib is-size-7 has-text-weight-light">
-                <span class="osm-attribution smaller-text">dane © autorzy <a target="_top" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>.</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </footer>
+        </div>
+        <a class="button is-info mt-1 ml-1 has-text-weight-light" href="./partners.html">
+          <svg class="icon mr-1" style="width:24px;height:24px" viewBox="0 0 24 24">
+            <path d="M10.76,8.69A0.76,0.76 0 0,0 10,9.45V20.9C10,21.32 10.34,21.66 10.76,21.66C10.95,21.66 11.11,21.6 11.24,21.5L13.15,19.95L14.81,23.57C14.94,23.84 15.21,24 15.5,24C15.61,24 15.72,24 15.83,23.92L18.59,22.64C18.97,22.46 19.15,22 18.95,21.63L17.28,18L19.69,17.55C19.85,17.5 20,17.43 20.12,17.29C20.39,16.97 20.35,16.5 20,16.21L11.26,8.86L11.25,8.87C11.12,8.76 10.95,8.69 10.76,8.69M15,10V8H20V10H15M13.83,4.76L16.66,1.93L18.07,3.34L15.24,6.17L13.83,4.76M10,0H12V5H10V0M3.93,14.66L6.76,11.83L8.17,13.24L5.34,16.07L3.93,14.66M3.93,3.34L5.34,1.93L8.17,4.76L6.76,6.17L3.93,3.34M7,10H2V8H7V10"
+                  fill="currentColor"/>
+          </svg>
+          Patroni
+        </a>
+      </div>
+      <div class="column">
+        <div class="attrib is-size-7 has-text-weight-light">
+          <span class="osm-attribution smaller-text">dane © autorzy <a href="https://www.openstreetmap.org/copyright" rel="noopener"
+                                                                       target="_top">OpenStreetMap</a>.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
 
-        <button id="addNode-mobile-2"
+<button aria-label="Dalej"
         class="button is-floating is-medium is-success is-hidden-desktop is-hidden add-button"
-        aria-label="Dalej" style="bottom: 8px;left: 16px;">
-          <svg class="icon" viewBox="0 0 24 24">
-            <path fill="currentColor" d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" />
-          </svg>
-        </button>
-        <button id="addNode-mobile-3" class="button is-floating is-medium is-danger is-hidden-desktop is-hidden add-button"
-                style="bottom: 8px;left: 156px;" aria-label="Anuluj">
-          <svg class="icon" viewBox="0 0 24 24">
-            <path fill="currentColor" d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
-          </svg>
-        </button>
-        <script>
+        id="addNode-mobile-2" style="bottom: 8px;left: 16px;">
+  <svg class="icon" viewBox="0 0 24 24">
+    <path d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" fill="currentColor"/>
+  </svg>
+</button>
+<button aria-label="Anuluj" class="button is-floating is-medium is-danger is-hidden-desktop is-hidden add-button"
+        id="addNode-mobile-3" style="bottom: 8px;left: 156px;">
+  <svg class="icon" viewBox="0 0 24 24">
+    <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"
+          fill="currentColor"/>
+  </svg>
+</button>
+<script>
           if ('serviceWorker' in navigator){
             window.addEventListener('load', () =>{
               navigator.serviceWorker.register('serviceWorker.js')
@@ -290,15 +324,16 @@
               });
             });
           }
-        </script>
-        <script src="./src/other-ui-stuff.js"></script>
-        <script src="./src/map.js"></script>
-        <script src="./src/osm-integration.js"></script>
-        <script src="./src/pwa-EventListeners.js" type="module"></script>
 
-        <!-- Cloudflare Web Analytics -->
-        <script defer src='https://static.cloudflareinsights.com/beacon.min.js'
-                data-cf-beacon='{"token": "117bf6ce871a40ac9bf5a7330f8538eb"}'></script>
-        <!-- End Cloudflare Web Analytics -->
-    </body>
+</script>
+<script src="./src/other-ui-stuff.js"></script>
+<script src="./src/map.js"></script>
+<script src="./src/osm-integration.js"></script>
+<script src="./src/pwa-EventListeners.js" type="module"></script>
+
+<!-- Cloudflare Web Analytics -->
+<script data-cf-beacon='{"token": "117bf6ce871a40ac9bf5a7330f8538eb"}' defer
+        src='https://static.cloudflareinsights.com/beacon.min.js'></script>
+<!-- End Cloudflare Web Analytics -->
+</body>
 </html>
