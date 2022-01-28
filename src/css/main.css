@@ -244,3 +244,8 @@
   .smaller-text {
     font-size: 0.8em !important;
   }
+  .media
+  {
+    align-items: center !important;
+    justify-content: center !important;
+  }
