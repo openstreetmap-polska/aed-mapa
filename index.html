@@ -199,39 +199,65 @@
 
         <footer>
           <div class="footer-partners is-white">
-            <div class="columns is-vcentered is-mobile is-gapless">
-              <div class="column is-narrow ml-2">
-                <button id="addNode" class="button is-success is-hidden-touch mt-1 ml-2 has-text-weight-light">
-             <svg class="icon mr-2" viewBox="0 0 24 24">
-            <path fill="currentColor" d="M15 17H18V14H20V17H23V19H20V22H18V19H15V17M9 6.5C10.4 6.5 11.5 7.6 11.5 9S10.4 11.5 9 11.5 6.5 10.4 6.5 9 7.6 6.5 9 6.5M9 2C12.9 2 16 5.1 16 9C16 14.2 9 22 9 22S2 14.2 2 9C2 5.1 5.1 2 9 2M9 4C6.2 4 4 6.2 4 9C4 10 4 12 9 18.7C14 12 14 10 14 9C14 6.2 11.8 4 9 4Z" />
-        </svg>
-          Dodaj&nbsp;<span class="has-text-weight-semibold">AED</span>
-        </button>
-          <a class="button is-danger mt-1 ml-1 has-text-weight-light"  title="dodane AED" disabled>
-            <svg class="icon mr-1" style="width:24px;height:24px" viewBox="0 0 24 24">
-              <path fill="currentColor" d="M16.5,2.83C14.76,2.83 13.09,3.64 12,4.9C10.91,3.64 9.24,2.83 7.5,2.83C4.42,2.83 2,5.24 2,8.33C2,12.1 5.4,15.19 10.55,19.86L12,21.17L13.45,19.86C18.6,15.19 22,12.1 22,8.33C22,5.24 19.58,2.83 16.5,2.83M12,17.83V13.83H9L12,6.83V10.83H15" />
-            </svg>
-            <span class="has-text-weight-semibold" id="aed-number">
-              <button class="button is-danger is-loading is-small" disabled></button>
-            </span>
-           </a>
+            <div class="columns pb-0 pt-2 is-hidden-mobile">
+              <div class="column pb-1">
+                <button id="addNode" class="button is-success mt-1 ml-2 has-text-weight-light">
+                     <svg class="icon mr-2" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M15 17H18V14H20V17H23V19H20V22H18V19H15V17M9 6.5C10.4 6.5 11.5 7.6 11.5 9S10.4 11.5 9 11.5 6.5 10.4 6.5 9 7.6 6.5 9 6.5M9 2C12.9 2 16 5.1 16 9C16 14.2 9 22 9 22S2 14.2 2 9C2 5.1 5.1 2 9 2M9 4C6.2 4 4 6.2 4 9C4 10 4 12 9 18.7C14 12 14 10 14 9C14 6.2 11.8 4 9 4Z" />
+                </svg>
+                  Dodaj&nbsp;<span class="has-text-weight-semibold">AED</span>
+                </button>
+                <div class="button is-danger mt-1 ml-1 has-text-weight-light" title="dodane AED">
+                  <svg class="icon mr-1" style="width:24px;height:24px" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M16.5,2.83C14.76,2.83 13.09,3.64 12,4.9C10.91,3.64 9.24,2.83 7.5,2.83C4.42,2.83 2,5.24 2,8.33C2,12.1 5.4,15.19 10.55,19.86L12,21.17L13.45,19.86C18.6,15.19 22,12.1 22,8.33C22,5.24 19.58,2.83 16.5,2.83M12,17.83V13.83H9L12,6.83V10.83H15" />
+                  </svg>
+                  <span class="has-text-weight-semibold" id="aed-number">
+                      <button class="button is-danger is-loading is-small" disabled></button>
+                  </span>
+                  <div class="is-hidden" id="aed-number-comment">&nbsp;dodanych AED</div>
+                </div>
                 <a class="button is-info mt-1 ml-1 has-text-weight-light" href="./partners.html">
                   <svg class="icon mr-1" style="width:24px;height:24px" viewBox="0 0 24 24">
                       <path fill="currentColor" d="M10.76,8.69A0.76,0.76 0 0,0 10,9.45V20.9C10,21.32 10.34,21.66 10.76,21.66C10.95,21.66 11.11,21.6 11.24,21.5L13.15,19.95L14.81,23.57C14.94,23.84 15.21,24 15.5,24C15.61,24 15.72,24 15.83,23.92L18.59,22.64C18.97,22.46 19.15,22 18.95,21.63L17.28,18L19.69,17.55C19.85,17.5 20,17.43 20.12,17.29C20.39,16.97 20.35,16.5 20,16.21L11.26,8.86L11.25,8.87C11.12,8.76 10.95,8.69 10.76,8.69M15,10V8H20V10H15M13.83,4.76L16.66,1.93L18.07,3.34L15.24,6.17L13.83,4.76M10,0H12V5H10V0M3.93,14.66L6.76,11.83L8.17,13.24L5.34,16.07L3.93,14.66M3.93,3.34L5.34,1.93L8.17,4.76L6.76,6.17L3.93,3.34M7,10H2V8H7V10" />
                   </svg>
                   <span class="has-text-weight-semibold pr-1">Patroni</span> projektu
                 </a>
-              </div>
-
-              <div class="column is-hidden-touch">
-                <div class="attrib is-size-7 has-text-weight-light">
-                <span id="refresh-time" class="is-hidden-mobile pr-1">Ostatnia aktualizacja danych OSM:
-                  <span class="has-text-grey-dark"></span>
-                </span>
-                <span class="osm-attribution">dane © autorzy <a target="_top" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>.</span>
                 </div>
+                <div class="">
+                  <div class="attrib is-size-7 has-text-weight-light">
+                  <span id="refresh-time" class="pr-1">Ostatnia aktualizacja danych OSM:
+                    <span class="has-text-grey-dark"></span>
+                  </span>
+                  <span class="osm-attribution">dane © autorzy <a target="_top" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>.</span>
+                  </div>
+                </div>
+            </div>
+            <div class="columns pb-0 pt-2 is-hidden-tablet">
+              <div class="column pb-1 is-narrow ml-2">
+                <button id="addNode-mobile-1"
+                  class="button is-success mt-1 ml-2 has-text-weight-light"
+                  aria-label="Dodaj AED">
+                    <svg class="icon mr-2" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M15 17H18V14H20V17H23V19H20V22H18V19H15V17M9 6.5C10.4 6.5 11.5 7.6 11.5 9S10.4 11.5 9 11.5 6.5 10.4 6.5 9 7.6 6.5 9 6.5M9 2C12.9 2 16 5.1 16 9C16 14.2 9 22 9 22S2 14.2 2 9C2 5.1 5.1 2 9 2M9 4C6.2 4 4 6.2 4 9C4 10 4 12 9 18.7C14 12 14 10 14 9C14 6.2 11.8 4 9 4Z" />
+                    </svg>
+                      Dodaj
+                </button>
+                <div class="button is-danger mt-1 ml-1 has-text-weight-light" title="dodane AED">
+                  <svg class="icon mr-1" style="width:24px;height:24px" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M16.5,2.83C14.76,2.83 13.09,3.64 12,4.9C10.91,3.64 9.24,2.83 7.5,2.83C4.42,2.83 2,5.24 2,8.33C2,12.1 5.4,15.19 10.55,19.86L12,21.17L13.45,19.86C18.6,15.19 22,12.1 22,8.33C22,5.24 19.58,2.83 16.5,2.83M12,17.83V13.83H9L12,6.83V10.83H15" />
+                  </svg>
+                  <span class="has-text-weight-semibold" id="aed-number-mobile">
+                    <button class="button is-danger is-loading is-small" disabled></button>
+                  </span>
+                </div>
+                <a class="button is-info mt-1 ml-1 has-text-weight-light" href="./partners.html">
+                  <svg class="icon mr-1" style="width:24px;height:24px" viewBox="0 0 24 24">
+                      <path fill="currentColor" d="M10.76,8.69A0.76,0.76 0 0,0 10,9.45V20.9C10,21.32 10.34,21.66 10.76,21.66C10.95,21.66 11.11,21.6 11.24,21.5L13.15,19.95L14.81,23.57C14.94,23.84 15.21,24 15.5,24C15.61,24 15.72,24 15.83,23.92L18.59,22.64C18.97,22.46 19.15,22 18.95,21.63L17.28,18L19.69,17.55C19.85,17.5 20,17.43 20.12,17.29C20.39,16.97 20.35,16.5 20,16.21L11.26,8.86L11.25,8.87C11.12,8.76 10.95,8.69 10.76,8.69M15,10V8H20V10H15M13.83,4.76L16.66,1.93L18.07,3.34L15.24,6.17L13.83,4.76M10,0H12V5H10V0M3.93,14.66L6.76,11.83L8.17,13.24L5.34,16.07L3.93,14.66M3.93,3.34L5.34,1.93L8.17,4.76L6.76,6.17L3.93,3.34M7,10H2V8H7V10" />
+                  </svg>
+                  Patroni
+                </a>
               </div>
-              <div class="column is-hidden-desktop">
+              <div class="column">
                 <div class="attrib is-size-7 has-text-weight-light">
                 <span class="osm-attribution smaller-text">dane © autorzy <a target="_top" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>.</span>
                 </div>
@@ -239,13 +265,7 @@
             </div>
           </div>
         </footer>
-        <button id="addNode-mobile-1"
-        class="button is-floating is-medium is-success is-hidden-desktop add-button"
-        aria-label="Dodaj AED" style="bottom: 8px;left: 16px;">
-          <svg class="icon" viewBox="0 0 24 24">
-            <path fill="currentColor" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
-          </svg>
-        </button>
+
         <button id="addNode-mobile-2"
         class="button is-floating is-medium is-success is-hidden-desktop is-hidden add-button"
         aria-label="Dalej" style="bottom: 8px;left: 16px;">

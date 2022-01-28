@@ -2,7 +2,11 @@ const aedSource = './aed_poland.geojson';
 const customLayerSource= './custom_layer.geojson';
 const aedMetadata = './aed_poland_metadata.json';
 const controlsLocation = 'bottom-right';
-let aedNumber = document.getElementById('aed-number');
+let aedNumberElements = [
+    document.getElementById('aed-number'),
+    document.getElementById('aed-number-mobile'),
+];
+let aedNumberComment = document.getElementById('aed-number-comment');
 
 let fetchMetadata = fetch(aedMetadata);
 
@@ -131,7 +135,8 @@ map.on('load', () => {
         .then(response => response.json())
         .then(data => {
             // number of defibrillators
-            aedNumber.innerHTML = data.number_of_elements;
+            aedNumberElements.forEach(el => el.innerHTML = data.number_of_elements);
+            aedNumberComment.classList.remove("is-hidden");
             // last refresh time
             let refreshTimeValue = new Date(data.data_download_ts_utc);
             let refreshTimeValueLocale = new Date(data.data_download_ts_utc).toLocaleString('pl-PL');
