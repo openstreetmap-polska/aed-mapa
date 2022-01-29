@@ -217,6 +217,11 @@
     bottom: 68px !important;
   }
 
+  .mapboxgl-ctrl-top-right,
+  .maplibregl-ctrl-top-right {
+    top: 60px !important;
+  }
+
   .add-button {
     bottom: 72px !important;
   }
