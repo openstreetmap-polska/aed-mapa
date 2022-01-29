@@ -86,6 +86,12 @@ console.log('MapLibre library version: ' + map.version);
 
 map.scrollZoom.setWheelZoomRate(1 / 100);
 
+// disable map rotation using right click + drag
+map.dragRotate.disable();
+
+// disable map rotation using touch rotation gesture
+map.touchZoomRotate.disableRotation();
+
 let control = new maplibregl.NavigationControl();
 map.addControl(control, controlsLocation);
 let geolocate = new maplibregl.GeolocateControl({
