@@ -1,7 +1,6 @@
   html {
     overflow-y: scroll;
     overflow-y: hidden;
-
   }
 
   a {
@@ -128,6 +127,7 @@
 
   .has-background-green {
     background-color: #008954eb !important;
+    color: #effaf5 !important;
   }
 
   .navbar-menu.is-active {
@@ -194,6 +194,15 @@
     border-radius: .25rem;
   }
 
+  @media (min-width: 1001px) {
+
+    .modal-content,
+    .modal-card {
+        width: 1000px !important;
+    }
+
+}
+
   .footer-partners {
     left: 0;
     position: fixed;
@@ -206,6 +215,11 @@
   .mapboxgl-ctrl-bottom-right,
   .maplibregl-ctrl-bottom-right {
     bottom: 68px !important;
+  }
+
+  .mapboxgl-ctrl-top-right,
+  .maplibregl-ctrl-top-right {
+    top: 60px !important;
   }
 
   .add-button {
@@ -244,3 +258,4 @@
   .smaller-text {
     font-size: 0.8em !important;
   }
+ 

@@ -2,7 +2,11 @@ const aedSource = './aed_poland.geojson';
 const customLayerSource= './custom_layer.geojson';
 const aedMetadata = './aed_poland_metadata.json';
 const controlsLocation = 'bottom-right';
-let aedNumber = document.getElementById('aed-number');
+let aedNumberElements = [
+    document.getElementById('aed-number'),
+    document.getElementById('aed-number-mobile'),
+];
+let aedNumberComment = document.getElementById('aed-number-comment');
 
 let fetchMetadata = fetch(aedMetadata);
 
@@ -14,6 +18,7 @@ var map = new maplibregl.Map({
     'hash': 'map',
     'maxPitch': 0,
     'dragRotate': false,
+    'preserveDrawingBuffer': true,
     'style': {
         'version': 8,
         "glyphs": "https://fonts.openmaptiles.org/{fontstack}/{range}.pbf",
@@ -82,6 +87,12 @@ console.log('MapLibre library version: ' + map.version);
 
 map.scrollZoom.setWheelZoomRate(1 / 100);
 
+// disable map rotation using right click + drag
+map.dragRotate.disable();
+
+// disable map rotation using touch rotation gesture
+map.touchZoomRotate.disableRotation();
+
 let control = new maplibregl.NavigationControl();
 map.addControl(control, controlsLocation);
 let geolocate = new maplibregl.GeolocateControl({
@@ -90,6 +101,53 @@ let geolocate = new maplibregl.GeolocateControl({
     }
 });
 map.addControl(geolocate, controlsLocation);
+
+var geocoder_api = {
+    forwardGeocode: async (config) => {
+        const features = [];
+        try {
+            let request =
+                'https://nominatim.openstreetmap.org/search?q=' +
+                config.query +
+                '&format=geojson&polygon_geojson=1&addressdetails=1';
+            const response = await fetch(request);
+            const geojson = await response.json();
+            for (let feature of geojson.features) {
+                let center = [
+                    feature.bbox[0] +
+                    (feature.bbox[2] - feature.bbox[0]) / 2,
+                    feature.bbox[1] +
+                    (feature.bbox[3] - feature.bbox[1]) / 2
+                ];
+                let point = {
+                    type: 'Feature',
+                    geometry: {
+                        type: 'Point',
+                        coordinates: center
+                    },
+                    place_name: feature.properties.display_name,
+                    properties: feature.properties,
+                    text: feature.properties.display_name,
+                    place_type: ['place'],
+                    center: center
+                };
+                features.push(point);
+            }
+        } catch (e) {
+            console.error(`Failed to forwardGeocode with error: ${e}`);
+        }
+
+        return {
+            features: features
+        };
+    }
+};
+map.addControl(
+    new MaplibreGeocoder(geocoder_api, {
+        maplibregl: maplibregl
+    }),
+    'top-right'
+);
 
 console.log('Loading icon...');
 map.loadImage('./src/img/marker-image_50.png', (error, image) => {
@@ -131,7 +189,8 @@ map.on('load', () => {
         .then(response => response.json())
         .then(data => {
             // number of defibrillators
-            aedNumber.innerHTML = data.number_of_elements;
+            aedNumberElements.forEach(el => el.innerHTML = data.number_of_elements);
+            aedNumberComment.classList.remove("is-hidden");
             // last refresh time
             let refreshTimeValue = new Date(data.data_download_ts_utc);
             let refreshTimeValueLocale = new Date(data.data_download_ts_utc).toLocaleString('pl-PL');
