@@ -18,6 +18,7 @@ var map = new maplibregl.Map({
     'hash': 'map',
     'maxPitch': 0,
     'dragRotate': false,
+    'preserveDrawingBuffer': true,
     'style': {
         'version': 8,
         "glyphs": "https://fonts.openmaptiles.org/{fontstack}/{range}.pbf",
