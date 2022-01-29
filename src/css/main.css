@@ -127,6 +127,7 @@
 
   .has-background-green {
     background-color: #008954eb !important;
+    color: #effaf5 !important;
   }
 
   .navbar-menu.is-active {
@@ -192,6 +193,15 @@
     box-shadow: 0 .5em 1em -.125em rgba(10, 10, 10, .1), 0 0 0 1px rgba(10, 10, 10, .02);
     border-radius: .25rem;
   }
+
+  @media (min-width: 1001px) {
+
+    .modal-content,
+    .modal-card {
+        width: 1000px !important;
+    }
+
+}
 
   .footer-partners {
     left: 0;

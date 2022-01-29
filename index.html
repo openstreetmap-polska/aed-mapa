@@ -217,7 +217,7 @@
 <div class="modal" id="modal-div">
   <div class="modal-background"></div>
   <div class="modal-card">
-    <header class="modal-card-head is-radiusless has-background-grey">
+    <header class="modal-card-head is-radiusless has-background-green has-text-white-ter">
       <svg class="icon mt-1 mr-2 has-text-white-ter" style="width:28px;height:28px" viewBox="0 0 24 24">
         <path
           d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"
@@ -237,20 +237,21 @@
 <div class="modal" id="modal-number-div">
   <div class="modal-background"></div>
   <div class="modal-card">
-    <header class="modal-card-head is-radiusless has-background-grey">
+    <header class="modal-card-head is-radiusless has-background-green has-text-white-ter">
       <svg class="icon mt-1 mr-2 has-text-white-ter" style="width:28px;height:28px" viewBox="0 0 24 24">
         <path
-          d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"
-          fill="currentColor"/>
+              d="M16.5,2.83C14.76,2.83 13.09,3.64 12,4.9C10.91,3.64 9.24,2.83 7.5,2.83C4.42,2.83 2,5.24 2,8.33C2,12.1 5.4,15.19 10.55,19.86L12,21.17L13.45,19.86C18.6,15.19 22,12.1 22,8.33C22,5.24 19.58,2.83 16.5,2.83M12,17.83V13.83H9L12,6.83V10.83H15"
+              fill="currentColor"/>
       </svg>
       <p class="modal-card-title has-text-white-ter has-text-weight-light">
-        Komunikat
+        Dodane AED
       </p>
       <button aria-label="close" class="delete is-large"></button>
     </header>
     <section class="modal-card-body has-text-weight-light">
-      <p>Tyle AED zostało dodanych do bazy OpenStreetMap przez użytkowników.</p>
-      <p>OpenStreetMap jest jak Wikipedia dla map. Ty również możesz ją współtworzyć, wystarczy założyc konto w:
+      <p class="pb-3">Tyle AED zostało dodanych do bazy OpenStreetMap przez użytkowników.</p>
+      
+      <p>OpenStreetMap jest jak Wikipedia dla map. Ty również możesz ją współtworzyć, wystarczy założyć konto na
         <a href="https://osm.org" rel="noopener" target="_blank">osm.org</a>
       </p>
     </section>
@@ -261,22 +262,22 @@
 <div class="modal" id="modal-partners-div">
   <div class="modal-background"></div>
   <div class="modal-card">
-    <header class="modal-card-head is-radiusless has-background-grey">
-      <svg class="icon mt-1 mr-2 has-text-white-ter" style="width:28px;height:28px" viewBox="0 0 24 24">
+    <header class="modal-card-head is-radiusless has-background-green">
+      <svg class="icon mr-1 has-text-white-ter" style="width:28px;height:28px" viewBox="0 0 24 24">
         <path
           d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"
           fill="currentColor"/>
       </svg>
       <p class="modal-card-title has-text-white-ter has-text-weight-light">
-        Komunikat
+        <span class="has-text-weight-medium">Patroni</span> projektu
       </p>
       <button aria-label="close" class="delete is-large"></button>
     </header>
     <section class="modal-card-body has-text-weight-light">
 
-      <section class="hero is-small is-success">
+      <section class="hero is-small has-background-green">
         <div class="hero-body">
-          <p class="title has-text-weight-light">Współorganizator</p>
+          <p class="title has-text-weight-light has-text-white-ter">Współorganizator</p>
         </div>
       </section>
 
@@ -297,9 +298,9 @@
         </div>
       </div>
       <br/>
-      <section class="hero is-small is-success">
+      <section class="hero is-small has-background-green">
         <div class="hero-body">
-          <p class="title has-text-weight-light">Patroni</p>
+          <p class="title has-text-weight-light has-text-white-ter">Patroni</p>
         </div>
       </section>
       <div class="pb-3 pt-5 pl-5">
@@ -332,7 +333,7 @@
           </div>
           <div class="media-content">
             <p class="is-size-6">prof. dr hab. <span class="has-text-weight-semibold">Jerzy Robert Ładny</span></p>
-            <span class="has-text-weight-light has-text-grey is-size-6">National Consultant in the field of Emergency Medicine</span>
+            <span class="has-text-weight-light has-text-grey is-size-6">Konsultant Krajowy w dziedzinie medycyny ratunkowej</span>
           </div>
         </div>
       </div>
@@ -402,6 +403,11 @@
         </div>
       </div>
     </section>
+    <footer class="modal-card-foot">
+      <div class="notification is-info is-light">
+        Chcesz objąć patronatem projekt Mapy AED?  <a class="has-text-weight-medium" href="mailto:aed@openstreetmap.pl">Skontaktuj się z nami</a>.
+      </div>
+    </footer>
   </div>
   <button aria-label="close" class="modal-close is-large"></button>
 </div>
