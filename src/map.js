@@ -109,7 +109,7 @@ var geocoder_api = {
             let request =
                 'https://nominatim.openstreetmap.org/search?q=' +
                 config.query +
-                '&format=geojson&polygon_geojson=1&addressdetails=1';
+                '&countrycodes=pl&format=geojson&polygon_geojson=1&addressdetails=1';
             const response = await fetch(request);
             const geojson = await response.json();
             for (let feature of geojson.features) {
