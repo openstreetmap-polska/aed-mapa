@@ -74,7 +74,7 @@ var map = new maplibregl.Map({
                 'text-font': ['Open Sans Bold'],
                 'text-size': 20,
                 'text-letter-spacing': 0.05,
-                'text-allow-overlap': true,
+                'text-overlap': 'always',
                 },
             'paint': {
                     'text-color': '#f5f5f5',
@@ -83,7 +83,6 @@ var map = new maplibregl.Map({
         }, ],
     },
 });
-console.log('MapLibre library version: ' + map.version);
 
 map.scrollZoom.setWheelZoomRate(1 / 100);
 
@@ -209,7 +208,7 @@ map.on('load', () => {
         'layout': {
             'icon-image': ['image', 'aed-icon'],
             'icon-size': 1,
-            'icon-allow-overlap': true,
+            'icon-overlap': 'always',
         },
         'filter': ['!', ['has', 'point_count']],
     });
