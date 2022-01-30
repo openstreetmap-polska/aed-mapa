@@ -6,6 +6,12 @@ on:
   push:
     branches:
       - development
+    paths-ignore:
+      - README.md
+      - .gitignore
+      - LICENSE
+      - aed_poland.*
+      - aed_poland_metadata.json
 
 jobs:
   deploy:
