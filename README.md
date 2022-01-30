@@ -31,9 +31,11 @@ Następnie PR z brancha 'development' do 'main'.
 This is a simple static website using HTML and vanilla JavaScript.
 Any webserver (Nginx/Apache) or things like S3 or GitHub Pages can be used to host frontend part.
 
+File _src/osm-integration.js_ contains placeholders for OAuth1 tokens for OpenStreetMap application which are filled during deploy (this allows us to have both prod and dev environments one pointing to OSM DEV API one to osm.org).
+
 The only thing that requires code execution is Python script that downloads data from Overpass API and converts it to GeoJSON and CSV files.
 
-The only external package used is _requests_ which can be installed using _pip_ if not present in the system already.
+File _requirements.txt_ contains packages used by python script. The script was __updated__ to create additional layer from Google Sheets to before use you would need to __comment out last line__ from _download_data.py_
 
 Example CSV and GeoJSON files are uploaded to repo.
 
@@ -46,12 +48,7 @@ Clone repo:
 git clone --branch main --single-branch https://github.com/openstreetmap-polska/aed-mapa.git /home/aeduser/aed-mapa/
 ```
 
-Deploy to /var/www/:
-```bash
-cd /home/aeduser/aed-mapa/
-git pull
-rsync --update --recursive --delete --exclude '*.py' --exclude '*.geojson' --exclude '*.json' --exclude '.git*'  --verbose /home/aeduser/aed-mapa/ /var/www/html/
-```
+Command to deploy are in _.github/workflows/_ but they pretty much boil down to copying files to /var/www/.
 
 Download new data (set crontab to run it periodically):
 ```bash
