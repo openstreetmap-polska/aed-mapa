@@ -52,10 +52,10 @@ Command to deploy are in _.github/workflows/_ but they pretty much boil down to 
 
 Download new data (set crontab to run it periodically):
 ```bash
-python3 /home/aeduser/aed-mapa/src/download_data.py /home/aeduser/aed_poland.geojson /home/aeduser/aed_poland.csv
-cp /home/aeduser/aed_poland.geojson /var/www/html/aed_poland.geojson
-cp /home/aeduser/aed_poland_metadata.json /var/www/html/aed_poland_metadata.json
-cp /home/aeduser/aed_poland.csv /var/www/html/aed_poland.csv
+python3 /home/aeduser/aed-mapa/src/download_data.py /home/aeduser/data_dir/
+cp /home/aeduser/data_dir/aed_poland.geojson /var/www/html/aed_poland.geojson
+cp /home/aeduser/data_dir/aed_poland_metadata.json /var/www/html/aed_poland_metadata.json
+cp /home/aeduser/data_dir/aed_poland.csv /var/www/html/aed_poland.csv
 ```
 
 ### Alternatives / Inne podobne
