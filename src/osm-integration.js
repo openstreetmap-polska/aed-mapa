@@ -165,7 +165,7 @@ function addDefibrillatorToOSM(changesetId, data) {
         Object.entries(data.tags).map(arr => {
             var tag = document.createElementNS(null, "tag");
             tag.setAttribute("k", arr[0]);
-            tag.setAttribute("v", arr[1]);
+            tag.setAttribute("v", escape(arr[1]));
             return tag;
         }).forEach(el => {
             node.appendChild(el);
@@ -219,7 +219,7 @@ function saveNode(data) {
         .catch(err => {
             stopSaveButtonAnimation();
             console.log(err);
-            showFailureModal(err);
+            showFailureModal(`${err} <br> status: ${err.status} ${err.statusText} <br> ${err.response}`);
         });
 }
 
@@ -362,7 +362,7 @@ function update() {
         }, (err, res) => {
             if (err) {
                 updateAddNodeButtonState();
-                showFailureModal(err);
+                showFailureModal(`${err} <br> status: ${err.status} ${err.statusText} <br> ${err.response}`);
             } else {
                 const u = res.getElementsByTagName('user')[0];
                 const user_name = u.getAttribute('display_name');
