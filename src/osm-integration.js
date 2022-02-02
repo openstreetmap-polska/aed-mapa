@@ -17,12 +17,28 @@ function getOpenChangesetId() {
         if (openChangesetId !== null) {
             resolve(openChangesetId);
         } else {
-            let data = '<osm><changeset>' +
-                '<tag k="comment" v="Defibrillator added via https://aed.openstreetmap.org.pl #aed"/>' +
-                '<tag k="created_by" v="https://aed.openstreetmap.org.pl"/>' +
-                '<tag k="locale" v="pl"/>' +
-                '<tag k="hashtags" v="#aed"/>' +
-                '</changeset></osm>';
+            var root = document.implementation.createDocument(null, "osm");
+            var changeset = document.createElementNS(null, "changeset");
+            var comment = document.createElementNS(null, "tag");
+            comment.setAttribute("k", "comment");
+            comment.setAttribute("v", "Defibrillator added via https://aed.openstreetmap.org.pl #aed");
+            var created_by = document.createElementNS(null, "tag");
+            created_by.setAttribute("k", "created_by");
+            created_by.setAttribute("v", "https://aed.openstreetmap.org.pl");
+            var locale = document.createElementNS(null, "tag");
+            locale.setAttribute("k", "locale");
+            locale.setAttribute("v", "pl");
+            var hashtags = document.createElementNS(null, "tag");
+            hashtags.setAttribute("k", "hashtags");
+            hashtags.setAttribute("v", "#aed");
+            changeset.appendChild(comment);
+            changeset.appendChild(created_by);
+            changeset.appendChild(locale);
+            changeset.appendChild(hashtags);
+            root.documentElement.appendChild(changeset);
+            let serializer = new XMLSerializer();
+            let data = serializer.serializeToString(root);
+
             auth.xhr({
                 method: 'PUT',
                 path: '/api/0.6/changeset/create',
@@ -136,10 +152,28 @@ function closeModal() {
 function addDefibrillatorToOSM(changesetId, data) {
     return new Promise((resolve, reject) => {
         console.log('sending request to create node in changeset: ' + changesetId);
-        var xml = `<osm><node changeset="${changesetId}" lat="${data.lat}" lon="${data.lng}">`;
-        xml += `<tag k="emergency" v="defibrillator"/>`;
-        xml += Object.entries(data.tags).map(arr => `<tag k="${arr[0]}" v="${arr[1]}"/>`).join('');
-        xml += `</node></osm>`;
+
+        var root = document.implementation.createDocument(null, "osm");
+        var node = document.createElementNS(null, "node");
+        node.setAttribute("changeset", changesetId);
+        node.setAttribute("lat", data.lat);
+        node.setAttribute("lon", data.lng);
+        var emergency = document.createElementNS(null, "tag");
+        emergency.setAttribute("k", "emergency");
+        emergency.setAttribute("v", "defibrillator");
+        node.appendChild(emergency);
+        Object.entries(data.tags).map(arr => {
+            var tag = document.createElementNS(null, "tag");
+            tag.setAttribute("k", arr[0]);
+            tag.setAttribute("v", arr[1]);
+            return tag;
+        }).forEach(el => {
+            node.appendChild(el);
+        });
+        root.documentElement.appendChild(node);
+        let serializer = new XMLSerializer();
+        let xml = serializer.serializeToString(root);
+
         console.log('payload: ' + xml);
         auth.xhr({
             method: 'PUT',
@@ -154,7 +188,7 @@ function addDefibrillatorToOSM(changesetId, data) {
             if (err) reject(err);
             else {
                 resolve(res);
-                console.log(`response: ${res}`);
+                console.log(`API returned node id: ${res}`);
             }
         });
     });
