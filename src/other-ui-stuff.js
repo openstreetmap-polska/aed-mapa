@@ -201,9 +201,9 @@ function renderSidebarForm() {
 
     <label class="label has-text-weight-semibold pt-2">Czy wewnątrz budynku?</label>
     <div class="field">
-        <input class="is-checkradio is-success" id="indoorRadio1" type="radio" name="aedIndoor" value="outdoor" tag="location">
+        <input class="is-checkradio is-success" id="indoorRadio1" type="radio" name="aedIndoor" value="no" tag="indoor">
         <label for="indoorRadio1">Na zewnątrz</label>    
-        <input class="is-checkradio is-success" id="indoorRadio2" type="radio" name="aedIndoor" value="indoor" tag="location">
+        <input class="is-checkradio is-success" id="indoorRadio2" type="radio" name="aedIndoor" value="yes" tag="indoor">
         <label for="indoorRadio2">W budynku</label>
     </div>
 
