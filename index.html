@@ -550,9 +550,9 @@
             window.addEventListener('load', () =>{
               navigator.serviceWorker.register('serviceWorker.js')
               .then(reg => {
-                console.log('SW registred', reg);
+                console.log('SW registred');
               }).catch(err => {
-                console.log('SW registration faild!', err);
+                console.log('SW registration failed!', err);
               });
             });
           }
