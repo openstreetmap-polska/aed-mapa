@@ -149,9 +149,35 @@ map.addControl(
 );
 
 console.log('Loading icon...');
-map.loadImage('./src/img/marker-image_50.png', (error, image) => {
+
+map.loadImage('./src/img/marker-image-yes.png', (error, image) => {
     if (error) throw error;
-    map.addImage('aed-icon', image, {
+    
+    map.addImage('aed-icon-yes', image, {
+        'sdf': false
+    });
+});
+
+map.loadImage('./src/img/marker-image-private.png', (error, image) => {
+    if (error) throw error;
+    
+    map.addImage('aed-icon-private', image, {
+        'sdf': false
+    });
+});
+
+map.loadImage('./src/img/marker-image-customers.png', (error, image) => {
+    if (error) throw error;
+    
+    map.addImage('aed-icon-customers', image, {
+        'sdf': false
+    });
+});
+
+map.loadImage('./src/img/marker-image-customers.png', (error, image) => {
+    if (error) throw error;
+    
+    map.addImage('aed-icon-permit', image, {
         'sdf': false
     });
 });
@@ -206,7 +232,7 @@ map.on('load', () => {
         'type': 'symbol',
         'source': 'aed-locations',
         'layout': {
-            'icon-image': ['image', 'aed-icon'],
+            'icon-image': ['concat', 'aed-icon-', ['get', 'access']], //['image', 'aed-icon-{access}'],
             'icon-size': 1,
             'icon-overlap': 'always',
         },
