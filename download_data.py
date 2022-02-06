@@ -18,18 +18,16 @@ logger.setLevel(logging.INFO)
 overpass_api_url = "https://lz4.overpass-api.de/api/interpreter"
 
 overpass_query = """
-[out:json][timeout:90];
-// area(3600049715) = Polska
-area(3600049715)->.searchArea;
-// gather results
-(
-  // query part for: “emergency=defibrillator”
-  node[emergency=defibrillator](area.searchArea);
-);
-// print results
-out body;
->;
-out skel qt;"""
+                    [out:json]
+                    [timeout:90];                
+                    area(3600049715)->.searchArea; // Polska
+                        (
+                            node[emergency=defibrillator](area.searchArea);
+                        );
+                        out body;
+                    >;
+                    out skel qt;
+                """
 
 tag_name_mapping = {
     "defibrillator:location": "lokalizacja (osm_tag:defibrillator:location)",
@@ -71,8 +69,8 @@ def geojson_point_feature(lat: float, lon: float, properties: Dict[str, str]) ->
     }
 
 
-def elements_from_overpass_api(api_url: str, query: str) -> List[dict]:
-    logger.info(f"Requesting data from: {api_url}")
+def get_elements_from_overpass_api(api_url: str, query: str) -> List[dict]:
+    logger.info(f"Requesting data from Overpass API. [url={api_url}]")
     try:
         response = requests.post(url=api_url, data={"data": query})
         response.raise_for_status()
@@ -83,25 +81,25 @@ def elements_from_overpass_api(api_url: str, query: str) -> List[dict]:
 
 
 def save_json(file_path: Union[str, Path], data: dict) -> None:
-    logger.info(f"Saving file: {file_path}...")
+    logger.info(f"Saving .json file. [path={file_path}]")
     with open(file=file_path, mode="w", encoding="utf-8") as f:
         json.dump(data, f, allow_nan=False)
-    logger.info(f"Done saving file: {file_path}.")
+    logger.info("Done saving .json file.")
 
 
 def save_csv(file_path: Union[str, Path], data: List[dict], columns: List[str]) -> None:
-    logger.info(f"Saving file: {file_path}...")
+    logger.info(f"Saving .csv file. [path={file_path}]")
     with open(file=file_path, mode="w", encoding="utf-8") as f:
         csv_writer = csv.DictWriter(f, fieldnames=columns)
         csv_writer.writeheader()
         csv_writer.writerows(data)
-    logger.info(f"Done saving file: {file_path}.")
+    logger.info("Done saving .csv file.")
 
 
 def save_spreadsheet(file_path: str, data: Dict[str, list]) -> None:
-    logger.info(f"Saving file: {file_path}...")
+    logger.info(f"Saving .ods file. [path:{file_path}]")
     pyexcel_ods3.save_data(file_path, data)
-    logger.info(f"Done saving file: {file_path}.")
+    logger.info("Done saving .ods file.")
 
 
 def load_geocoding_cache(file_path: Union[str, Path]) -> Dict[str, str]:
@@ -126,7 +124,7 @@ def main_overpass(
 
     ts = datetime.now(tz=timezone.utc).replace(microsecond=0)
     # call Overpass API
-    elements = elements_from_overpass_api(
+    elements = get_elements_from_overpass_api(
         api_url=overpass_api_url, query=overpass_query
     )
 
@@ -158,7 +156,9 @@ def main_overpass(
                 for key, value in element["tags"].items()
                 if key in tags_to_keep
             }
+
         geojson_properties = {"osm_id": osm_id, **tags}
+
         csv_attributes = {
             "osm_id": str(osm_id),
             "latitude": str(latitude),
@@ -206,16 +206,16 @@ def main_overpass(
         [str(ts.isoformat()), number_of_rows],
     ]
 
-    if number_of_rows > 0:
-        logger.info(f"Prepared data to save. Number of rows: {number_of_rows}")
+    if number_of_rows == 0:
+        logger.error("Empty dataset, nothing to write. [number_of_rows=0]")
+    else:
+        logger.info(f"Data prepared to save. [number_of_rows={number_of_rows}]")
         save_json(file_path=geojson_file_path, data=geojson)
         save_csv(file_path=csv_file_path, data=csv_row_list, columns=sorted_csv_columns)
         save_spreadsheet(
             file_path=spreadsheet_file_path.as_posix(), data=spreadsheet_template
         )
         save_json(file_path=json_metadata_file_path, data=json_metadata)
-    else:
-        logger.error("Nothing to write.")
 
 
 def main_google_sheets(output_dir: Path, config_files_dir: Path) -> None:
@@ -226,31 +226,36 @@ def main_google_sheets(output_dir: Path, config_files_dir: Path) -> None:
 
     custom_layer_file_path = output_dir.joinpath("custom_layer.geojson")
     geojson = deepcopy(geojson_template)
-    gsheets_url = open(config_path, "r").read()
 
-    logger.info("Reading Google Sheets credentials.")
-    gc = gspread.service_account(filename=sa_credentials_json_path)
-    logger.info("Opening Google Sheets url.")
-    gsheet = gc.open_by_url(gsheets_url)
-    data = gsheet.worksheet("dane_raw").get_all_records()
-    logger.info(f"Reading rows from Google Sheets. Rows to process: {len(data)}.")
-    counter = 0
-    for row in data:
-        if (
-            all([row["latitude"], row["longitude"]])
-            and row.get("import", "UNKNOWN") == "FALSE"
-        ):
-            geojson["features"].append(
-                geojson_point_feature(
-                    lat=row["latitude"],
-                    lon=row["longitude"],
-                    properties={"type": row.get("typ")},
-                )
+    try:
+        with open(config_path, "r").read() as gsheets_url:
+            logger.info("Reading Google Sheets credentials.")
+            gc = gspread.service_account(filename=sa_credentials_json_path)
+            logger.info("Opening Google Sheets url.")
+            gsheet = gc.open_by_url(gsheets_url)
+            data = gsheet.worksheet("dane_raw").get_all_records()
+            logger.info(
+                f"Reading rows from Google Sheets. Rows to process: {len(data)}."
             )
-            counter += 1
-    logger.info(f"{counter} features to export.")
-    if len(geojson["features"]) > 0:
-        save_json(file_path=custom_layer_file_path.as_posix(), data=geojson)
+            counter = 0
+            for row in data:
+                if (
+                    all([row["latitude"], row["longitude"]])
+                    and row.get("import", "UNKNOWN") == "FALSE"
+                ):
+                    geojson["features"].append(
+                        geojson_point_feature(
+                            lat=row["latitude"],
+                            lon=row["longitude"],
+                            properties={"type": row.get("typ")},
+                        )
+                    )
+                    counter += 1
+            logger.info(f"{counter} features to export.")
+            if len(geojson["features"]) > 0:
+                save_json(file_path=custom_layer_file_path.as_posix(), data=geojson)
+    except FileNotFoundError:
+        logger.error(f"Config file not found. [config_path={config_path}]")
 
 
 if __name__ == "__main__":

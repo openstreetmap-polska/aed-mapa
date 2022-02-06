@@ -1,5 +1,5 @@
 const aedSource = './aed_poland.geojson';
-const customLayerSource= './custom_layer.geojson';
+const customLayerSource = './custom_layer.geojson';
 const aedMetadata = './aed_poland_metadata.json';
 const controlsLocation = 'bottom-right';
 let aedNumberElements = [
@@ -75,11 +75,11 @@ var map = new maplibregl.Map({
                 'text-size': 20,
                 'text-letter-spacing': 0.05,
                 'text-overlap': 'always',
-                },
+            },
             'paint': {
-                    'text-color': '#f5f5f5',
-                },
-                'filter': ['has', 'point_count'],
+                'text-color': '#f5f5f5',
+            },
+            'filter': ['has', 'point_count'],
         }, ],
     },
 });
@@ -152,7 +152,7 @@ console.log('Loading icon...');
 
 map.loadImage('./src/img/marker-image-yes.png', (error, image) => {
     if (error) throw error;
-    
+
     map.addImage('aed-icon-yes', image, {
         'sdf': false
     });
@@ -160,7 +160,7 @@ map.loadImage('./src/img/marker-image-yes.png', (error, image) => {
 
 map.loadImage('./src/img/marker-image-private.png', (error, image) => {
     if (error) throw error;
-    
+
     map.addImage('aed-icon-private', image, {
         'sdf': false
     });
@@ -171,7 +171,7 @@ map.loadImage('./src/img/marker-image-private.png', (error, image) => {
 
 map.loadImage('./src/img/marker-image-customers.png', (error, image) => {
     if (error) throw error;
-    
+
     map.addImage('aed-icon-customers', image, {
         'sdf': false
     });
