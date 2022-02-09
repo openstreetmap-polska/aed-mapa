@@ -165,7 +165,7 @@ function addDefibrillatorToOSM(changesetId, data) {
         Object.entries(data.tags).map(arr => {
             var tag = document.createElementNS(null, "tag");
             tag.setAttribute("k", arr[0]);
-            tag.setAttribute("v", escape(arr[1]));
+            tag.setAttribute("v", arr[1]);
             return tag;
         }).forEach(el => {
             node.appendChild(el);
