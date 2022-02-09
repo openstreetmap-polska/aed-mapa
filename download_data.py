@@ -83,7 +83,7 @@ def get_elements_from_overpass_api(api_url: str, query: str) -> List[dict]:
 def save_json(file_path: Union[str, Path], data: dict) -> None:
     logger.info(f"Saving .json file. [path={file_path}]")
     with open(file=file_path, mode="w", encoding="utf-8") as f:
-        json.dump(data, f, allow_nan=False)
+        json.dump(data, f, allow_nan=False, separators=(",", ":"))
     logger.info("Done saving .json file.")
 
 
