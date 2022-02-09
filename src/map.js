@@ -33,8 +33,8 @@ var map = new maplibregl.Map({
                 'tileSize': 256,
                 'maxzoom': 19,
                 'paint': {
-                    "raster-fade-duration": 100
-                  }
+                    'raster-fade-duration': 100
+                }
                 //'attribution': `<span id="refresh-time"></span>dane © <a target="_top" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors.`,
             },
             'aed-locations': {
