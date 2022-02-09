@@ -32,6 +32,9 @@ var map = new maplibregl.Map({
                 ],
                 'tileSize': 256,
                 'maxzoom': 19,
+                'paint': {
+                    "raster-fade-duration": 100
+                  }
                 //'attribution': `<span id="refresh-time"></span>dane © <a target="_top" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors.`,
             },
             'aed-locations': {
@@ -84,7 +87,8 @@ var map = new maplibregl.Map({
     },
 });
 
-map.scrollZoom.setWheelZoomRate(1 / 100);
+//map.scrollZoom.setWheelZoomRate(1 / 100);
+map.scrollZoom.setWheelZoomRate(1);
 
 // disable map rotation using right click + drag
 map.dragRotate.disable();
