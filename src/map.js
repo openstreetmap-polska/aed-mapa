@@ -96,7 +96,7 @@ map.dragRotate.disable();
 // disable map rotation using touch rotation gesture
 map.touchZoomRotate.disableRotation();
 
-let control = new maplibregl.NavigationControl();
+let control = new maplibregl.NavigationControl({showCompass: false});
 map.addControl(control, controlsLocation);
 let geolocate = new maplibregl.GeolocateControl({
     positionOptions: {
@@ -217,7 +217,7 @@ map.on('click', 'clustered-circle', function (e) {
     );
 });
 
-map.on('load', () => {
+map.on('sourcedata', (e) => {
     // get metadata and fill page with info about number of defibrillators and last refresh time
     fetchMetadata
         .then(response => response.json())
