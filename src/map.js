@@ -217,7 +217,7 @@ map.on('click', 'clustered-circle', function (e) {
     );
 });
 
-map.on('sourcedata', (e) => {
+map.on('load', (e) => {
     // get metadata and fill page with info about number of defibrillators and last refresh time
     fetchMetadata
         .then(response => response.json())
