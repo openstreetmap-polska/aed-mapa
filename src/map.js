@@ -168,9 +168,6 @@ map.loadImage('./src/img/marker-image-private.png', (error, image) => {
     map.addImage('aed-icon-private', image, {
         'sdf': false
     });
-    map.addImage('aed-icon-', image, {
-        'sdf': false
-    });
 });
 
 map.loadImage('./src/img/marker-image-customers.png', (error, image) => {
@@ -190,6 +187,17 @@ map.loadImage('./src/img/marker-image-customers.png', (error, image) => {
     });
 });
 
+map.loadImage('./src/img/marker-image-no.png', (error, image) => {
+    if (error) throw error;
+
+    map.addImage('aed-icon-no', image, {
+        'sdf': false
+    });
+
+    map.addImage('aed-icon-', image, {
+        'sdf': false
+    });
+});
 
 map.on('mouseenter', 'clustered-circle', () => {
     map.getCanvas().style.cursor = 'pointer';
