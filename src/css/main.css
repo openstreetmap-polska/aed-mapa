@@ -95,6 +95,8 @@
     margin-bottom: 8px;
     max-height: 60px;
     padding: 0;
+    display: block;
+    position: relative;
   }
 
   @media (min-width: 500px) {
