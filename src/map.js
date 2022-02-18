@@ -249,7 +249,7 @@ map.on('load', (e) => {
         'type': 'symbol',
         'source': 'aed-locations',
         'layout': {
-            'icon-image': ['concat', 'aed-icon-', ['get', 'access']], //['image', 'aed-icon-{access}'],
+            'icon-image': ['concat', 'aed-icon-', ['get', 'access']], 
             'icon-size': 1,
             'icon-overlap': 'always',
         },

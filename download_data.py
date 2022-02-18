@@ -44,6 +44,7 @@ tag_name_mapping = {
     "wikimedia_commons": "zdjęcie (osm_tag:wikimedia_commons)",
     "osm_id": "id osm",
     "osm_node_url": "url obiektu osm",
+    "operator": "zarządzający urządzeniem (osm_tag:operator)",
 }
 
 tags_to_keep = {

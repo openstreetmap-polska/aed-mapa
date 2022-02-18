@@ -171,6 +171,14 @@ function renderNotes(properties) {
     }
 }
 
+function renderOperator(operator)
+{
+    let beginning = '<p class="has-text-weight-light">Zarządzający urządzeniem: <span class="add-new has-text-weight-medium">';
+    let middle = operator || '<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji</span>';
+    let end = '</span></p>';
+    return beginning + middle + end;
+}
+
 function renderSidebarContent(properties) {
     let content = '';
     content += renderIfIndoor(properties.indoor, properties.location);
@@ -178,6 +186,7 @@ function renderSidebarContent(properties) {
     content += renderAccessibleTime(properties.opening_hours);
     content += renderDescription(properties);
     content += renderContactNumber(properties.phone);
+    content += renderOperator(properties.operator);
     content += renderNotes(properties);
     return content;
 }
