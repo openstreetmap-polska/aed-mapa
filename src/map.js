@@ -1,5 +1,5 @@
 const aedSource = './aed_poland.geojson';
-const customLayerSource= './custom_layer.geojson';
+const customLayerSource = './custom_layer.geojson';
 const aedMetadata = './aed_poland_metadata.json';
 const controlsLocation = 'bottom-right';
 let aedNumberElements = [
@@ -32,6 +32,9 @@ var map = new maplibregl.Map({
                 ],
                 'tileSize': 256,
                 'maxzoom': 19,
+                'paint': {
+                    'raster-fade-duration': 100
+                }
                 //'attribution': `<span id="refresh-time"></span>dane © <a target="_top" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors.`,
             },
             'aed-locations': {
@@ -75,16 +78,17 @@ var map = new maplibregl.Map({
                 'text-size': 20,
                 'text-letter-spacing': 0.05,
                 'text-overlap': 'always',
-                },
+            },
             'paint': {
-                    'text-color': '#f5f5f5',
-                },
-                'filter': ['has', 'point_count'],
+                'text-color': '#f5f5f5',
+            },
+            'filter': ['has', 'point_count'],
         }, ],
     },
 });
 
-map.scrollZoom.setWheelZoomRate(1 / 100);
+//map.scrollZoom.setWheelZoomRate(1 / 100);
+map.scrollZoom.setWheelZoomRate(1);
 
 // disable map rotation using right click + drag
 map.dragRotate.disable();
@@ -92,7 +96,7 @@ map.dragRotate.disable();
 // disable map rotation using touch rotation gesture
 map.touchZoomRotate.disableRotation();
 
-let control = new maplibregl.NavigationControl();
+let control = new maplibregl.NavigationControl({showCompass: false});
 map.addControl(control, controlsLocation);
 let geolocate = new maplibregl.GeolocateControl({
     positionOptions: {
@@ -149,9 +153,48 @@ map.addControl(
 );
 
 console.log('Loading icon...');
-map.loadImage('./src/img/marker-image_50.png', (error, image) => {
+
+map.loadImage('./src/img/marker-image-yes.png', (error, image) => {
     if (error) throw error;
-    map.addImage('aed-icon', image, {
+
+    map.addImage('aed-icon-yes', image, {
+        'sdf': false
+    });
+});
+
+map.loadImage('./src/img/marker-image-private.png', (error, image) => {
+    if (error) throw error;
+
+    map.addImage('aed-icon-private', image, {
+        'sdf': false
+    });
+});
+
+map.loadImage('./src/img/marker-image-customers.png', (error, image) => {
+    if (error) throw error;
+
+    map.addImage('aed-icon-customers', image, {
+        'sdf': false
+    });
+    map.addImage('aed-icon-permit', image, {
+        'sdf': false
+    });
+    map.addImage('aed-icon-permissive', image, {
+        'sdf': false
+    });
+    map.addImage('aed-icon-emergency', image, {
+        'sdf': false
+    });
+});
+
+map.loadImage('./src/img/marker-image-no.png', (error, image) => {
+    if (error) throw error;
+
+    map.addImage('aed-icon-no', image, {
+        'sdf': false
+    });
+
+    map.addImage('aed-icon-', image, {
         'sdf': false
     });
 });
@@ -182,7 +225,7 @@ map.on('click', 'clustered-circle', function (e) {
     );
 });
 
-map.on('load', () => {
+map.on('load', (e) => {
     // get metadata and fill page with info about number of defibrillators and last refresh time
     fetchMetadata
         .then(response => response.json())
@@ -206,7 +249,7 @@ map.on('load', () => {
         'type': 'symbol',
         'source': 'aed-locations',
         'layout': {
-            'icon-image': ['image', 'aed-icon'],
+            'icon-image': 'aed-icon-yes', //['concat', 'aed-icon-', ['get', 'access']], 
             'icon-size': 1,
             'icon-overlap': 'always',
         },
