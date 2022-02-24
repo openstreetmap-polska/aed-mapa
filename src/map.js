@@ -63,7 +63,7 @@ var map = new maplibregl.Map({
             'source': 'aed-locations',
             'paint': {
                 'circle-color': 'rgba(0,145,64, 0.85)',
-                'circle-radius': 26,
+                'circle-radius': 20,
                 'circle-stroke-color': 'rgba(245, 245, 245, 0.88)',
                 'circle-stroke-width': 3,
             },
@@ -75,7 +75,7 @@ var map = new maplibregl.Map({
             'layout': {
                 'text-field': '{point_count_abbreviated}',
                 'text-font': ['Open Sans Bold'],
-                'text-size': 20,
+                'text-size': 14,
                 'text-letter-spacing': 0.05,
                 'text-overlap': 'always',
             },
@@ -291,7 +291,7 @@ function toggleCustomLayer() {
             'source': 'custom-source',
             'paint': {
                 'circle-color': 'rgba(237, 223, 1, 0.85)',
-                'circle-radius': 26,
+                'circle-radius': 22,
                 'circle-stroke-color': 'rgba(245, 245, 245, 0.88)',
                 'circle-stroke-width': 3,
             },
