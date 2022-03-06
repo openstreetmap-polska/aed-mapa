@@ -1,0 +1,30 @@
+{
+  "aed-customers": {
+    "height": 240,
+    "pixelRatio": 1,
+    "width": 240,
+    "x": 0,
+    "y": 0
+  },
+  "aed-default": {
+    "height": 240,
+    "pixelRatio": 1,
+    "width": 240,
+    "x": 240,
+    "y": 0
+  },
+  "aed-no": {
+    "height": 240,
+    "pixelRatio": 1,
+    "width": 240,
+    "x": 0,
+    "y": 240
+  },
+  "aed-private": {
+    "height": 240,
+    "pixelRatio": 1,
+    "width": 240,
+    "x": 240,
+    "y": 240
+  }
+}
