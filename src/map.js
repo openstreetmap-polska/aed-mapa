@@ -9,17 +9,9 @@ let aedNumberComment = document.getElementById('aed-number-comment');
 let fetchMetadata = fetch(aedMetadata);
 
 const map = new maplibregl.Map({
-        "container": "map",
-        "style": layers 
-    });
-
-    map.loadImage('./src/img/marker-image-yes.png', (error, image) => {
-        if (error) throw error;
-    
-        map.addImage('aed-icon-yes', image, {
-            'sdf': false
-        });
-    });
+    "container": "map",
+    "style": layers
+});
 
 //map.scrollZoom.setWheelZoomRate(1 / 100);
 map.scrollZoom.setWheelZoomRate(1);
@@ -30,16 +22,17 @@ map.dragRotate.disable();
 // disable map rotation using touch rotation gesture
 map.touchZoomRotate.disableRotation();
 
-let control = new maplibregl.NavigationControl({showCompass: false});
-map.addControl(control, controlsLocation);
+let control = new maplibregl.NavigationControl({
+    showCompass: false
+});
+
 let geolocate = new maplibregl.GeolocateControl({
     positionOptions: {
         enableHighAccuracy: true
     }
 });
-map.addControl(geolocate, controlsLocation);
 
-var geocoder_api = {
+let geocoder_api = {
     forwardGeocode: async (config) => {
         const features = [];
         try {
@@ -79,12 +72,16 @@ var geocoder_api = {
         };
     }
 };
+
+map.addControl(control, controlsLocation);
+
+map.addControl(geolocate, controlsLocation);
+
 map.addControl(
     new MaplibreGeocoder(geocoder_api, {
         maplibregl: maplibregl
     }),
-    'top-right'
-);
+    'top-right' );
 
 console.log('Loading icon...');
 
@@ -152,26 +149,3 @@ map.on('load', (e) => {
 
     console.log('Map ready.');
 });
-
-function toggleCustomLayer() {
-    const customLayerId = "mobile-aed";
-    let layer = map.getLayer(customLayerId);
-    if (layer) {
-        console.log("Removing " + customLayerId + " layer from map.");
-        map.removeLayer(customLayerId);
-    } else {
-        console.log("Adding " + customLayerId + " layer to map.");
-        map.addLayer({
-            'id': customLayerId,
-            'type': 'circle',
-            'source': 'custom-source',
-            'paint': {
-                'circle-color': 'rgba(237, 223, 1, 0.85)',
-                'circle-radius': 22,
-                'circle-stroke-color': 'rgba(245, 245, 245, 0.88)',
-                'circle-stroke-width': 3,
-            },
-            'filter': ['==', 'type', 'mobile'],
-        });
-    }
-}
