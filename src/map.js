@@ -5,7 +5,6 @@ let aedNumberElements = [
     document.getElementById('aed-number-mobile'),
 ];
 let aedNumberComment = document.getElementById('aed-number-comment');
-
 let fetchMetadata = fetch(aedMetadata);
 
 const map = new maplibregl.Map({
@@ -73,6 +72,7 @@ let geocoder_api = {
     }
 };
 
+// Map controls
 map.addControl(control, controlsLocation);
 
 map.addControl(geolocate, controlsLocation);
@@ -83,8 +83,8 @@ map.addControl(
     }),
     'top-right' );
 
-console.log('Loading icon...');
 
+// Map interaction
 map.on('mouseenter', 'clustered-circle', () => {
     map.getCanvas().style.cursor = 'pointer';
 });

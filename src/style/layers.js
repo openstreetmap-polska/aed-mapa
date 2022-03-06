@@ -13,8 +13,7 @@ let layers = {
       ],
       "tileSize": 256,
       "maxzoom": 19,
-      "paint": {"raster-fade-duration": 100},
-      "attribution": "data © <a target=\"_top\" rel=\"noopener\" href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors."
+      "paint": {"raster-fade-duration": 100}
     },
     "aed-locations": {
       "type": "geojson",
@@ -39,7 +38,7 @@ let layers = {
       "type": "symbol",
       "source": "aed-locations",
       "filter": ["!", ["has", "point_count"]],
-      "layout": {"icon-image": "aed-default", "icon-size": 0.75}
+      "layout": {"icon-image": "aed-default", "icon-size": 0.8}
     },
     {
       "id": "clustered-circle",
