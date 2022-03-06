@@ -25,7 +25,7 @@ let layers = {
     }
   },
   "glyphs": "https://fonts.openmaptiles.org/{fontstack}/{range}.pbf",
-  //"sprite": "asset://../sprites/aed-style",
+  "sprite": "https://aed.openstreetmap.org.pl/dev/src/sprites/aed-style",
   "layers": [
     {
       "id": "background",
