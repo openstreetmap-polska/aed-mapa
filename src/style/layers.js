@@ -38,7 +38,7 @@ let layers = {
       "type": "symbol",
       "source": "aed-locations",
       "filter": ["!", ["has", "point_count"]],
-      "layout": {"icon-image": "aed-default", "icon-size": 0.8}
+      "layout": {"icon-image": "aed-default", "icon-size": 0.9}
     },
     {
       "id": "clustered-circle",
