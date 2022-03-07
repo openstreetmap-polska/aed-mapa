@@ -9,6 +9,11 @@ let fetchMetadata = fetch(aedMetadata);
 
 const map = new maplibregl.Map({
     "container": "map",
+    "hash": "map",
+    "maxZoom": 19,
+    "maxPitch": 0,
+    "dragRotate": false,
+    "preserveDrawingBuffer": true,
     "style": layers
 });
 
