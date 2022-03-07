@@ -66,11 +66,5 @@ let layers = {
       "paint": {"text-color": "#f5f5f5"}
     }
   ],
-  "container": "map",
-  "maxZoom": 19,
-  "hash": "map",
-  "maxPitch": 0,
-  "dragRotate": false,
-  "preserveDrawingBuffer": true,
   "id": "53fam6b4c"
 };
