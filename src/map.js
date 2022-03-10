@@ -86,7 +86,7 @@ map.addControl(
     new MaplibreGeocoder(geocoder_api, {
         maplibregl: maplibregl
     }),
-    'top-right' );
+    'top-right');
 
 
 // Map interaction

@@ -1,6 +1,8 @@
 let layers = {
   "version": 8,
-  "metadata": {"maputnik:renderer": "mbgljs"},
+  "metadata": {
+    "maputnik:renderer": "mbgljs"
+  },
   "center": [20, 52],
   "zoom": 6,
   "sources": {
@@ -13,20 +15,21 @@ let layers = {
       ],
       "tileSize": 256,
       "maxzoom": 19,
-      "paint": {"raster-fade-duration": 100}
+      "paint": {
+        "raster-fade-duration": 100
+      }
     },
     "aed-locations": {
       "type": "geojson",
       "data": "../../aed_poland.geojson",
       "cluster": true,
       "clusterRadius": 32,
-      "maxzoom": 12
+      "maxzoom": 12,
     }
   },
   "glyphs": "https://fonts.openmaptiles.org/{fontstack}/{range}.pbf",
   "sprite": "https://aed.openstreetmap.org.pl/dev/src/sprites/aed-style",
-  "layers": [
-    {
+  "layers": [{
       "id": "background",
       "type": "raster",
       "source": "raster-tiles",
@@ -38,7 +41,11 @@ let layers = {
       "type": "symbol",
       "source": "aed-locations",
       "filter": ["!", ["has", "point_count"]],
-      "layout": {"icon-image": "aed-default", "icon-size": 0.9}
+      "layout": {
+        "icon-image": "aed-default",
+        "icon-size": 0.9,
+        "icon-overlap": "always"
+      }
     },
     {
       "id": "clustered-circle",
@@ -63,7 +70,9 @@ let layers = {
         "text-size": 14,
         "text-letter-spacing": 0.05
       },
-      "paint": {"text-color": "#f5f5f5"}
+      "paint": {
+        "text-color": "#f5f5f5"
+      }
     }
   ],
   "id": "53fam6b4c"
