@@ -61,3 +61,16 @@ cp /home/aeduser/data_dir/aed_poland.csv /var/www/html/aed_poland.csv
 ### Alternatives / Inne podobne
 
 * https://github.com/chnuessli/defikarte.ch - https://defikarte.ch/
+
+
+### Additional info about development
+
+#### Editing style
+
+#### Creating sprites with icons
+
+```bash
+nvm use 8
+npm install -g @mapbox/spritezero-cli
+spritezero --ratio 1 ./src/map_style/sprite ./src/marker_icons/
+```
