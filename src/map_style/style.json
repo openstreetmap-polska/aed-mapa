@@ -21,14 +21,14 @@
     },
     "aed-locations": {
       "type": "geojson",
-      "data": "https://aed.openstreetmap.org.pl/aed_poland.geojson",
+      "data": "https://aed.openstreetmap.org.pl/dev/aed_poland.geojson",
       "cluster": true,
       "clusterRadius": 32,
       "maxzoom": 12
     }
   },
   "glyphs": "https://fonts.openmaptiles.org/{fontstack}/{range}.pbf",
-  "sprite": "https://aed.openstreetmap.org.pl/src/sprites/aed-style",
+  "sprite": "https://aed.openstreetmap.org.pl/dev/src/map_style/sprite",
   "layers": [{
       "id": "background",
       "type": "raster",
@@ -42,8 +42,8 @@
       "source": "aed-locations",
       "filter": ["!", ["has", "point_count"]],
       "layout": {
-        "icon-image": "aed-default",
-        "icon-size": 0.9,
+        "icon-image": "marker_default",
+        "icon-size": 0.5,
         "icon-overlap": "always"
       }
     },

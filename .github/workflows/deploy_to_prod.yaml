@@ -42,6 +42,7 @@ jobs:
               --exclude 'requirements.txt' --exclude 'LICENSE' --exclude 'README.md' --exclude '*.ods' --exclude '*.csv' \
               --quiet /home/${{ secrets.SSH_USER }}/aed-mapa/ /home/${{ secrets.SSH_USER }}/temp_deploy_prod/
             sed -i "s/<< oauth_consumer_key >>/$OAUTH_CONSUMER_KEY/;s/<< oauth_secret >>/$OAUTH_SECRET/;s|<< url >>|$OSM_API_URL|" /home/${{ secrets.SSH_USER }}/temp_deploy_prod/src/osm-integration.js
+            sed -i "s|https://aed.openstreetmap.org.pl/dev/|https://aed.openstreetmap.org.pl/|g" /home/${{ secrets.SSH_USER }}/temp_deploy_dev/src/map_style/style.json
             rsync --update --recursive --delete \
               --exclude '*.py' --exclude '*.geojson' --exclude '.git*' --exclude 'aed_poland_metadata.json' \
               --exclude 'requirements.txt' --exclude 'LICENSE' --exclude 'README.md' --exclude '*.ods' --exclude '*.csv' \

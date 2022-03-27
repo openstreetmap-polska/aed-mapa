@@ -14,10 +14,10 @@ const map = new maplibregl.Map({
     "maxPitch": 0,
     "dragRotate": false,
     "preserveDrawingBuffer": true,
-    "style": "./src/map_style.json"
+    "style": "./src/map_style/style.json"
 });
 
-//map.scrollZoom.setWheelZoomRate(1 / 100);
+// how fast mouse scroll wheel zooms
 map.scrollZoom.setWheelZoomRate(1);
 
 // disable map rotation using right click + drag
