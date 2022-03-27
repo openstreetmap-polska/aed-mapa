@@ -23,8 +23,8 @@
       "type": "geojson",
       "data": "https://aed.openstreetmap.org.pl/dev/aed_poland.geojson",
       "cluster": true,
-      "clusterRadius": 32,
-      "maxzoom": 12
+      "clusterRadius": 30,
+      "maxzoom": 15
     }
   },
   "glyphs": "https://fonts.openmaptiles.org/{fontstack}/{range}.pbf",
@@ -54,9 +54,9 @@
       "filter": ["has", "point_count"],
       "paint": {
         "circle-color": "rgba(0,145,64, 0.85)",
-        "circle-radius": 20,
+        "circle-radius": 16,
         "circle-stroke-color": "rgba(245, 245, 245, 0.88)",
-        "circle-stroke-width": 3
+        "circle-stroke-width": 2
       }
     },
     {
@@ -67,7 +67,7 @@
       "layout": {
         "text-field": "{point_count_abbreviated}",
         "text-font": ["Open Sans Bold"],
-        "text-size": 14,
+        "text-size": 12,
         "text-letter-spacing": 0.05
       },
       "paint": {
