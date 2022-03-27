@@ -1,4 +1,4 @@
-let layers = {
+{
   "version": 8,
   "metadata": {
     "maputnik:renderer": "mbgljs"
@@ -21,10 +21,10 @@ let layers = {
     },
     "aed-locations": {
       "type": "geojson",
-      "data": "../../aed_poland.geojson",
+      "data": "../aed_poland.geojson",
       "cluster": true,
       "clusterRadius": 32,
-      "maxzoom": 12,
+      "maxzoom": 12
     }
   },
   "glyphs": "https://fonts.openmaptiles.org/{fontstack}/{range}.pbf",
@@ -75,5 +75,5 @@ let layers = {
       }
     }
   ],
-  "id": "53fam6b4c"
-};
+  "id": "aed_map_style"
+}

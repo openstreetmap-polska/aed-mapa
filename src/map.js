@@ -14,7 +14,7 @@ const map = new maplibregl.Map({
     "maxPitch": 0,
     "dragRotate": false,
     "preserveDrawingBuffer": true,
-    "style": layers
+    "style": "./src/map_style.json"
 });
 
 //map.scrollZoom.setWheelZoomRate(1 / 100);
