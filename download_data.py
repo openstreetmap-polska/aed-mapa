@@ -9,7 +9,6 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import pyexcel_ods3
-import gspread
 
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__file__)
@@ -219,46 +218,6 @@ def main_overpass(
         save_json(file_path=json_metadata_file_path, data=json_metadata)
 
 
-def main_google_sheets(output_dir: Path, config_files_dir: Path) -> None:
-    sa_credentials_json_path = (
-        config_files_dir.joinpath("sa-credentials.json").resolve().as_posix()
-    )
-    config_path = config_files_dir.joinpath("gsheetsurl").resolve().as_posix()
-
-    custom_layer_file_path = output_dir.joinpath("custom_layer.geojson")
-    geojson = deepcopy(geojson_template)
-
-    try:
-        with open(config_path, "r").read() as gsheets_url:
-            logger.info("Reading Google Sheets credentials.")
-            gc = gspread.service_account(filename=sa_credentials_json_path)
-            logger.info("Opening Google Sheets url.")
-            gsheet = gc.open_by_url(gsheets_url)
-            data = gsheet.worksheet("dane_raw").get_all_records()
-            logger.info(
-                f"Reading rows from Google Sheets. Rows to process: {len(data)}."
-            )
-            counter = 0
-            for row in data:
-                if (
-                    all([row["latitude"], row["longitude"]])
-                    and row.get("import", "UNKNOWN") == "FALSE"
-                ):
-                    geojson["features"].append(
-                        geojson_point_feature(
-                            lat=row["latitude"],
-                            lon=row["longitude"],
-                            properties={"type": row.get("typ")},
-                        )
-                    )
-                    counter += 1
-            logger.info(f"{counter} features to export.")
-            if len(geojson["features"]) > 0:
-                save_json(file_path=custom_layer_file_path.as_posix(), data=geojson)
-    except FileNotFoundError:
-        logger.error(f"Config file not found. [config_path={config_path}]")
-
-
 if __name__ == "__main__":
 
     this_files_dir = Path(__file__).parent.resolve()
@@ -275,4 +234,3 @@ if __name__ == "__main__":
         prefixes=prefix_to_add,
         col_name_map=tag_name_mapping,
     )
-    main_google_sheets(output_dir=arg1, config_files_dir=arg2)
