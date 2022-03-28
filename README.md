@@ -73,4 +73,5 @@ cp /home/aeduser/data_dir/aed_poland.csv /var/www/html/aed_poland.csv
 nvm use 8
 npm install -g @mapbox/spritezero-cli
 spritezero --ratio 1 ./src/map_style/sprite ./src/marker_icons/
+spritezero --ratio 2 ./src/map_style/sprite@2x ./src/marker_icons/
 ```
