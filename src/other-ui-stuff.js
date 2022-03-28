@@ -446,6 +446,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    if (window.innerWidth > 1024) {
+        showSidebar2();
+    }
+
 });
 // button listeners
 sidebarButtonCloseIds.forEach(id => {

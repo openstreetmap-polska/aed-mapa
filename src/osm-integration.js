@@ -324,7 +324,7 @@ function authenticateAction() {
 }
 
 function renderLoginButton() {
-    return '<button class="button is-success has-text-weight-light is-outlined" onclick="authenticateAction()">Zaloguj kontem OSM</button>';
+    return '<button class="button is-white is-outlined" onclick="authenticateAction()">Zaloguj kontem OSM</button>';
 }
 
 function renderUserLoggedIn(username) {

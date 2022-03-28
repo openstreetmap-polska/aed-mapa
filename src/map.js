@@ -1,5 +1,3 @@
-const aedSource = './aed_poland.geojson';
-const customLayerSource = './custom_layer.geojson';
 const aedMetadata = './aed_poland_metadata.json';
 const controlsLocation = 'bottom-right';
 let aedNumberElements = [
@@ -7,87 +5,19 @@ let aedNumberElements = [
     document.getElementById('aed-number-mobile'),
 ];
 let aedNumberComment = document.getElementById('aed-number-comment');
-
 let fetchMetadata = fetch(aedMetadata);
 
-var map = new maplibregl.Map({
-    'container': 'map', // container id
-    'center': [20, 52], // starting position [lng, lat]
-    'maxZoom': 19, // max zoom to allow
-    'zoom': 6, // starting zoom
-    'hash': 'map',
-    'maxPitch': 0,
-    'dragRotate': false,
-    'preserveDrawingBuffer': true,
-    'style': {
-        'version': 8,
-        "glyphs": "https://fonts.openmaptiles.org/{fontstack}/{range}.pbf",
-        'sources': {
-            'raster-tiles': {
-                'type': 'raster',
-                'tiles': [
-                    'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                    'https://b.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                    'https://c.tile.openstreetmap.org/{z}/{x}/{y}.png'
-                ],
-                'tileSize': 256,
-                'maxzoom': 19,
-                'paint': {
-                    'raster-fade-duration': 100
-                }
-                //'attribution': `<span id="refresh-time"></span>dane © <a target="_top" rel="noopener" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors.`,
-            },
-            'aed-locations': {
-                'type': 'geojson',
-                'data': aedSource,
-                'cluster': true,
-                'clusterRadius': 32,
-                'maxzoom': 12,
-            },
-            'custom-source': {
-                'type': 'geojson',
-                'data': customLayerSource,
-                'cluster': false,
-                'maxzoom': 12,
-            },
-        },
-        'layers': [{
-            'id': 'background',
-            'type': 'raster',
-            'source': 'raster-tiles',
-            'minZoom': 0,
-            'maxZoom': 19,
-        }, {
-            'id': 'clustered-circle',
-            'type': 'circle',
-            'source': 'aed-locations',
-            'paint': {
-                'circle-color': 'rgba(0,145,64, 0.85)',
-                'circle-radius': 20,
-                'circle-stroke-color': 'rgba(245, 245, 245, 0.88)',
-                'circle-stroke-width': 3,
-            },
-            'filter': ['has', 'point_count'],
-        }, {
-            'id': 'clustered-label',
-            'type': 'symbol',
-            'source': 'aed-locations',
-            'layout': {
-                'text-field': '{point_count_abbreviated}',
-                'text-font': ['Open Sans Bold'],
-                'text-size': 14,
-                'text-letter-spacing': 0.05,
-                'text-overlap': 'always',
-            },
-            'paint': {
-                'text-color': '#f5f5f5',
-            },
-            'filter': ['has', 'point_count'],
-        }, ],
-    },
+const map = new maplibregl.Map({
+    "container": "map",
+    "hash": "map",
+    "maxZoom": 19,
+    "maxPitch": 0,
+    "dragRotate": false,
+    "preserveDrawingBuffer": true,
+    "style": "./src/map_style/style.json"
 });
 
-//map.scrollZoom.setWheelZoomRate(1 / 100);
+// how fast mouse scroll wheel zooms
 map.scrollZoom.setWheelZoomRate(1);
 
 // disable map rotation using right click + drag
@@ -96,16 +26,17 @@ map.dragRotate.disable();
 // disable map rotation using touch rotation gesture
 map.touchZoomRotate.disableRotation();
 
-let control = new maplibregl.NavigationControl({showCompass: false});
-map.addControl(control, controlsLocation);
+let control = new maplibregl.NavigationControl({
+    showCompass: false
+});
+
 let geolocate = new maplibregl.GeolocateControl({
     positionOptions: {
         enableHighAccuracy: true
     }
 });
-map.addControl(geolocate, controlsLocation);
 
-var geocoder_api = {
+let geocoder_api = {
     forwardGeocode: async (config) => {
         const features = [];
         try {
@@ -145,60 +76,20 @@ var geocoder_api = {
         };
     }
 };
+
+// Map controls
+map.addControl(control, controlsLocation);
+
+map.addControl(geolocate, controlsLocation);
+
 map.addControl(
     new MaplibreGeocoder(geocoder_api, {
         maplibregl: maplibregl
     }),
-    'top-right'
-);
+    'top-right');
 
-console.log('Loading icon...');
 
-map.loadImage('./src/img/marker-image-yes.png', (error, image) => {
-    if (error) throw error;
-
-    map.addImage('aed-icon-yes', image, {
-        'sdf': false
-    });
-});
-
-map.loadImage('./src/img/marker-image-private.png', (error, image) => {
-    if (error) throw error;
-
-    map.addImage('aed-icon-private', image, {
-        'sdf': false
-    });
-});
-
-map.loadImage('./src/img/marker-image-customers.png', (error, image) => {
-    if (error) throw error;
-
-    map.addImage('aed-icon-customers', image, {
-        'sdf': false
-    });
-    map.addImage('aed-icon-permit', image, {
-        'sdf': false
-    });
-    map.addImage('aed-icon-permissive', image, {
-        'sdf': false
-    });
-    map.addImage('aed-icon-emergency', image, {
-        'sdf': false
-    });
-});
-
-map.loadImage('./src/img/marker-image-no.png', (error, image) => {
-    if (error) throw error;
-
-    map.addImage('aed-icon-no', image, {
-        'sdf': false
-    });
-
-    map.addImage('aed-icon-', image, {
-        'sdf': false
-    });
-});
-
+// Map interaction
 map.on('mouseenter', 'clustered-circle', () => {
     map.getCanvas().style.cursor = 'pointer';
 });
@@ -243,19 +134,6 @@ map.on('load', (e) => {
             refreshTime.innerHTML = `Ostatnia aktualizacja danych OSM: <span class="has-text-grey-dark" title="${refreshTimeValueLocale}">${dateDiffMinutes} minut temu </span>`;
         });
 
-    console.log('Adding layers...');
-    map.addLayer({
-        'id': 'unclustered',
-        'type': 'symbol',
-        'source': 'aed-locations',
-        'layout': {
-            'icon-image': 'aed-icon-yes', //['concat', 'aed-icon-', ['get', 'access']], 
-            'icon-size': 1,
-            'icon-overlap': 'always',
-        },
-        'filter': ['!', ['has', 'point_count']],
-    });
-
     map.on('click', 'unclustered', function (e) {
         if (e.features[0].properties !== undefined) {
             let properties = {
@@ -276,26 +154,3 @@ map.on('load', (e) => {
 
     console.log('Map ready.');
 });
-
-function toggleCustomLayer() {
-    const customLayerId = "mobile-aed";
-    let layer = map.getLayer(customLayerId);
-    if (layer) {
-        console.log("Removing " + customLayerId + " layer from map.");
-        map.removeLayer(customLayerId);
-    } else {
-        console.log("Adding " + customLayerId + " layer to map.");
-        map.addLayer({
-            'id': customLayerId,
-            'type': 'circle',
-            'source': 'custom-source',
-            'paint': {
-                'circle-color': 'rgba(237, 223, 1, 0.85)',
-                'circle-radius': 22,
-                'circle-stroke-color': 'rgba(245, 245, 245, 0.88)',
-                'circle-stroke-width': 3,
-            },
-            'filter': ['==', 'type', 'mobile'],
-        });
-    }
-}

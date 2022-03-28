@@ -1,42 +1,47 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   sodipodi:docname="marker_private.svg"
-   inkscape:version="1.0rc1 (09960d6f05, 2020-04-09)"
+   sodipodi:docname="marker_customers.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
    id="svg8"
    version="1.1"
-   viewBox="0 0 63.499999 63.500002"
-   height="240"
-   width="240">
+   viewBox="0 0 50 50"
+   height="50"
+   width="50"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs2" />
   <sodipodi:namedview
-     inkscape:window-maximized="0"
-     inkscape:window-y="49"
-     inkscape:window-x="1814"
-     inkscape:window-height="1198"
-     inkscape:window-width="1560"
+     inkscape:window-maximized="1"
+     inkscape:window-y="32"
+     inkscape:window-x="64"
+     inkscape:window-height="1011"
+     inkscape:window-width="1856"
      inkscape:snap-page="true"
      units="px"
-     showgrid="false"
+     showgrid="true"
      inkscape:document-rotation="0"
      inkscape:current-layer="layer1"
-     inkscape:document-units="mm"
-     inkscape:cy="120.25104"
-     inkscape:cx="118.74481"
-     inkscape:zoom="2.3334524"
+     inkscape:document-units="px"
+     inkscape:cy="23.030303"
+     inkscape:cx="7.1212121"
+     inkscape:zoom="6.6000001"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      borderopacity="1.0"
      bordercolor="#666666"
      pagecolor="#ffffff"
-     id="base" />
+     id="base"
+     inkscape:pagecheckerboard="true">
+    <inkscape:grid
+       type="xygrid"
+       id="grid828" />
+  </sodipodi:namedview>
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -45,7 +50,6 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -54,10 +58,12 @@
      inkscape:groupmode="layer"
      inkscape:label="Warstwa 1">
     <g
-       transform="matrix(0.31728341,0,0,0.30446264,-40.878757,-1.8173203)"
+       inkscape:export-ydpi="10"
+       inkscape:export-xdpi="10"
+       transform="matrix(0.24910531,0,0,0.23973439,-32.0947,-1.4309611)"
        id="g911">
       <path
-         style="fill:#7a7a7a;fill-opacity:1;stroke:none;stroke-width:0.215962"
+         style="fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.215962"
          id="path2421"
          d="M 128.83989,5.9689433 V 214.53312 H 329.5582 l 10e-6,-208.5641767 z" />
       <g
@@ -67,7 +73,7 @@
            id="path2830"
            d="m 180.16118,67.104956 c -20.78208,0.190752 -39.30043,20.758612 -33.72333,47.974104 4.25146,20.7465 26.34438,47.72564 64.88549,73.87681 38.54111,-26.15117 60.63403,-53.13031 64.88549,-73.87681 5.5771,-27.215492 -12.94125,-47.783352 -33.72333,-47.974104 -10.68087,-0.163774 -24.04125,5.482921 -31.16216,19.123583 -7.12091,-13.640662 -20.48129,-19.287357 -31.16216,-19.123583 z" />
         <path
-           style="fill:#7a7a7a;fill-opacity:1;stroke:none;stroke-width:0.263878"
+           style="fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:0.263878"
            id="path3611"
            d="m 195.90696,74.635486 -7.07407,74.826384 25.12573,-18.11621 -4.33174,33.40847 -7.80701,-2.74137 9.31406,21.70807 15.62226,-17.36481 h -7.80701 l 13.26697,-60.0213 -30.11628,21.79891 7.97995,-37.173738 -1.67176,-3.203778 c -3.14968,-6.033466 -7.63747,-10.315452 -12.5011,-13.120628 z" />
         <path
