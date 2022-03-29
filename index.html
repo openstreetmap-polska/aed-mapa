@@ -162,10 +162,7 @@
   <div class="card">
 
     <div id="sidebar2-header">
-      <div class="columns is-vcentered is-flex mr-0">
-        <div class="column ml-4 my-3">
-<!--          <p class="title has-text-weight-light" id="sidebar2-caption">Ustawienia</p>-->
-        </div>
+      <div class="columns is-vcentered is-flex mr-0 is-pulled-right">
         <button aria-label="Zamknij panel boczny"
                 class="delete is-medium is-hidden-touch is-pulled-right close-button mr-2 mt-5"
                 id="sidebar2-button-close-touch"></button>
@@ -175,9 +172,11 @@
       </div>
     </div>
 
-    <div class="card-content pt-3 pb-3">
-      <div class="content" id="sidebar2-content-div">
-        <p>Pobierz dane o AED dodanych do OSM:</p>
+    <div class="px-4 pt-5 pb-4">
+      <div class="content has-text-weight-light" id="sidebar2-content-div">
+        <p class="has-text-weight-normal"><svg class="icon mr-1" style="width:24px;height:24px" viewBox="0 0 24 24">
+          <path fill="#7a7a7a" d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z" />
+      </svg>Pobierz dane o dodanych AED do OSM</p>
         <a class="button is-success" href="./aed_poland.geojson" target="_blank" download>
           <svg class="icon mr-2" style="width:24px;height:24px" viewBox="0 0 24 24">
             <path
@@ -199,11 +198,11 @@
               fill="currentColor"/>
           </svg>
           Excel</a>
-        <hr>
-        <button class="button is-success" onclick="window.open(map.getCanvas().toDataURL())">
+        <hr class="my-3">
+        <button class="button is-success has-text-weight-light" onclick="window.open(map.getCanvas().toDataURL())">
           <svg class="icon mr-2" style="width:24px;height:24px" viewBox="0 0 24 24">
             <path fill="currentColor" d="M15,9H5V5H15M12,19A3,3 0 0,1 9,16A3,3 0 0,1 12,13A3,3 0 0,1 15,16A3,3 0 0,1 12,19M17,3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3Z" />
-        </svg> Zapisz widok mapy jako obraz
+        </svg> Zapisz aktualny widok mapy jako obraz
         </button>
         <p class="has-text-weight-light is-size-7">
           (otwiera nowe okno)
