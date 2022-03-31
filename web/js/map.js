@@ -1,4 +1,4 @@
-const aedMetadata = './aed_poland_metadata.json';
+const aedMetadata = 'https://aed.openstreetmap.org.pl/dev/aed_poland_metadata.json';
 const controlsLocation = 'bottom-right';
 let aedNumberElements = [
     document.getElementById('aed-number'),
