@@ -13,7 +13,6 @@ const map = new maplibregl.Map({
     "maxZoom": 19,
     "maxPitch": 0,
     "dragRotate": false,
-    "preserveDrawingBuffer": true,
     "style": "./map_style/style.json"
 });
 
