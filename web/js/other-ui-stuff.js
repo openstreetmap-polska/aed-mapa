@@ -343,6 +343,15 @@ function showSidebar(properties) {
         console.log('Sidebar not found.');
 }
 
+function toggleSidebar2() {
+    let sidebar = document.getElementById(sidebar2DivId);
+    if (sidebar.classList.contains('is-invisible')) {
+        showSidebar2();
+    } else {
+        sidebar.classList.add('is-invisible');
+    }
+}
+
 function showSidebar2() {
     let sidebar = document.getElementById(sidebar2DivId);
     if (sidebar) {
