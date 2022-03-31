@@ -43,6 +43,7 @@ jobs:
             sed -i "s|https://aed.openstreetmap.org.pl/dev/|https://aed.openstreetmap.org.pl/|g" /home/${{ secrets.SSH_USER }}/temp_deploy_prod/map_style/style.json
             sed -i "s|https://aed.openstreetmap.org.pl/dev/|https://aed.openstreetmap.org.pl/|g" /home/${{ secrets.SSH_USER }}/temp_deploy_prod/js/map.js
             rsync --update --recursive --delete \
+              --exclude '*.geojson' --exclude 'aed_poland_metadata.json' --exclude '*.ods' --exclude '*.csv' \
               --verbose /home/${{ secrets.SSH_USER }}/temp_deploy_prod/ /var/www/html/
             rm -rf /home/${{ secrets.SSH_USER }}/temp_deploy_prod/
           EOF
