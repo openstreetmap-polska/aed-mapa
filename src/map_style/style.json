@@ -44,7 +44,7 @@
       "layout": {
         "icon-image": "marker_default",
         "icon-size": 0.5,
-        "icon-overlap": "always"
+        "icon-allow-overlap": true
       }
     },
     {

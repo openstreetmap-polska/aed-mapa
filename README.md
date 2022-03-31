@@ -67,11 +67,25 @@ cp /home/aeduser/data_dir/aed_poland.csv /var/www/html/aed_poland.csv
 
 #### Editing style
 
+You can use [Maputnik](https://maputnik.github.io/) editor to prepare new style for the map.
+
+Steps:
+1. Open https://aed.openstreetmap.org.pl/maputnik/?layer=1311944204%7E0#6/52/20 (it's a copy of maputnik editor with newer version than what is available on the official site).
+2. If the AED map style has not been loaded click _open_ and select it.
+3. Once finished click _export_ and create PR or an issue with your style attached.
+
 #### Creating sprites with icons
 
+If you want to add new icons to the sprite sheet please place the SVG files in ./src/marker_icons/ folder.
+
+SVG should be scaled to 50x50px size.
+
 ```bash
+# install requirements (assumes NVM has been installed)
 nvm use 8
 npm install -g @mapbox/spritezero-cli
+# create sprite for regular screens
 spritezero --ratio 1 ./src/map_style/sprite ./src/marker_icons/
+# create sprite for high-dpi screens
 spritezero --ratio 2 ./src/map_style/sprite@2x ./src/marker_icons/
 ```
