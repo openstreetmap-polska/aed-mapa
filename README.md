@@ -31,7 +31,7 @@ Następnie PR z brancha 'development' do 'main'.
 This is a simple static website using HTML and vanilla JavaScript.
 Any webserver (Nginx/Apache) or things like S3 or GitHub Pages can be used to host frontend part.
 
-File _src/osm-integration.js_ contains placeholders for OAuth1 tokens for OpenStreetMap application which are filled during deploy (this allows us to have both prod and dev environments one pointing to OSM DEV API one to osm.org).
+File _js/osm-integration.js_ contains placeholders for OAuth1 tokens for OpenStreetMap application which are filled during deploy (this allows us to have both prod and dev environments one pointing to OSM DEV API one to osm.org).
 
 The only thing that requires code execution is Python script that downloads data from Overpass API and converts it to GeoJSON and CSV files.
 
@@ -52,7 +52,7 @@ Command to deploy are in _.github/workflows/_ but they pretty much boil down to 
 
 Download new data (set crontab to run it periodically):
 ```bash
-python3 /home/aeduser/aed-mapa/src/download_data.py /home/aeduser/data_dir/
+python3 /home/aeduser/aed-mapa/web/download_data.py /home/aeduser/data_dir/
 cp /home/aeduser/data_dir/aed_poland.geojson /var/www/html/aed_poland.geojson
 cp /home/aeduser/data_dir/aed_poland_metadata.json /var/www/html/aed_poland_metadata.json
 cp /home/aeduser/data_dir/aed_poland.csv /var/www/html/aed_poland.csv
@@ -76,7 +76,7 @@ Steps:
 
 #### Creating sprites with icons
 
-If you want to add new icons to the sprite sheet please place the SVG files in ./src/marker_icons/ folder.
+If you want to add new icons to the sprite sheet please place the SVG files in ./web/marker_icons/ folder.
 
 SVG should be scaled to 50x50px size.
 
@@ -85,7 +85,7 @@ SVG should be scaled to 50x50px size.
 nvm use 8
 npm install -g @mapbox/spritezero-cli
 # create sprite for regular screens
-spritezero --ratio 1 ./src/map_style/sprite ./src/marker_icons/
+spritezero --ratio 1 ./web/map_style/sprite ./web/marker_icons/
 # create sprite for high-dpi screens
-spritezero --ratio 2 ./src/map_style/sprite@2x ./src/marker_icons/
+spritezero --ratio 2 ./web/map_style/sprite@2x ./web/marker_icons/
 ```
