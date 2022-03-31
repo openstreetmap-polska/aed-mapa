@@ -38,13 +38,9 @@ jobs:
             rm -rf /home/${{ secrets.SSH_USER }}/temp_deploy_dev/
             mkdir /home/${{ secrets.SSH_USER }}/temp_deploy_dev/
             rsync --recursive \
-              --exclude '*.py' --exclude '*.geojson' --exclude '.git*' --exclude 'aed_poland_metadata.json' \
-              --exclude 'requirements.txt' --exclude 'LICENSE' --exclude 'README.md' --exclude '*.ods' --exclude '*.csv' \
-              --quiet /home/${{ secrets.SSH_USER }}/aed-mapa-dev/ /home/${{ secrets.SSH_USER }}/temp_deploy_dev/
+              --quiet /home/${{ secrets.SSH_USER }}/aed-mapa-dev/web/ /home/${{ secrets.SSH_USER }}/temp_deploy_dev/
             sed -i "s/<< oauth_consumer_key >>/$OAUTH_CONSUMER_KEY/;s/<< oauth_secret >>/$OAUTH_SECRET/;s|<< url >>|$OSM_API_URL|" /home/${{ secrets.SSH_USER }}/temp_deploy_dev/js/osm-integration.js
             rsync --update --recursive --delete \
-              --exclude '*.py' --exclude '*.geojson' --exclude '.git*' --exclude 'aed_poland_metadata.json' \
-              --exclude 'requirements.txt' --exclude 'LICENSE' --exclude 'README.md' --exclude '*.ods' --exclude '*.csv' \
               --verbose /home/${{ secrets.SSH_USER }}/temp_deploy_dev/ /var/www/dev/
             rm -rf /home/${{ secrets.SSH_USER }}/temp_deploy_dev/
           EOF
