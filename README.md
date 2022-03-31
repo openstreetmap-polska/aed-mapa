@@ -1,6 +1,6 @@
-# Mapa defibrylatorów AED
+## Mapa defibrylatorów AED
 
-_English: Map presenting locations of defibrillators based on OpenStreetMap data._
+__English:__ _Map presenting locations of defibrillators based on OpenStreetMap data._
 
 To repozytorium zawiera kod strony prezentujacej lokalizacje defibrylatorów AED.
 
@@ -15,31 +15,32 @@ Poza pobieraniem danych bezpośrednio z OSM albo za pomocą usług jak Overpass 
 - CSV: https://aed.openstreetmap.org.pl/aed_poland.csv
 - Excel: https://aed.openstreetmap.org.pl/aed_poland.ods
 
-### Gitflow
-branch 'development' -> branch 'main'
+### Gitflow [ENG]
 
-Branch 'development' jest hostowany pod: https://aed.openstreetmap.org.pl/dev/
-a branch 'main' pod: https://aed.openstreetmap.org.pl/
+All changes should flow from branch `development` to branch `main`.
 
-Github actions robi deploy gdy pojawiają się nowe commity na tych branch-ach.
+Branch `development` is hosted on: https://aed.openstreetmap.org.pl/dev/
+Branch `main` is hosted on: https://aed.openstreetmap.org.pl/
 
-Nowe branche powinny być bazowane na 'development' i PR mergowane również do 'development'.
-Następnie PR z brancha 'development' do 'main'.
+Github actions deploy the site when new commits are pushed/merged into either branch.
+
+New branches should be based on `development` branch.
+Pull Requests (PR) should be targeting `development` branch.
+
+To promote changes from dev env to prod make a PR from `development` to `main`.
 
 ### Technical information [ENG]
 
 This is a simple static website using HTML and vanilla JavaScript.
 Any webserver (Nginx/Apache) or things like S3 or GitHub Pages can be used to host frontend part.
 
-File _src/osm-integration.js_ contains placeholders for OAuth1 tokens for OpenStreetMap application which are filled during deploy (this allows us to have both prod and dev environments one pointing to OSM DEV API one to osm.org).
+File _js/osm-integration.js_ contains placeholders for OAuth1 tokens for OpenStreetMap application which are filled during deploy (this allows us to have both prod and dev environments one pointing to OSM DEV API one to osm.org).
 
-The only thing that requires code execution is Python script that downloads data from Overpass API and converts it to GeoJSON and CSV files.
+The only thing that requires code execution is __Python script__ that downloads data from Overpass API and converts it to GeoJSON and CSV files.
 
-File _requirements.txt_ contains packages used by python script. The script was __updated__ to create additional layer from Google Sheets to before use you would need to __comment out last line__ from _download_data.py_
+File _requirements.txt_ contains packages used by python script.
 
-Example CSV and GeoJSON files are uploaded to repo.
-
-#### Scripts used to deploy on our server
+#### Scripts used to deploy on our server [ENG]
 
 Stack: Ubuntu/Nginx
 
@@ -48,14 +49,16 @@ Clone repo:
 git clone --branch main --single-branch https://github.com/openstreetmap-polska/aed-mapa.git /home/aeduser/aed-mapa/
 ```
 
-Command to deploy are in _.github/workflows/_ but they pretty much boil down to copying files to /var/www/.
+Command to deploy are in _.github/workflows/_ but in short they copy the files to temporary location then replace the OAuth1 token mentioned earlier and then copy files to `/var/www/html/`.
 
 Download new data (set crontab to run it periodically):
 ```bash
-python3 /home/aeduser/aed-mapa/src/download_data.py /home/aeduser/data_dir/
-cp /home/aeduser/data_dir/aed_poland.geojson /var/www/html/aed_poland.geojson
-cp /home/aeduser/data_dir/aed_poland_metadata.json /var/www/html/aed_poland_metadata.json
-cp /home/aeduser/data_dir/aed_poland.csv /var/www/html/aed_poland.csv
+python3 /home/aeduser/aed-mapa/download_data.py /home/aeduser/data_prod/ /home/aeduser/
+
+cp /home/aeduser/data_prod/aed_poland.ods /var/www/html/aed_poland.ods
+cp /home/aeduser/data_prod/aed_poland.geojson /var/www/html/aed_poland.geojson
+cp /home/aeduser/data_prod/aed_poland_metadata.json /var/www/html/aed_poland_metadata.json
+cp /home/aeduser/data_prod/aed_poland.csv /var/www/html/aed_poland.csv
 ```
 
 ### Alternatives / Inne podobne
@@ -63,7 +66,7 @@ cp /home/aeduser/data_dir/aed_poland.csv /var/www/html/aed_poland.csv
 * https://github.com/chnuessli/defikarte.ch - https://defikarte.ch/
 
 
-### Additional info about development
+### Additional info about development [ENG]
 
 #### Editing style
 
@@ -76,7 +79,7 @@ Steps:
 
 #### Creating sprites with icons
 
-If you want to add new icons to the sprite sheet please place the SVG files in ./src/marker_icons/ folder.
+If you want to add new icons to the sprite sheet please place the SVG files in ./web/marker_icons/ folder.
 
 SVG should be scaled to 50x50px size.
 
@@ -85,7 +88,7 @@ SVG should be scaled to 50x50px size.
 nvm use 8
 npm install -g @mapbox/spritezero-cli
 # create sprite for regular screens
-spritezero --ratio 1 ./src/map_style/sprite ./src/marker_icons/
+spritezero --ratio 1 ./web/map_style/sprite ./web/marker_icons/
 # create sprite for high-dpi screens
-spritezero --ratio 2 ./src/map_style/sprite@2x ./src/marker_icons/
+spritezero --ratio 2 ./web/map_style/sprite@2x ./web/marker_icons/
 ```

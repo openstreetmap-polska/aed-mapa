@@ -6,14 +6,15 @@
          "description": "Map of defibrillators in Poland [polish language only]",
          "project_url": "https://aed.openstreetmap.org.pl",
          "doc_url": "https://github.com/openstreetmap-polska/aed-mapa",
-         "icon_url": "https://github.com/openstreetmap-polska/aed-mapa/raw/main/src/favicon/favicon-16x16.png",
+         "icon_url": "https://github.com/openstreetmap-polska/aed-mapa/raw/main/web/favicon/favicon-16x16.png",
          "contact_name": "Włodzimierz Bartczak",
          "contact_email": "zarzad@openstreetmap.pl"
      },
      "tags": [
        {
          "key":  "emergency", "value": "defibrillator", "object_types": ["node"],
-         "icon_url": "https://github.com/openstreetmap-polska/aed-mapa/raw/main/src/img/marker-image_50.png"
+         "icon_url": "https://github.com/openstreetmap-polska/aed-mapa/raw/main/web/img/taginfo-node-icon.png",
+         "description": "Map showing defibrillators"
        }
      ]
  }

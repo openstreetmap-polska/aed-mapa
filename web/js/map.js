@@ -1,4 +1,4 @@
-const aedMetadata = './aed_poland_metadata.json';
+const aedMetadata = 'https://aed.openstreetmap.org.pl/dev/aed_poland_metadata.json';
 const controlsLocation = 'bottom-right';
 let aedNumberElements = [
     document.getElementById('aed-number'),
@@ -14,7 +14,7 @@ const map = new maplibregl.Map({
     "maxPitch": 0,
     "dragRotate": false,
     "preserveDrawingBuffer": true,
-    "style": "./src/map_style/style.json"
+    "style": "./map_style/style.json"
 });
 
 // how fast mouse scroll wheel zooms
