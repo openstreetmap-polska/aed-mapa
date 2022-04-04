@@ -28,7 +28,7 @@
     }
   },
   "glyphs": "https://fonts.openmaptiles.org/{fontstack}/{range}.pbf",
-  "sprite": "https://aed.openstreetmap.org.pl/dev/src/map_style/sprite",
+  "sprite": "https://aed.openstreetmap.org.pl/dev/map_style/sprite",
   "layers": [{
       "id": "background",
       "type": "raster",

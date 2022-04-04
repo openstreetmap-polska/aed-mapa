@@ -7,28 +7,28 @@
   <meta content="Mapa defibrylatorów AED w Polsce oparta o otwarte dane z projektu OpenStreetMap" name="description">
   <meta content="initial-scale=1,maximum-scale=5" name="viewport"/>
   <link href="https://aed.openstreetmap.org.pl" rel="canonical"/>
-  <link href="src/favicon/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180">
-  <link href="./src/favicon/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png">
-  <link href="./src/favicon/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png">
+  <link href="./favicon/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180">
+  <link href="./favicon/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png">
+  <link href="./favicon/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png">
   <link href="site.webmanifest" rel="manifest">
-  <link color="#5bbad5" href="./src/favicon/safari-pinned-tab.svg" rel="mask-icon">
-  <link href="./src/favicon/favicon.ico" rel="shortcut icon">
+  <link color="#5bbad5" href="./favicon/safari-pinned-tab.svg" rel="mask-icon">
+  <link href="./favicon/favicon.ico" rel="shortcut icon">
   <meta content="#da532c" name="msapplication-TileColor">
-  <meta content="./src/favicon/browserconfig.xml" name="msapplication-config">
+  <meta content="./favicon/browserconfig.xml" name="msapplication-config">
   <meta content="#f5f5f5" name="theme-color">
   <meta content="website" property="og:type">
   <meta content="https://aed.openstreetmap.org.pl" property="og:url">
   <meta content="AED - mapa defibrylatorów" property="og:title">
   <meta content="Mapa defibrylatorów AED w Polsce oparta o otwarte dane z projektu OpenStreetMap"
         property="og:description">
-  <meta content="https://aed.openstreetmap.org.pl/src/img/meta-image.png" property="og:image">
+  <meta content="https://aed.openstreetmap.org.pl/img/meta-image.png" property="og:image">
   <meta content="summary_large_image" property="twitter:card">
   <meta content="https://aed.openstreetmap.org.pl" property="twitter:url">
   <meta content="AED - mapa defibrylatorów" property="twitter:title">
   <meta content="Mapa defibrylatorów AED w Polsce oparta o otwarte dane z projektu OpenStreetMap"
         property="twitter:description">
-  <meta content="https://aed.openstreetmap.org.pl/src/img/meta-image.png" property="twitter:image">
-  <script src='./src/osmauth.min.js'></script>
+  <meta content="https://aed.openstreetmap.org.pl/img/meta-image.png" property="twitter:image">
+  <script src='./js/osmauth.min.js'></script>
   <script src="https://unpkg.com/maplibre-gl@2.1.1/dist/maplibre-gl.js"></script>
   <script defer src="https://openingh.openstreetmap.de/opening_hours.js/opening_hours+deps.min.js"></script>
   <!--  Load Maplibre GL JS - best map library -->
@@ -42,7 +42,7 @@
   />
   <link href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css" rel="stylesheet"/>
   <link href="https://cdn.jsdelivr.net/npm/bulma-checkradio@2.1.2/dist/css/bulma-checkradio.min.css" rel="stylesheet"/>
-  <link href="./src/css/main.css" rel="stylesheet"/>
+  <link href="./css/main.css" rel="stylesheet"/>
 </head>
 
 <body>
@@ -106,7 +106,7 @@
            href="mailto:aed@openstreetmap.pl">Kontakt</a>
       </div>
       <div class="navbar-item px-1">
-        <button class="button is-white is-outlined" onclick="showSidebar2()" aria-label="Otwórz panel">
+        <button class="button is-white is-outlined" onclick="toggleSidebar2()" aria-label="Otwórz panel">
           <svg class="icon" style="width:24px;height:24px" viewBox="0 0 24 24">
             <path
               d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z"
@@ -116,7 +116,7 @@
       </div>
       <div class="navbar-item pb-0">
         <a href="https://github.com/openstreetmap-polska/aed-mapa" rel="noopener" target="_blank">
-          <img alt="Github" class="github" height="24" src="./src/img/github-image.png" title="Odwiedź nasz Github"
+          <img alt="Github" class="github" height="24" src="./img/github-image.png" title="Odwiedź nasz Github"
                width="24"></a>
       </div>
     </div>
@@ -128,7 +128,7 @@
     <div id="sidebar-header">
       <div class="columns is-vcentered is-flex mr-0">
         <div class="column is-one-quarter is-one-fifth-mobile ">
-          <img alt="" width="60" height="60" id="sidebar-card-image" src="./src/img/card-image.png">
+          <img alt="" width="60" height="60" id="sidebar-card-image" src="./img/card-image.png">
         </div>
         <div class="column">
           <p class="title has-text-white-ter has-text-weight-light" id="sidebar-caption"></p>
@@ -199,14 +199,7 @@
           </svg>
           Excel</a>
         <hr class="my-3">
-        <button class="button is-success has-text-weight-light" onclick="window.open(map.getCanvas().toDataURL())">
-          <svg class="icon mr-2" style="width:24px;height:24px" viewBox="0 0 24 24">
-            <path fill="currentColor" d="M15,9H5V5H15M12,19A3,3 0 0,1 9,16A3,3 0 0,1 12,13A3,3 0 0,1 15,16A3,3 0 0,1 12,19M17,3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3Z" />
-        </svg> Zapisz aktualny widok mapy jako obraz
-        </button>
-        <p class="has-text-weight-light is-size-7">
-          (otwiera nowe okno)
-        </p>
+        <!-- tu wstawić legendę -->
       </div>
     </div>
 
@@ -284,7 +277,7 @@
             <figure class="image">
               <img
                 alt="Logo OpenStreetMap Polska"
-                src="./src/img/logos/logo-osm-polska.png"
+                src="./img/logos/logo-osm-polska.png"
                 style="height: 55px"
               />
             </figure>
@@ -298,7 +291,7 @@
             <figure class="image">
               <img
                 alt="Logo Fundacji Powszechnego Dostępu do Defibrylacji w Polsce"
-                src="./src/img/logos/logo-fundacja.png"
+                src="./img/logos/logo-fundacja.png"
                 style="width: 200px"
               />
             </figure>
@@ -322,7 +315,7 @@
             <figure class="image">
               <img
                 alt="Logo Głównego Urzędu Geodezji i Kartografii"
-                src="./src/img/logos/logo-gugik-short.png"
+                src="./img/logos/logo-gugik-short.png"
               />
             </figure>
           </div>
@@ -339,7 +332,7 @@
             <figure class="image">
               <img
                 alt="Logo Polskiego Towarzystwa Medycyny Ratunkowej"
-                src="./src/img/logos/logo-ptmr.webp"
+                src="./img/logos/logo-ptmr.webp"
                 style="height: 65px"
               />
             </figure>
@@ -356,7 +349,7 @@
             <figure class="image is-64x64">
               <img
                 alt=""
-                src="./src/img/logos/logo-konsultant-krajowy.png"
+                src="./img/logos/logo-konsultant-krajowy.png"
               />
             </figure>
           </div>
@@ -371,7 +364,7 @@
             <figure class="image is-48x48">
               <img
                 alt=""
-                src="./src/img/logos/star-of-life.png"
+                src="./img/logos/star-of-life.png"
               />
             </figure>
           </div>
@@ -386,7 +379,7 @@
             <figure class="image is-48x48">
               <img
                 alt=""
-                src="./src/img/logos/star-of-life.png"
+                src="./img/logos/star-of-life.png"
               />
             </figure>
           </div>
@@ -402,7 +395,7 @@
             <figure class="image is-48x48">
               <img
                 alt=""
-                src="./src/img/logos/star-of-life.png"
+                src="./img/logos/star-of-life.png"
               />
             </figure>
           </div>
@@ -417,7 +410,7 @@
             <figure class="image is-48x48">
               <img
                 alt=""
-                src="./src/img/logos/star-of-life.png"
+                src="./img/logos/star-of-life.png"
               />
             </figure>
           </div>
@@ -432,7 +425,7 @@
             <figure class="image is-48x48">
               <img
                 alt=""
-                src="./src/img/logos/star-of-life.png"
+                src="./img/logos/star-of-life.png"
               />
             </figure>
           </div>
@@ -447,7 +440,7 @@
             <figure class="image is-48x48">
               <img
                 alt=""
-                src="./src/img/logos/star-of-life.png"
+                src="./img/logos/star-of-life.png"
               />
             </figure>
           </div>
@@ -584,10 +577,10 @@
             });
           }
 </script>
-<script src="./src/other-ui-stuff.js"></script>
-<script src="./src/map.js"></script>
-<script src="./src/osm-integration.js"></script>
-<script src="./src/pwa-EventListeners.js" type="module"></script>
+<script src="./js/other-ui-stuff.js"></script>
+<script src="./js/map.js"></script>
+<script src="./js/osm-integration.js"></script>
+<script src="./js/pwa-EventListeners.js" type="module"></script>
 
 <!-- Cloudflare Web Analytics -->
 <script data-cf-beacon='{"token": "117bf6ce871a40ac9bf5a7330f8538eb"}' defer

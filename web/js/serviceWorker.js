@@ -2,7 +2,7 @@ const cacheName = 'aed-map';
 const resToPrecache = [
  '/',
  '/index.html',
- '/src/css/main.css'
+ '/css/main.css'
 ];
 
 self.addEventListener('install', event => {
