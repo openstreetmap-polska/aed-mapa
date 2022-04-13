@@ -35,6 +35,8 @@ jobs:
             set -e
             cd /home/${{ secrets.SSH_USER }}/aed-mapa-dev/
             git pull
+            cp /home/${{ secrets.SSH_USER }}/aed-mapa-dev/scripts/update_pbf.sh /home/aeduser/update_pbf.sh
+            cp /home/${{ secrets.SSH_USER }}/aed-mapa-dev/scripts/download_dev.sh /home/aeduser/download_dev.sh
             rm -rf /home/${{ secrets.SSH_USER }}/temp_deploy_dev/
             mkdir /home/${{ secrets.SSH_USER }}/temp_deploy_dev/
             rsync --recursive \

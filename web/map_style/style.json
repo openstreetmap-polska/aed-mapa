@@ -1,8 +1,6 @@
 {
   "version": 8,
-  "metadata": {
-    "maputnik:renderer": "mbgljs"
-  },
+  "metadata": {"maputnik:renderer": "mbgljs"},
   "center": [20, 52],
   "zoom": 6,
   "sources": {
@@ -15,21 +13,18 @@
       ],
       "tileSize": 256,
       "maxzoom": 19,
-      "paint": {
-        "raster-fade-duration": 100
-      }
+      "paint": {"raster-fade-duration": 100}
     },
     "aed-locations": {
-      "type": "geojson",
-      "data": "https://aed.openstreetmap.org.pl/dev/aed_poland.geojson",
-      "cluster": true,
-      "clusterRadius": 30,
-      "maxzoom": 15
+      "type": "vector",
+      "tiles": ["https://aed.openstreetmap.org.pl/mvt/{z}/{x}/{y}.pbf"],
+      "maxzoom": 13
     }
   },
-  "glyphs": "https://fonts.openmaptiles.org/{fontstack}/{range}.pbf",
   "sprite": "https://aed.openstreetmap.org.pl/dev/map_style/sprite",
-  "layers": [{
+  "glyphs": "https://fonts.openmaptiles.org/{fontstack}/{range}.pbf",
+  "layers": [
+    {
       "id": "background",
       "type": "raster",
       "source": "raster-tiles",
@@ -40,6 +35,7 @@
       "id": "unclustered",
       "type": "symbol",
       "source": "aed-locations",
+      "source-layer": "defibrillators",
       "filter": ["!", ["has", "point_count"]],
       "layout": {
         "icon-image": "marker_default",
@@ -51,10 +47,12 @@
       "id": "clustered-circle",
       "type": "circle",
       "source": "aed-locations",
+      "source-layer": "defibrillators",
       "filter": ["has", "point_count"],
+      "layout": {"visibility": "visible"},
       "paint": {
         "circle-color": "rgba(0,145,64, 0.85)",
-        "circle-radius": 16,
+        "circle-radius": 12,
         "circle-stroke-color": "rgba(245, 245, 245, 0.88)",
         "circle-stroke-width": 2
       }
@@ -63,16 +61,16 @@
       "id": "clustered-label",
       "type": "symbol",
       "source": "aed-locations",
+      "source-layer": "defibrillators",
       "filter": ["has", "point_count"],
       "layout": {
-        "text-field": "{point_count_abbreviated}",
+        "text-field": "{point_count}",
         "text-font": ["Open Sans Bold"],
         "text-size": 12,
-        "text-letter-spacing": 0.05
+        "text-letter-spacing": 0.05,
+        "visibility": "visible"
       },
-      "paint": {
-        "text-color": "#f5f5f5"
-      }
+      "paint": {"text-color": "#f5f5f5"}
     }
   ],
   "id": "aed_map_style"

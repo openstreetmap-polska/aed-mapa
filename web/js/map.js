@@ -103,16 +103,11 @@ map.on('click', 'clustered-circle', function (e) {
         layers: ['clustered-circle']
     });
     var clusterId = features[0].properties.cluster_id;
-    map.getSource('aed-locations').getClusterExpansionZoom(
-        clusterId,
-        function (err, zoom) {
-            if (err) return;
-            map.easeTo({
-                center: features[0].geometry.coordinates,
-                zoom: zoom
-            });
-        }
-    );
+    var zoom = map.getZoom();
+    map.easeTo({
+        center: features[0].geometry.coordinates,
+        zoom: zoom + 2
+    });
 });
 
 map.on('load', (e) => {
@@ -134,6 +129,7 @@ map.on('load', (e) => {
         });
 
     map.on('click', 'unclustered', function (e) {
+        console.log(e.features[0].properties);
         if (e.features[0].properties !== undefined) {
             let properties = {
                 action: "showDetails",
