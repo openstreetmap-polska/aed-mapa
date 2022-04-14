@@ -130,14 +130,14 @@ function renderIfIndoor(indoor, location) {
 
 function renderLocation(properties) {
     let beginning = '<p class="has-text-weight-light">Dokładna lokalizacja: <span class="add-new has-text-weight-medium">';
-    let middle = properties['defibrillator:location:pl'] || properties['defibrillator:location'] || '<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji</span>';
+    let middle = properties['defibrillator_location_pl'] || properties['defibrillator_location'] || '<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji</span>';
     let end = '</span></p>';
     return beginning + middle + end;
 }
 
 function renderDescription(properties) {
     let beginning = '<p class="has-text-weight-light">Opis: <span class="add-new has-text-weight-medium">';
-    let middle = properties['description:pl'] || properties.description || '<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji</span>';
+    let middle = properties['description_pl'] || properties.description || '<span class="has-text-grey-light is-italic has-text-weight-light">brak informacji</span>';
     let end = '</span></p>';
     return beginning + middle + end;
 }
@@ -161,9 +161,9 @@ function renderAccessibleTime(openingHours) {
 }
 
 function renderNotes(properties) {
-    if (properties.note || properties['note:pl']) {
+    if (properties.note || properties['note_pl']) {
         let beginning = '<p class="has-text-weight-light">Uwagi: <span class="add-new has-text-weight-medium">';
-        let middle = properties['note:pl'] || properties.note || 'brak uwag';
+        let middle = properties['note_pl'] || properties.note || 'brak uwag';
         let end = '</span></p>';
         return beginning + middle + end;
     } else {
