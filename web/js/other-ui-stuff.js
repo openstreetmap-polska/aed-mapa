@@ -256,24 +256,34 @@ function renderSidebarForm() {
     return content;
 }
 
+function renderShareButton(osm_id) {
+    return `
+    <a href="${window.location.protocol}//${window.location.host}?nodeId=${osm_id}" target="_blank" rel="noopener" id="share-poi" class="button is-small my-1 mr-1 is-pulled-right is-success">
+        <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M18,16.08C17.24,16.08 16.56,16.38 16.04,16.85L8.91,12.7C8.96,12.47 9,12.24 9,12C9,11.76 8.96,11.53 8.91,11.3L15.96,7.19C16.5,7.69 17.21,8 18,8A3,3 0 0,0 21,5A3,3 0 0,0 18,2A3,3 0 0,0 15,5C15,5.24 15.04,5.47 15.09,5.7L8.04,9.81C7.5,9.31 6.79,9 6,9A3,3 0 0,0 3,12A3,3 0 0,0 6,15C6.79,15 7.5,14.69 8.04,14.19L15.16,18.34C15.11,18.55 15.08,18.77 15.08,19C15.08,20.61 16.39,21.91 18,21.91C19.61,21.91 20.92,20.61 20.92,19A2.92,2.92 0 0,0 18,16.08Z" />
+        </svg>
+     Link obiektu
+     </a>`;
+}
+
 function renderEditButton(osm_id) {
     return `
-    <a href="${getOsmEditLink(osm_id)}" target="_blank" rel="noopener" id="edit-poi" class="button is-small is-pulled-right is-success">
+    <a href="${getOsmEditLink(osm_id)}" target="_blank" rel="noopener" id="edit-poi" class="button is-small my-1 mr-1 is-pulled-right is-success">
       <svg class="icon" viewBox="0 0 24 24">
         <path fill="currentColor" d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" />
       </svg>
      Uzupełnij dane&nbsp;<sup class="has-text-weight-light">(iD)</sup>
-     </button>`;
+     </a>`;
 }
 
 function renderPreviewButton(osm_id) {
     return `
-        <a href="${getOsmPreviewLink(osm_id)}" target="_blank" rel="noopener" id="preview-poi" class="button is-small mr-1 is-pulled-right is-success">
+        <a href="${getOsmPreviewLink(osm_id)}" target="_blank" rel="noopener" id="preview-poi" class="button is-small my-1 mr-1 is-pulled-right is-success">
             <svg class="icon mr-1" viewBox="0 0 24 24">
                 <path fill="currentColor" d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" />
             </svg>
             Podgląd w OSM
-        </button>`;
+        </a>`;
 }
 
 function renderSaveButton() {
@@ -395,7 +405,8 @@ function prepareSidebarShowingObjectInfo(properties) {
 
     sidebarContent.innerHTML = renderSidebarContent(properties);
 
-    sidebarLink.innerHTML = renderEditButton(properties.osm_id);
+    sidebarLink.innerHTML = renderShareButton(properties.osm_id);
+    sidebarLink.innerHTML += renderEditButton(properties.osm_id);
     sidebarLink.innerHTML += renderPreviewButton(properties.osm_id);
 }
 
