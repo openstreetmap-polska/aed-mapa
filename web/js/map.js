@@ -6,6 +6,7 @@ let aedNumberElements = [
 ];
 let aedNumberComment = document.getElementById('aed-number-comment');
 let fetchMetadata = fetch(aedMetadata);
+let fetchNode = getNodeIdFromURLParams() ? fetchNodeData(getNodeIdFromURLParams()) : undefined;
 
 const map = new maplibregl.Map({
     "container": "map",
@@ -148,4 +149,42 @@ map.on('load', (e) => {
     });
 
     console.log('Map ready.');
+
+    // if node id parameter was supplied zoom to that feature and show sidebar
+    if (fetchNode) {
+        fetchNode
+        .then(response => {
+            const node = response["elements"][0];
+            map.easeTo({
+                zoom: 17,
+                around: {lon: node["lon"], lat: node["lat"]},
+            });
+            const tags = Object.fromEntries(
+                Object.entries(node["tags"]).map(([key, val]) => [key.replaceAll(":", "_"), val])
+            );
+            showSidebar({
+                action: "showDetails",
+                data: {
+                    osm_id: node["id"],
+                    ...tags,
+                },
+            });
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
 });
+
+function getNodeIdFromURLParams() {
+    const params = new Proxy(new URLSearchParams(window.location.search), {
+      get: (searchParams, prop) => searchParams.get(prop),
+    });
+    return params.nodeId;
+}
+
+function fetchNodeData(nodeId) {
+    const url = `https://www.openstreetmap.org/api/0.6/node/${nodeId}.json`;
+    return fetch(url).then(response => response.json())
+}
