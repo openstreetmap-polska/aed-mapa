@@ -1,0 +1,18 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Updating OSM integration
+      - sed -i "s/<< oauth_consumer_key >>/${oauth_consumer_key}/;s/<< oauth_secret >>/${oauth_secret}/;s|<< url >>|${url}|" ./web/js/osm-integration.js
+      - python -m pip install -r requirements.txt
+      - python download_data.py ./web
+  post_build:
+    commands:
+      - echo Build completed on `date`
+artifacts:
+  files:
+    - '**/*'
+  base-directory: web
+  name: AED-artifacts

@@ -61,6 +61,14 @@ cp /home/aeduser/data_prod/aed_poland_metadata.json /var/www/html/aed_poland_met
 cp /home/aeduser/data_prod/aed_poland.csv /var/www/html/aed_poland.csv
 ```
 
+### Deployment to AWS
+
+Build definition is in buildspec.yml file.
+Build environment that need to be set:
+1. oauth_consumer_key - Key for OSM Integration
+2. oauth_secret - Secret for OSM Integration
+3. url - URL of OSM API (Probably https://www.openstreetmap.org)
+
 ### Alternatives / Inne podobne
 
 * https://github.com/chnuessli/defikarte.ch - https://defikarte.ch/
