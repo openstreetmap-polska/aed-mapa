@@ -14,7 +14,7 @@ logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__file__)
 logger.setLevel(logging.INFO)
 
-overpass_api_url = "https://lz4.overpass-api.de/api/interpreter"
+overpass_api_url = "https://overpass-api.de/api/interpreter"
 
 overpass_query = """
                     [out:json]
