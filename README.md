@@ -1,5 +1,15 @@
 ## Mapa defibrylatorów AED
 
+> [!IMPORTANT]
+> 
+> **To repozytorium zawiera starą, dłużej niewspieraną, wersję projektu.** \
+> Aktualny rozwój projektu prowadzony jest w następujących repozytoriach:
+> 
+> - https://github.com/openstreetmap-polska/openaedmap-backend
+> - https://github.com/openstreetmap-polska/openaedmap-frontend
+>
+> Nowa strona aplikacji to [OpenAEDMap.org](https://openaedmap.org).
+
 __English:__ _Map presenting locations of defibrillators based on OpenStreetMap data._
 
 To repozytorium zawiera kod strony prezentujacej lokalizacje defibrylatorów AED.
